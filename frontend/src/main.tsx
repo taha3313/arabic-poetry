@@ -628,7 +628,12 @@ function App() {
             <span aria-hidden="true"> · </span>
             <a href="https://qafiya.tahachelly.com/">qafiya.tahachelly.com</a>
           </span>
-          <span dir="ltr">POWERED BY PYARUD</span>
+          <span className="prosody-credit">
+            {t("التحليل العروضي باستخدام", "Prosody analysis powered by")}{" "}
+            <a href="https://github.com/cnemri/pyarud" target="_blank" rel="noreferrer">PyArud</a>
+            {" · "}<bdi>Chouaieb Nemri</bdi>{" · "}<bdi>Maged Saeed</bdi>
+            {" · "}<a href="/licenses/pyarud.txt" target="_blank" rel="noreferrer">{t("ترخيص MIT", "MIT license")}</a>
+          </span>
         </footer>
       </div>
     </>

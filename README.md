@@ -249,3 +249,7 @@ build settings, release steps, and the default TCP health-check limitation.
 
 The bundled libtashkeel assets include their upstream MIT license. A
 repository-wide application license has not been selected.
+
+## Acknowledgments
+
+Qafiya’s Arabic meter, rhyme, and scansion analysis uses [PyArud](https://github.com/cnemri/pyarud), authored by Chouaieb Nemri. Its MIT license credits copyright holders Maged Saeed (2022) and Chouaieb Nemri (2025). Thank you to the authors and contributors for making this work available. The complete upstream [license notice](frontend/public/licenses/pyarud.txt) is preserved and linked from the application footer.
