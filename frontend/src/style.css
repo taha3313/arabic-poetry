@@ -625,3 +625,12 @@ footer p {
   font-size: 13px;
   color: var(--muted);
 }
+
+.language-switch { order: 3; border: 1px solid var(--line); border-radius: var(--small-radius); background: var(--surface); color: var(--ink); padding: 4px 12px; }
+html[lang="en"] { --font: Arial, sans-serif; --poetry: Georgia, serif; }
+html[lang="en"] .verse, html[lang="en"] .feet, html[lang="en"] blockquote { font-family: "Amiri", serif; }
+html[lang="en"] .primary svg:last-child, html[lang="en"] .sample svg:last-child, html[lang="en"] .empty button svg { transform: scaleX(-1); }
+@media (max-width: 759px) { header { gap: 12px; flex-wrap: wrap; padding-block: 12px; } .brand { font-size: 34px; gap: 10px; } .brand span { max-width: 120px; padding-inline-start: 10px; } .edition { display: none; } .controls { flex-wrap: wrap; } .controls label { min-height: 40px; } }
+
+.verse-gloss { position: relative; max-width: 30ch; color: var(--muted); font-size: 13px; margin: 0 12px 18px; }
+html[lang="en"] .foot { font-family: "Amiri", serif; }

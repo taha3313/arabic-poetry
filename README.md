@@ -39,6 +39,10 @@ metrical feet, and the status of each hemistich.
 Screenshots show the deployed Qafiya interface. The sample poem is labelled as
 an existing classical work, not AI-generated output.
 
+## Interface languages
+
+Use the **English / العربية** button to switch between Arabic and English. The choice is remembered in this browser; share `https://qafiya.tahachelly.com/?lang=en` for the English interface or `?lang=ar` for Arabic. Interface labels, analysis guidance, and known API errors are translated. Poems and Arabic metrical notation remain in Arabic, with right-to-left text direction. English meter names are transliterated rather than translated literally.
+
 ## Features
 
 - **Classical Arabic prosody:** choose among 16 meters and compare the detected

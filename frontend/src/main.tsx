@@ -14,6 +14,7 @@ import "@fontsource/amiri/arabic-700.css";
 import "@fontsource/ibm-plex-sans-arabic/arabic-400.css";
 import "@fontsource/ibm-plex-sans-arabic/arabic-500.css";
 import "./style.css";
+import { footVariant, meterNames, translateMessage } from "./translations";
 type Verse = {
   sadr: string;
   ajuz: string;
@@ -37,6 +38,7 @@ type Row = {
   ajuz: Scan | null;
 };
 type Analysis = {
+  meter: string;
   requested_rawi: string;
   accepted: boolean;
   meter_name: string;
@@ -101,12 +103,30 @@ async function api<T>(path: string, body?: unknown): Promise<T> {
     );
   return data;
 }
+type Locale = "ar" | "en";
+function initialLocale(): Locale {
+  const query = new URLSearchParams(window.location.search).get("lang");
+  if (query === "en" || query === "ar") return query;
+  try { return localStorage.getItem("qafiya-language") === "en" ? "en" : "ar"; }
+  catch { return "ar"; }
+}
 function App() {
+  const [locale, setLocale] = useState<Locale>(initialLocale);
+  const t = (ar: string, en: string) => locale === "en" ? en : ar;
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    document.documentElement.dir = locale === "en" ? "ltr" : "rtl";
+    document.title = locale === "en" ? "Qafiya | Arabic poetry workshop" : "قافية | ورشة الشعر العربي";
+    try { localStorage.setItem("qafiya-language", locale); } catch { /* Storage may be blocked. */ }
+    const url = new URL(window.location.href);
+    url.searchParams.set("lang", locale);
+    window.history.replaceState(null, "", url);
+  }, [locale]);
   const [config, setConfig] = useState<Config | null>(null);
   const [connectionError, setConnectionError] = useState(false);
   const [mode, setMode] = useState<"generate" | "analyze">("generate");
   const [topic, setTopic] = useState(
-    "الحنين إلى مدينةٍ تركنا فيها شيئًا من أرواحنا",
+    locale === "en" ? "Longing for a city where we left a part of ourselves" : "الحنين إلى مدينةٍ تركنا فيها شيئًا من أرواحنا",
   );
   const [meter, setMeter] = useState("taweel");
   const [rawi, setRawi] = useState("م");
@@ -170,7 +190,7 @@ function App() {
           lines.some((line) => line.split("*").length !== 2)
         )
           throw new Error(
-            "اكتب من بيت إلى ثمانية أبيات، وافصل الصدر عن العجز بعلامة * في كل سطر.",
+            t("اكتب من بيت إلى ثمانية أبيات، وافصل الصدر عن العجز بعلامة * في كل سطر.", "Enter 1–8 verses, one per line, with * between the two half-lines."),
           );
         const verses = lines.map((line) => {
           const [sadr, ajuz] = line.split("*");
@@ -189,7 +209,7 @@ function App() {
         });
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : "حدث خطأ غير متوقع.");
+      setError(e instanceof Error ? e.message : t("حدث خطأ غير متوقع.", "An unexpected error occurred."));
     } finally {
       setBusy(false);
     }
@@ -213,14 +233,14 @@ function App() {
         }),
       });
     } catch (e) {
-      setError(e instanceof Error ? e.message : "تعذّر تحميل المثال");
+      setError(e instanceof Error ? e.message : t("تعذّر تحميل المثال", "Unable to load the example."));
     } finally {
       setBusy(false);
     }
   }
   function download() {
     const url = URL.createObjectURL(
-      new Blob([`${result?.title}\n\n${poemText}`], {
+      new Blob([`${translateMessage(result?.title ?? "", locale)}\n\n${poemText}`], {
         type: "text/plain;charset=utf-8",
       }),
     );
@@ -233,51 +253,52 @@ function App() {
   return (
     <>
       <a className="skip" href="#workshop">
-        انتقل إلى ورشة الكتابة
+        {t("انتقل إلى ورشة الكتابة", "Skip to the writing workshop")}
       </a>
       <div className="page">
         <header>
-          <a className="brand" href="/" aria-label="قافية، الصفحة الرئيسية">
-            قَافِيَة<span>ورشة الشعر العربي</span>
+          <button type="button" className="language-switch" lang={locale === "ar" ? "en" : "ar"} onClick={() => setLocale(locale === "ar" ? "en" : "ar")} aria-label={t("التبديل إلى الإنجليزية", "Switch to Arabic")}>{locale === "ar" ? "English" : "العربية"}</button>
+          <a className="brand" href={`/?lang=${locale}`} aria-label={t("قافية، الصفحة الرئيسية", "Qafiya home")}>
+            {t("قَافِيَة", "Qafiya")}<span>{t("ورشة الشعر العربي", "An Arabic poetry workshop")}</span>
           </a>
-          <span className="header-note">للِكلمة وزنٌ، وللخيال متّسع.</span>
+          <span className="header-note">{t("للِكلمة وزنٌ، وللخيال متّسع.", "Words have rhythm. Imagination has room to roam.")}</span>
           <span className="edition">
-            نسخة تجريبية <span dir="ltr">01 / PYARUD</span>
+            {t("نسخة تجريبية", "Beta")} <span dir="ltr">01 / PYARUD</span>
           </span>
         </header>
         <main>
           <section className="intro">
             <div>
-              <p className="eyebrow">مِن الفكرة إلى القصيدة</p>
+              <p className="eyebrow">{t("مِن الفكرة إلى القصيدة", "From an idea to a poem")}</p>
               <h1>
-                أعطِ خيالكَ
+                {t("أعطِ خيالكَ", "Give your imagination")}
                 <br />
-                <em>وزنًا وقافية.</em>
+                <em>{t("وزنًا وقافية.", "rhythm and rhyme.")}</em>
               </h1>
               <p className="lead">
-                اكتب ما تشعر به. ودع الذكاء الاصطناعي يصوغ المعنى، ثم استكشف
-                إيقاع الأبيات بعلم العَروض.
+                {t("اكتب ما تشعر به. ودع الذكاء الاصطناعي يصوغ المعنى، ثم استكشف إيقاع الأبيات بعلم العَروض.", "Start with a feeling. Let AI shape it into Arabic verse, then explore its rhythm through the rules of Arabic prosody.")}
               </p>
             </div>
             <aside className="hero-verse">
               <span className="ornament" aria-hidden="true">
                 ب
               </span>
-              <blockquote>
+              <blockquote lang="ar" dir="rtl">
                 وَمَا الشِّعْرُ إِلَّا شُعُورٌ
                 <br />
                 يَجِدُ الطَّرِيقَ إِلَى الْكَلِمَةِ
               </blockquote>
-              <span>هنا تبدأ مسوّدتك القادمة</span>
+              {locale === "en" && <p className="verse-gloss">Poetry is feeling finding its way into words.</p>}
+              <span>{t("هنا تبدأ مسوّدتك القادمة", "Your next draft begins here")}</span>
             </aside>
           </section>
-          <section className="workshop" id="workshop" aria-label="ورشة الكتابة">
+          <section className="workshop" id="workshop" aria-label={t("ورشة الكتابة", "Writing workshop")}>
             <div className="desk">
               <div className="desk-heading">
                 <Feather size={22} />
-                <h2>مساحة الكتابة</h2>
+                <h2>{t("مساحة الكتابة", "Your writing desk")}</h2>
               </div>
-              <div className="mode-switch" aria-label="طريقة العمل">
+              <div className="mode-switch" aria-label={t("طريقة العمل", "Workshop mode")}>
                 <button
                   type="button"
                   aria-pressed={mode === "generate"}
@@ -286,7 +307,7 @@ function App() {
                     setError("");
                   }}
                 >
-                  تأليف قصيدة
+                  {t("تأليف قصيدة", "Compose a poem")}
                 </button>
                 <button
                   type="button"
@@ -296,38 +317,39 @@ function App() {
                     setError("");
                   }}
                 >
-                  فحص أبياتي
+                  {t("فحص أبياتي", "Analyze my verses")}
                 </button>
               </div>
               <form onSubmit={submit}>
                 <label htmlFor="topic">
                   {mode === "generate"
-                    ? "عن ماذا تودّ أن تكتب؟"
-                    : "اكتب أبياتك مع التشكيل"}
+                    ? t("عن ماذا تودّ أن تكتب؟", "What would you like to write about?")
+                    : t("اكتب أبياتك مع التشكيل", "Enter your Arabic verses with vowel marks")}
                 </label>
                 {mode === "generate" ? (
                   <textarea
                     id="topic"
+                    dir="auto"
                     value={topic}
                     maxLength={500}
                     minLength={3}
                     required
                     onChange={(e) => setTopic(e.target.value)}
-                    placeholder="حنين، لقاء، أو مدينة لا تغيب…"
+                    placeholder={t("حنين، لقاء، أو مدينة لا تغيب…", "A longing, a reunion, a city you cannot forget…")}
                   />
                 ) : (
                   <>
                     <textarea
                       id="topic"
+                      lang="ar" dir="rtl"
                       value={text}
                       maxLength={4000}
                       required
                       onChange={(e) => setText(e.target.value)}
-                      placeholder="صدر البيت * عجز البيت"
+                      placeholder={t("صدر البيت * عجز البيت", "First half-line * second half-line")}
                     />
                     <p className="field-help">
-                      كل بيت في سطر. افصل الشطرين بعلامة *. يمكنك ترك التشكيل
-                      الناقص للنموذج المحلي.
+                      {t("كل بيت في سطر. افصل الشطرين بعلامة *. يمكنك ترك التشكيل الناقص للنموذج المحلي.", "Use one line per verse, with * between its two halves. The local model can fill in missing vowel marks.")}
                     </p>
                     <label className="tashkeel-toggle">
                       <input
@@ -335,17 +357,16 @@ function App() {
                         checked={autoTashkeel}
                         onChange={(e) => setAutoTashkeel(e.target.checked)}
                       />
-                      <span>إكمال التشكيل تلقائيًا</span>
+                      <span>{t("إكمال التشكيل تلقائيًا", "Fill in missing Arabic vowel marks")}</span>
                     </label>
                     <p className="field-help">
-                      نُبقي الحركات المكتوبة ونُكمل الناقص محليًا. قد تحتاج
-                      قراءة الشعر إلى تصحيح يدوي.
+                      {t("نُبقي الحركات المكتوبة ونُكمل الناقص محليًا. قد تحتاج قراءة الشعر إلى تصحيح يدوي.", "Existing vowel marks are preserved; missing marks are added locally. Poetry may still need manual corrections.")}
                     </p>
                   </>
                 )}
                 <div className="controls">
                   <div>
-                    <label htmlFor="meter">البحر الشعري</label>
+                    <label htmlFor="meter">{t("البحر الشعري", "Poetic meter")}</label>
                     <select
                       id="meter"
                       value={meter}
@@ -353,13 +374,13 @@ function App() {
                     >
                       {(config?.meters ?? initialMeters).map((m) => (
                         <option key={m.key} value={m.key}>
-                          {m.name}
+                          {t(m.name, meterNames[m.key] ?? m.name)}
                         </option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="rawi">حرف الروي المطلوب</label>
+                    <label htmlFor="rawi">{t("حرف الروي المطلوب", "Target rhyme consonant (rawi)")}</label>
                     <select
                       id="rawi"
                       value={rawi}
@@ -372,7 +393,7 @@ function App() {
                   </div>
                   {mode === "generate" && (
                     <div>
-                      <label htmlFor="count">عدد الأبيات</label>
+                      <label htmlFor="count">{t("عدد الأبيات", "Number of verses")}</label>
                       <select
                         id="count"
                         value={count}
@@ -402,32 +423,31 @@ function App() {
                     <ScanLine size={20} />
                   )}{" "}
                   {busy
-                    ? "جارٍ العمل على الأبيات…"
+                    ? t("جارٍ العمل على الأبيات…", "Working on your verses…")
                     : mode === "generate"
-                      ? "انظم القصيدة"
-                      : "افحص الوزن والقافية"}
+                      ? t("انظم القصيدة", "Compose the poem")
+                      : t("افحص الوزن والقافية", "Check meter and rhyme")}
                   {!busy && <ArrowUpLeft size={19} />}
                 </button>
                 {busy && (
                   <p className="field-help" role="status">
-                    قد تستغرق الصياغة والمراجعة بضع دقائق.
+                    {t("قد تستغرق الصياغة والمراجعة بضع دقائق.", "Composition and revision may take a few minutes.")}
                   </p>
                 )}
                 {connectionError ? (
                   <p className="warning" role="status">
-                    تعذّر الاتصال بالخادم. شغّل الخلفية وأعد تحميل الصفحة.
+                    {t("تعذّر الاتصال بالخادم. شغّل الخلفية وأعد تحميل الصفحة.", "Unable to reach the server. Please try reloading the page shortly.")}
                   </p>
                 ) : config &&
                   !config.generation_available &&
                   mode === "generate" ? (
                   <p className="warning">
-                    التوليد غير مفعّل بعد. يمكنك الآن فحص أبياتك أو تجربة
-                    المثال.
+                    {t("التوليد غير مفعّل بعد. يمكنك الآن فحص أبياتك أو تجربة المثال.", "Poem generation is currently unavailable. You can still analyze your verses or try the example.")}
                   </p>
                 ) : null}
                 {error && (
                   <p className="error" role="alert">
-                    {error}
+                    {translateMessage(error, locale)}
                   </p>
                 )}
               </form>
@@ -437,79 +457,78 @@ function App() {
                 disabled={busy}
                 onClick={loadSample}
               >
-                <BookOpen size={17} /> جرّب بيتًا من المعلّقات{" "}
+                <BookOpen size={17} /> {t("جرّب بيتًا من المعلّقات", "Try a verse from the Muʿallaqāt")}{" "}
                 <ArrowUpLeft size={16} />
               </button>
             </div>
             <div id="poem-result" className="manuscript" aria-busy={busy}>
               <div className="paper-top">
-                <span>دفتر القصائد</span>
-                <span dir="ltr">قَافِيَة / {result ? "01" : "—"}</span>
+                <span>{t("دفتر القصائد", "Poetry notebook")}</span>
+                <span dir="auto">{t("قَافِيَة", "Qafiya")} / {result ? "01" : "—"}</span>
               </div>
               {result ? (
                 <>
                   <div className="result-heading">
                     <p className="eyebrow">
-                      {result.analysis.meter_name} · الروي المكتشف:{" "}
+                      {t(result.analysis.meter_name, meterNames[result.analysis.meter] ?? result.analysis.meter_name)} · {t("الروي المكتشف:", "Detected rhyme consonant:")}{" "}
                       {detectedRawis.length
                         ? detectedRawis.join("، ")
-                        : "غير محدد"}
+                        : t("غير محدد", "Not identified")}
                       {!result.analysis.verses.every((v) => v.rawi_matches) && (
-                        <> · المطلوب: {result.analysis.requested_rawi}</>
+                        <> · {t("المطلوب:", "Target:")} {result.analysis.requested_rawi}</>
                       )}
                     </p>
-                    <h2>{result.title}</h2>
+                    <h2 dir="auto">{translateMessage(result.title, locale)}</h2>
                     <p
                       className={
                         result.analysis.accepted ? "status good" : "status"
                       }
                     >
                       {result.analysis.accepted
-                        ? "مطابق في الفحص الآلي"
-                        : "مسوّدة تحتاج مراجعة عروضية"}
+                        ? t("مطابق في الفحص الآلي", "Passed the automated checks")
+                        : t("مسوّدة تحتاج مراجعة عروضية", "Draft needs a prosody review")}
                     </p>
                   </div>
                   {result.revision_warning && (
                     <p className="warning" role="status">
-                      توقفت المراجعة: {result.revision_warning}
+                      {t("توقفت المراجعة:", "Revision stopped:")} {translateMessage(result.revision_warning, locale)}
                     </p>
                   )}
                   {result.analysis.tashkeel?.changed && (
                     <p className="tashkeel-notice" role="status">
-                      أُكمل التشكيل محليًا. النص أدناه هو ما جرى فحصه؛ نصّك
-                      الأصلي باقٍ في مساحة الكتابة.
+                      {t("أُكمل التشكيل محليًا. النص أدناه هو ما جرى فحصه؛ نصّك الأصلي باقٍ في مساحة الكتابة.", "Missing vowel marks were added locally. The text below is the version analyzed; your original remains in the writing area.")}
                     </p>
                   )}
                   <div className="poem">
                     {result.verses.map((verse, i) => (
                       <article key={i}>
-                        <div className="verse">
+                        <div className="verse" lang="ar" dir="rtl">
                           <span>{verse.sadr}</span>
                           <span>{verse.ajuz}</span>
                         </div>
                         <details>
                           <summary>
-                            عرض التقطيع والتفعيلات · البيت {i + 1} ·{" "}
+                            {t("عرض التقطيع والتفعيلات · البيت", "Scansion and metrical feet · Verse")} {i + 1} ·{" "}
                             {result.analysis.verses[i].is_valid
-                              ? "وزن مطابق"
-                              : "راجع الوزن"}{" "}
+                              ? t("وزن مطابق", "Meter matches")
+                              : t("راجع الوزن", "Check meter")}{" "}
                             ·{" "}
                             {result.analysis.verses[i].rawi_matches
-                              ? "رويّ مطابق"
+                              ? t("رويّ مطابق", "Rhyme consonant matches")
                               : result.analysis.verses[i].qafiyah?.rawi
-                                ? `الروي ${result.analysis.verses[i].qafiyah?.rawi}، المطلوب ${result.analysis.requested_rawi}`
-                                : "تعذّر تحديد الروي"}
+                                ? t(`الروي ${result.analysis.verses[i].qafiyah?.rawi}، المطلوب ${result.analysis.requested_rawi}`, `Rhyme consonant: ${result.analysis.verses[i].qafiyah?.rawi}; target: ${result.analysis.requested_rawi}`)
+                                : t("تعذّر تحديد الروي", "Rhyme consonant could not be identified")}
                           </summary>
                           <div className="scansion">
                             {(["sadr", "ajuz"] as const).map((part) => (
                               <div key={part}>
                                 <strong>
-                                  {part === "sadr" ? "الصدر" : "العجز"}
+                                  {part === "sadr" ? t("الصدر", "First half-line (sadr)") : t("العجز", "Second half-line (ajuz)")}
                                 </strong>
                                 <code dir="ltr">
                                   {result.analysis.verses[i][part]?.pattern}
                                 </code>
-                                <div className="feet">
+                                <div className="feet" lang="ar" dir="rtl">
                                   {result.analysis.verses[i][part]?.feet.map(
                                     (f, j) => (
                                       <span
@@ -522,11 +541,11 @@ function App() {
                                       >
                                         {f.actual_tafeela ||
                                           f.base_tafeela ||
-                                          "زيادة"}
-                                        <small>
+                                          t("زيادة", "Extra syllables")}
+                                        <small lang={locale} dir={locale === "en" ? "ltr" : "rtl"}>
                                           {f.status === "ok"
-                                            ? f.zihaf_name_ar
-                                            : "غير مطابق"}
+                                            ? footVariant(f.zihaf_name_ar, locale)
+                                            : t("غير مطابق", "Does not match")}
                                         </small>
                                       </span>
                                     ),
@@ -539,7 +558,7 @@ function App() {
                       </article>
                     ))}
                   </div>
-                  <p className="analysis-note">{result.analysis.note}</p>
+                  <p className="analysis-note">{translateMessage(result.analysis.note, locale)}</p>
                   <div className="result-actions">
                     <button
                       onClick={async () => {
@@ -551,14 +570,14 @@ function App() {
                         }
                       }}
                     >
-                      <Copy size={16} /> نسخ الأبيات
+                      <Copy size={16} /> {t("نسخ الأبيات", "Copy verses")}
                     </button>
                     <button onClick={download}>
-                      <Download size={16} /> تنزيل النص
+                      <Download size={16} /> {t("تنزيل النص", "Download text")}
                     </button>
                   </div>
                   <p className="notice" role="status">
-                    {notice}
+                    {translateMessage(notice, locale)}
                   </p>
                 </>
               ) : (
@@ -569,41 +588,41 @@ function App() {
                     <div />
                     <div />
                   </div>
-                  <h2>لكلّ قصيدة بداية.</h2>
+                  <h2>{t("لكلّ قصيدة بداية.", "Every poem begins somewhere.")}</h2>
                   <p>
-                    اختر المعنى والبحر، وستجد أبياتك هنا.
+                    {t("اختر المعنى والبحر، وستجد أبياتك هنا.", "Choose a theme and a meter. Your verses will appear here.")}
                     <br />
-                    أو افتح بيتًا من المعلّقات واكتشف إيقاعه.
+                    {t("أو افتح بيتًا من المعلّقات واكتشف إيقاعه.", "Or explore the rhythm of a verse from the Muʿallaqāt.")}
                   </p>
                   <button type="button" disabled={busy} onClick={loadSample}>
-                    استكشف مثالًا <ArrowUpLeft size={17} />
+                    {t("استكشف مثالًا", "Explore an example")} <ArrowUpLeft size={17} />
                   </button>
-                  <span className="paper-mark">حيث يلتقي الخيال بالإيقاع</span>
+                  <span className="paper-mark">{t("حيث يلتقي الخيال بالإيقاع", "Where imagination meets rhythm")}</span>
                 </div>
               )}
             </div>
           </section>
-          <section className="method" aria-label="كيف تعمل الورشة">
+          <section className="method" aria-label={t("كيف تعمل الورشة", "How the workshop works")}>
             <div>
-              <span>١</span>
-              <h3>معنى من اختيارك</h3>
-              <p>حدّد الفكرة والبحر وحرف الروي.</p>
+              <span>{t("١", "1")}</span>
+              <h3>{t("معنى من اختيارك", "Choose your theme")}</h3>
+              <p>{t("حدّد الفكرة والبحر وحرف الروي.", "Set the theme, meter, and rhyme consonant.")}</p>
             </div>
             <div>
-              <span>٢</span>
-              <h3>صياغة ثم مراجعة</h3>
-              <p>يقترح النموذج أبياتًا ويراجعها بتغذية عروضية.</p>
+              <span>{t("٢", "2")}</span>
+              <h3>{t("صياغة ثم مراجعة", "Compose, then revise")}</h3>
+              <p>{t("يقترح النموذج أبياتًا ويراجعها بتغذية عروضية.", "AI drafts verses and revises them using feedback from the meter analysis.")}</p>
             </div>
             <div>
-              <span>٣</span>
-              <h3>إيقاع يمكنك قراءته</h3>
-              <p>افتح كل بيت لترى تقطيعه والتفعيلات.</p>
+              <span>{t("٣", "3")}</span>
+              <h3>{t("إيقاع يمكنك قراءته", "See the rhythm")}</h3>
+              <p>{t("افتح كل بيت لترى تقطيعه والتفعيلات.", "Expand each verse to see its scansion and metrical feet.")}</p>
             </div>
           </section>
         </main>
         <footer>
-          <span className="footer-brand">قَافِيَة</span>
-          <p>الشعر تجربة إنسانية. هذه أداة للمحاولة والتعلّم.</p>
+          <span className="footer-brand">{t("قَافِيَة", "Qafiya")}</span>
+          <p>{t("الشعر تجربة إنسانية. هذه أداة للمحاولة والتعلّم.", "Poetry is a human art. This is a space to experiment and learn.")}</p>
           <span className="footer-credit" dir="ltr">
             Created by <a href="https://tahachelly.com/" target="_blank" rel="noreferrer">Taha Chelly</a>
             <span aria-hidden="true"> · </span>
