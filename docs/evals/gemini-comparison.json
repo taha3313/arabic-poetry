@@ -1,0 +1,14 @@
+[
+  {
+    "model": "gemini-3.8-flash",
+    "seconds": 75.61,
+    "error_status": 502,
+    "error": "تعذّر الاتصال بـ Gemini أو قراءة استجابته. حاول لاحقًا."
+  },
+  {
+    "model": "gemini-3.6-flash",
+    "seconds": 3.21,
+    "error_status": 502,
+    "error": "تعذّر الاتصال بـ Gemini أو قراءة استجابته. حاول لاحقًا."
+  }
+]

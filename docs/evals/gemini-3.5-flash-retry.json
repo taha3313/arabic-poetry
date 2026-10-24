@@ -1,0 +1,250 @@
+{
+  "title": "الأَمَلُ بَعْدَ الشَّدَائِدِ",
+  "verses": [
+    {
+      "sadr": "لاَ تَئْيَسَنَّ إِذَا النَّوَائِبُ أَقْبَلَتْ",
+      "ajuz": "وَالْيُسْرُ أَقْبَلَ حِينَهَا يَتَبَسَّمُ"
+    },
+    {
+      "sadr": "فَالْفَجْرُ يَطْلُعُ بَعْدَ كُلِّ ظَلاَمَةٍ",
+      "ajuz": "وَالرَّوْضُ بَعْدَ المَحْلِ سَوْفَ يُنَعَّمُ"
+    }
+  ],
+  "analysis": {
+    "meter": "kamel",
+    "requested_rawi": "م",
+    "meter_name": "بحر الكامل",
+    "average_score": 0.999,
+    "verses": [
+      {
+        "verse_index": 0,
+        "sadr_text": "لاَ تَئْيَسَنَّ إِذَا النَّوَائِبُ أَقْبَلَتْ",
+        "ajuz_text": "وَالْيُسْرُ أَقْبَلَ حِينَهَا يَتَبَسَّمُ",
+        "meter_key": "kamel",
+        "meter_name_ar": "بحر الكامل",
+        "meter_name_en": "Al-Kamel",
+        "bahr_type": "tam",
+        "standard_pattern": "1010110 1110110 1110110 1010110 1110110 1110110",
+        "score": 1.0,
+        "is_valid": true,
+        "errors": [],
+        "sadr": {
+          "text": "لاَ تَئْيَسَنَّ إِذَا النَّوَائِبُ أَقْبَلَتْ",
+          "arudi_text": "لا تئيسنن إذننوائب أقبلت",
+          "pattern": "101011011101101110110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "مضمرة (الإضمار)",
+              "zihaf_name_en": "Edmaar",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1110110",
+              "actual_segment": "1110110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1110110",
+              "actual_segment": "1110110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "ajuz": {
+          "text": "وَالْيُسْرُ أَقْبَلَ حِينَهَا يَتَبَسَّمُ",
+          "arudi_text": "وليسر أقبل حينها يتبسسمو",
+          "pattern": "101011011101101110110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "مضمرة (الإضمار)",
+              "zihaf_name_en": "Edmaar",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1110110",
+              "actual_segment": "1110110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1110110",
+              "actual_segment": "1110110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "qafiyah": {
+          "rawi": "م",
+          "rawi_haraka": "damma",
+          "wasl": null,
+          "khuruj": null,
+          "ridf": null,
+          "tasees": null,
+          "dakhil": null,
+          "qafiyah_text": "يَتَبَسَّمُ",
+          "qafiyah_pattern": "10110",
+          "qafiyah_type_ar": "المتدارك",
+          "qafiyah_type_en": "Al-Mutadarak",
+          "rhyme_classification": "muqayyadah"
+        },
+        "rawi_matches": true
+      },
+      {
+        "verse_index": 1,
+        "sadr_text": "فَالْفَجْرُ يَطْلُعُ بَعْدَ كُلِّ ظَلاَمَةٍ",
+        "ajuz_text": "وَالرَّوْضُ بَعْدَ المَحْلِ سَوْفَ يُنَعَّمُ",
+        "meter_key": "kamel",
+        "meter_name_ar": "بحر الكامل",
+        "meter_name_en": "Al-Kamel",
+        "bahr_type": "tam",
+        "standard_pattern": "1010110 1110110 1110110 1010110 1010110 1110110",
+        "score": 0.998,
+        "is_valid": true,
+        "errors": [],
+        "sadr": {
+          "text": "فَالْفَجْرُ يَطْلُعُ بَعْدَ كُلِّ ظَلاَمَةٍ",
+          "arudi_text": "فلفجر يطلع بعد كلل ظلامةي",
+          "pattern": "101011011101101110110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "مضمرة (الإضمار)",
+              "zihaf_name_en": "Edmaar",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1110110",
+              "actual_segment": "1110110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1110110",
+              "actual_segment": "1110110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "ajuz": {
+          "text": "وَالرَّوْضُ بَعْدَ المَحْلِ سَوْفَ يُنَعَّمُ",
+          "arudi_text": "ورروض بعدلمحل سوف ينععمو",
+          "pattern": "101011010101101110110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "مضمرة (الإضمار)",
+              "zihaf_name_en": "Edmaar",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "مضمرة (الإضمار)",
+              "zihaf_name_en": "Edmaar",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1110110",
+              "actual_segment": "1110110",
+              "base_tafeela": "متفاعلن",
+              "actual_tafeela": "متفاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "qafiyah": {
+          "rawi": "م",
+          "rawi_haraka": "damma",
+          "wasl": null,
+          "khuruj": null,
+          "ridf": null,
+          "tasees": null,
+          "dakhil": null,
+          "qafiyah_text": "يُنَعَّمُ",
+          "qafiyah_pattern": "10110",
+          "qafiyah_type_ar": "المتدارك",
+          "qafiyah_type_en": "Al-Mutadarak",
+          "rhyme_classification": "muqayyadah"
+        },
+        "rawi_matches": true
+      }
+    ],
+    "accepted": true,
+    "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية."
+  },
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "attempts": 1
+}

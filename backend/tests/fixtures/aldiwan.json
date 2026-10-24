@@ -1,0 +1,164 @@
+[
+  {
+    "id": "imru-alqais",
+    "poet": "امرؤ القيس",
+    "title": "قفا نبك من ذكرى حبيب ومنزل",
+    "source_url": "https://www.aldiwan.net/poem50.html",
+    "retrieved_on": "2026-10-24",
+    "source_access": "Al-Diwan search-index excerpts; direct page fetch returns Cloudflare HTTP 403",
+    "meter": "taweel",
+    "rawi": "ل",
+    "as_published": [
+      {
+        "sadr": "قِفَا نَبْكِ مِنْ ذِكْرَى حَبِيبٍ ومَنْزِلِ",
+        "ajuz": "بِسِقْطِ اللِّوَى بَيْنَ الدَّخُول فَحَوْملِ"
+      },
+      {
+        "sadr": "فَتُوْضِحَ فَالمِقْراةِ لمْ يَعْفُ رَسْمُها",
+        "ajuz": "لِمَا نَسَجَتْهَا مِنْ جَنُوبٍ وشَمْألِ"
+      }
+    ],
+    "vocalized_control": [
+      {
+        "sadr": "قِفَا نَبْكِ مِنْ ذِكْرَى حَبِيبٍ وَمَنْزِلِ",
+        "ajuz": "بِسِقْطِ اللِّوَى بَيْنَ الدَّخُولِ فَحَوْمَلِ"
+      }
+    ],
+    "control_note": "Editorially completed vocalization of opening verse, not a verbatim source transcription."
+  },
+  {
+    "id": "mutanabbi-azm",
+    "poet": "المتنبي",
+    "title": "على قدر أهل العزم تأتي العزائم",
+    "source_url": "https://www.aldiwan.net/poem10524.html",
+    "retrieved_on": "2026-10-24",
+    "source_access": "Al-Diwan search-index excerpts; direct page fetch returns Cloudflare HTTP 403",
+    "meter": "taweel",
+    "rawi": "م",
+    "as_published": [
+      {
+        "sadr": "عَلى قَدرِ أَهلِ العَزمِ تَأتي العَزائِمُ",
+        "ajuz": "وَتَأتي عَلى قَدرِ الكِرامِ المَكارِمُ"
+      },
+      {
+        "sadr": "وَتَعظُمُ في عَينِ الصَغيرِ صِغارُها",
+        "ajuz": "وَتَصغُرُ في عَينِ العَظيمِ العَظائِمُ"
+      }
+    ],
+    "vocalized_control": [
+      {
+        "sadr": "عَلَى قَدْرِ أَهْلِ الْعَزْمِ تَأْتِي الْعَزَائِمُ",
+        "ajuz": "وَتَأْتِي عَلَى قَدْرِ الْكِرَامِ الْمَكَارِمُ"
+      }
+    ],
+    "control_note": "Editorially completed vocalization of opening verse, not a verbatim source transcription."
+  },
+  {
+    "id": "shabbi",
+    "poet": "أبو القاسم الشابي",
+    "title": "إذا الشعب يوما أراد الحياة",
+    "source_url": "https://www.aldiwan.net/poem38947.html",
+    "retrieved_on": "2026-10-24",
+    "source_access": "Al-Diwan search-index excerpts; direct page fetch returns Cloudflare HTTP 403",
+    "meter": "mutakareb",
+    "rawi": "ر",
+    "as_published": [
+      {
+        "sadr": "إذا الشّعْبُ يَوْمَاً أرَادَ الْحَيَاةَ",
+        "ajuz": "فَلا بُدَّ أنْ يَسْتَجِيبَ القَدَر"
+      },
+      {
+        "sadr": "وَلا بُدَّ لِلَّيْلِ أنْ يَنْجَلِي",
+        "ajuz": "وَلا بُدَّ للقَيْدِ أَنْ يَنْكَسِر"
+      }
+    ],
+    "vocalized_control": [
+      {
+        "sadr": "إِذَا الشَّعْبُ يَوْمًا أَرَادَ الْحَيَاةَ",
+        "ajuz": "فَلَا بُدَّ أَنْ يَسْتَجِيبَ الْقَدَرْ"
+      }
+    ],
+    "control_note": "Editorially completed vocalization of opening verse, not a verbatim source transcription."
+  },
+  {
+    "id": "mutanabbi-sharaf",
+    "poet": "المتنبي",
+    "title": "إذا غامرت في شرف مروم",
+    "source_url": "https://www.aldiwan.net/poem10566.html",
+    "retrieved_on": "2026-10-24",
+    "source_access": "Al-Diwan search-index excerpts; direct page fetch returns Cloudflare HTTP 403",
+    "meter": "wafer",
+    "rawi": "م",
+    "as_published": [
+      {
+        "sadr": "إِذا غامَرتَ في شَرَفٍ مَرومٍ",
+        "ajuz": "فَلا تَقنَع بِما دونَ النُجومِ"
+      },
+      {
+        "sadr": "فَطَعمُ المَوتِ في أَمرٍ صَغيرٍ",
+        "ajuz": "كَطَعمِ المَوتِ في أَمرٍ عَظيمِ"
+      }
+    ],
+    "vocalized_control": [
+      {
+        "sadr": "إِذَا غَامَرْتَ فِي شَرَفٍ مَرُومٍ",
+        "ajuz": "فَلَا تَقْنَعْ بِمَا دُونَ النُّجُومِ"
+      }
+    ],
+    "control_note": "Editorially completed vocalization of opening verse, not a verbatim source transcription."
+  },
+  {
+    "id": "abu-tammam",
+    "poet": "أبو تمام",
+    "title": "السيف أصدق أنباء من الكتب",
+    "source_url": "https://www.aldiwan.net/poem30591.html",
+    "retrieved_on": "2026-10-24",
+    "source_access": "Al-Diwan search-index excerpts; direct page fetch returns Cloudflare HTTP 403",
+    "meter": "baseet",
+    "rawi": "ب",
+    "as_published": [
+      {
+        "sadr": "السَيفُ أَصدَقُ أَنباءً مِنَ الكُتُبِ",
+        "ajuz": "في حَدِّهِ الحَدُّ بَينَ الجِدِّ وَاللَعِبِ"
+      },
+      {
+        "sadr": "بيضُ الصَفائِحِ لا سودُ الصَحائِفِ في",
+        "ajuz": "مُتونِهِنَّ جَلاءُ الشَكِّ وَالرِيَبِ"
+      }
+    ],
+    "vocalized_control": [
+      {
+        "sadr": "السَّيْفُ أَصْدَقُ أَنْبَاءً مِنَ الْكُتُبِ",
+        "ajuz": "فِي حَدِّهِ الْحَدُّ بَيْنَ الْجِدِّ وَاللَّعِبِ"
+      }
+    ],
+    "control_note": "Editorially completed vocalization of opening verse, not a verbatim source transcription."
+  },
+  {
+    "id": "antara",
+    "poet": "عنترة بن شداد",
+    "title": "هل غادر الشعراء من متردم",
+    "source_url": "https://www.aldiwan.net/poem85.html",
+    "retrieved_on": "2026-10-24",
+    "source_access": "Al-Diwan search-index excerpts; direct page fetch returns Cloudflare HTTP 403",
+    "meter": "kamel",
+    "rawi": "م",
+    "as_published": [
+      {
+        "sadr": "هَلْ غَادَرَ الشُّعَرَاءُ مِن مُتَرَدِّمِ",
+        "ajuz": "أَمْ هَلْ عَرَفْتَ الدَّارَ بَعْدَ تَوَهُّمِ"
+      },
+      {
+        "sadr": "يَا دَارَ عَبْلَةَ بِالجَوَاءِ تَكَلَّمِي",
+        "ajuz": "وَعَمِي صَبَاحًا دَارَ عَبْلَةَ وَاسْلَمِي"
+      }
+    ],
+    "vocalized_control": [
+      {
+        "sadr": "هَلْ غَادَرَ الشُّعَرَاءُ مِنْ مُتَرَدِّمِ",
+        "ajuz": "أَمْ هَلْ عَرَفْتَ الدَّارَ بَعْدَ تَوَهُّمِ"
+      }
+    ],
+    "control_note": "Editorially completed vocalization of opening verse, preserving the source mutaraddim reading; not a verbatim source transcription."
+  }
+]

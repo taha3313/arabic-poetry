@@ -1,0 +1,571 @@
+{
+  "origin": "Assistant-authored manual control, locally scanned; NOT Gemini output.",
+  "draft": {
+    "title": "هَوَى حَلَبٍ الْمَكْتُومُ",
+    "verses": [
+      {
+        "sadr": "أُخْفِي الْهَوَى فِي فُؤَادِي وَالْأَسَى عَرِمُ",
+        "ajuz": "وَالسِّرُّ يَكْتُمُهُ قَلْبِي وَيَكْتَتِمُ"
+      },
+      {
+        "sadr": "يَا ظَبْيَةً هَاجَنِي مِنْ طِيبِهَا أَرَجٌ",
+        "ajuz": "يَسْرِي بِرُوحِي وَشَوْقِي فِيَّ يَضْطَرِمُ"
+      },
+      {
+        "sadr": "أَرْنُو إِلَيْكِ وَصَمْتِي شَاهِدٌ أَبَدًا",
+        "ajuz": "وَالْوَجْدُ فِي خَاطِرِي صَمْتًا سَيَرْتَسِمُ"
+      },
+      {
+        "sadr": "سَأَكْتُمُ الشَّوْقَ كَيْ لاَ يَسْتَبِينَ هَوًى",
+        "ajuz": "حَتَّى يُقَالَ: جَوَى الْعُشَّاقِ يَحْتَدِمُ"
+      }
+    ]
+  },
+  "analysis": {
+    "meter": "baseet",
+    "requested_rawi": "م",
+    "meter_name": "بحر البسيط",
+    "average_score": 0.99925,
+    "verses": [
+      {
+        "verse_index": 0,
+        "sadr_text": "أُخْفِي الْهَوَى فِي فُؤَادِي وَالْأَسَى عَرِمُ",
+        "ajuz_text": "وَالسِّرُّ يَكْتُمُهُ قَلْبِي وَيَكْتَتِمُ",
+        "meter_key": "baseet",
+        "meter_name_ar": "بحر البسيط",
+        "meter_name_en": "Al-Baseet",
+        "bahr_type": "tam",
+        "standard_pattern": "1010110 10110 1010110 1110 1010110 1110 1010110 1110",
+        "score": 0.999,
+        "is_valid": true,
+        "errors": [],
+        "sadr": {
+          "text": "أُخْفِي الْهَوَى فِي فُؤَادِي وَالْأَسَى عَرِمُ",
+          "arudi_text": "أخفلهوى في فؤادي ولأسى عرمو",
+          "pattern": "10101101011010101101110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "10110",
+              "actual_segment": "10110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "ajuz": {
+          "text": "وَالسِّرُّ يَكْتُمُهُ قَلْبِي وَيَكْتَتِمُ",
+          "arudi_text": "وسسرر يكتمهو قلبي ويكتتمو",
+          "pattern": "1010110111010101101110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "qafiyah": {
+          "rawi": "م",
+          "rawi_haraka": "damma",
+          "wasl": null,
+          "khuruj": null,
+          "ridf": null,
+          "tasees": null,
+          "dakhil": null,
+          "qafiyah_text": "قَلْبِي وَيَكْتَتِمُ",
+          "qafiyah_pattern": "101110",
+          "qafiyah_type_ar": "المتراكب",
+          "qafiyah_type_en": "Al-Mutarakib",
+          "rhyme_classification": "muqayyadah"
+        },
+        "rawi_matches": true
+      },
+      {
+        "verse_index": 1,
+        "sadr_text": "يَا ظَبْيَةً هَاجَنِي مِنْ طِيبِهَا أَرَجٌ",
+        "ajuz_text": "يَسْرِي بِرُوحِي وَشَوْقِي فِيَّ يَضْطَرِمُ",
+        "meter_key": "baseet",
+        "meter_name_ar": "بحر البسيط",
+        "meter_name_en": "Al-Baseet",
+        "bahr_type": "tam",
+        "standard_pattern": "1010110 10110 1010110 1110 1010110 10110 1010110 1110",
+        "score": 1.001,
+        "is_valid": true,
+        "errors": [],
+        "sadr": {
+          "text": "يَا ظَبْيَةً هَاجَنِي مِنْ طِيبِهَا أَرَجٌ",
+          "arudi_text": "يا ظبيتن هاجني من طيبها أرجو",
+          "pattern": "10101101011010101101110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "10110",
+              "actual_segment": "10110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "ajuz": {
+          "text": "يَسْرِي بِرُوحِي وَشَوْقِي فِيَّ يَضْطَرِمُ",
+          "arudi_text": "يسري بروحي وشوقي فيي يضطرمو",
+          "pattern": "10101101011010101101110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "10110",
+              "actual_segment": "10110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "qafiyah": {
+          "rawi": "م",
+          "rawi_haraka": "damma",
+          "wasl": null,
+          "khuruj": null,
+          "ridf": null,
+          "tasees": null,
+          "dakhil": null,
+          "qafiyah_text": "فِيَّ يَضْطَرِمُ",
+          "qafiyah_pattern": "101110",
+          "qafiyah_type_ar": "المتراكب",
+          "qafiyah_type_en": "Al-Mutarakib",
+          "rhyme_classification": "muqayyadah"
+        },
+        "rawi_matches": true
+      },
+      {
+        "verse_index": 2,
+        "sadr_text": "أَرْنُو إِلَيْكِ وَصَمْتِي شَاهِدٌ أَبَدًا",
+        "ajuz_text": "وَالْوَجْدُ فِي خَاطِرِي صَمْتًا سَيَرْتَسِمُ",
+        "meter_key": "baseet",
+        "meter_name_ar": "بحر البسيط",
+        "meter_name_en": "Al-Baseet",
+        "bahr_type": "tam",
+        "standard_pattern": "1010110 1110 1010110 1110 1010110 10110 1010110 1110",
+        "score": 0.999,
+        "is_valid": true,
+        "errors": [],
+        "sadr": {
+          "text": "أَرْنُو إِلَيْكِ وَصَمْتِي شَاهِدٌ أَبَدًا",
+          "arudi_text": "أرنو إليك وصمتي شاهدن أبدن",
+          "pattern": "1010110111010101101110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "ajuz": {
+          "text": "وَالْوَجْدُ فِي خَاطِرِي صَمْتًا سَيَرْتَسِمُ",
+          "arudi_text": "ولوجد في خاطري صمتنسيرتسمو",
+          "pattern": "10101101011010101101110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "10110",
+              "actual_segment": "10110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "qafiyah": {
+          "rawi": "م",
+          "rawi_haraka": "damma",
+          "wasl": null,
+          "khuruj": null,
+          "ridf": null,
+          "tasees": null,
+          "dakhil": null,
+          "qafiyah_text": "صَمْتًا سَيَرْتَسِمُ",
+          "qafiyah_pattern": "101110",
+          "qafiyah_type_ar": "المتراكب",
+          "qafiyah_type_en": "Al-Mutarakib",
+          "rhyme_classification": "muqayyadah"
+        },
+        "rawi_matches": true
+      },
+      {
+        "verse_index": 3,
+        "sadr_text": "سَأَكْتُمُ الشَّوْقَ كَيْ لاَ يَسْتَبِينَ هَوًى",
+        "ajuz_text": "حَتَّى يُقَالَ: جَوَى الْعُشَّاقِ يَحْتَدِمُ",
+        "meter_key": "baseet",
+        "meter_name_ar": "بحر البسيط",
+        "meter_name_en": "Al-Baseet",
+        "bahr_type": "tam",
+        "standard_pattern": "110110 10110 1010110 1110 1010110 1110 1010110 1110",
+        "score": 0.998,
+        "is_valid": true,
+        "errors": [],
+        "sadr": {
+          "text": "سَأَكْتُمُ الشَّوْقَ كَيْ لاَ يَسْتَبِينَ هَوًى",
+          "arudi_text": "سأكتمششوق كي لا يستبين هونى",
+          "pattern": "1101101011010101101110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "110110",
+              "actual_segment": "110110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "10110",
+              "actual_segment": "10110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "ajuz": {
+          "text": "حَتَّى يُقَالَ: جَوَى الْعُشَّاقِ يَحْتَدِمُ",
+          "arudi_text": "حتتى يقال جولعششاق يحتدمو",
+          "pattern": "1010110111010101101110",
+          "score": 1.0,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1010110",
+              "actual_segment": "1010110",
+              "base_tafeela": "مستفعلن",
+              "actual_tafeela": "مستفعلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1.0,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "1110",
+              "actual_segment": "1110",
+              "base_tafeela": "فاعلن",
+              "actual_tafeela": "فاعلن",
+              "zihaf_name_ar": "مخبونة (الخبن)",
+              "zihaf_name_en": "Khaban",
+              "score": 1.0,
+              "status": "ok"
+            }
+          ]
+        },
+        "qafiyah": {
+          "rawi": "م",
+          "rawi_haraka": "damma",
+          "wasl": null,
+          "khuruj": null,
+          "ridf": null,
+          "tasees": null,
+          "dakhil": null,
+          "qafiyah_text": "الْعُشَّاقِ يَحْتَدِمُ",
+          "qafiyah_pattern": "101110",
+          "qafiyah_type_ar": "المتراكب",
+          "qafiyah_type_en": "Al-Mutarakib",
+          "rhyme_classification": "muqayyadah"
+        },
+        "rawi_matches": true
+      }
+    ],
+    "accepted": true,
+    "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية."
+  },
+  "preserved_other_halves": true
+}

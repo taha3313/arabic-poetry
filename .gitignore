@@ -1,0 +1,22 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+node_modules/
+dist/
+.playwright/
+*.tsbuildinfo
+.playwright-mcp/
+
+backend/dist/
+
+# Local credentials and hosting tooling
+.dev.vars
+.dev.vars.*
+.wrangler/
+*.pem
+*.key
+.DS_Store

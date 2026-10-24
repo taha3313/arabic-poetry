@@ -1,0 +1,57 @@
+{
+  "results": [
+    {
+      "id": "imru-alqais",
+      "valid": 2,
+      "total": 2
+    },
+    {
+      "id": "mutanabbi-azm",
+      "valid": 2,
+      "total": 2
+    },
+    {
+      "id": "shabbi",
+      "valid": 2,
+      "total": 2
+    },
+    {
+      "id": "mutanabbi-sharaf",
+      "valid": 0,
+      "total": 2
+    },
+    {
+      "id": "abu-tammam",
+      "valid": 2,
+      "total": 2
+    },
+    {
+      "id": "antara",
+      "valid": 2,
+      "total": 2
+    }
+  ],
+  "seconds": 17.097,
+  "process_peak_mib": 142.55,
+  "cgroup": {
+    "memory.max": 536870912,
+    "memory.peak": 109764608,
+    "memory.current": 109174784
+  },
+  "image_id": "sha256:3d2efd5b542215bd079aaac717f44a869f447fc15e9ad9a89d1a59baf7bd0c92",
+  "cpu_limit": 0.1,
+  "memory_limit_bytes": 536870912,
+  "oom_killed": false,
+  "exit_code": 0,
+  "method": "Built production Docker image with frozen uv dependencies. Offline full-ASGI TestClient workload, six poem cases and four concurrent eight-verse stress requests. Only workload script/fixtures mounted; dependencies and application are from the image.",
+  "runtime_checks": [
+    "PORT=10000",
+    "health",
+    "exact-origin CORS",
+    "JSON preflight",
+    "generation disabled",
+    "non-root user",
+    "no .env in image",
+    "no torch/transformers/tensorflow/onnxruntime-gpu"
+  ]
+}

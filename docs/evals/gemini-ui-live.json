@@ -1,0 +1,294 @@
+{
+  "title": "حَنِينُ الرُّوحِ",
+  "verses": [
+    {
+      "sadr": "أَحَنُّ إِلَى دَارٍ تَرَكْتُ بِأَرْضِهَا",
+      "ajuz": "وَقَلْباً مَضَى فِي لَيْلِهَا يَتَرَنَّمُ"
+    },
+    {
+      "sadr": "تَضُوعُ بَقَايَا العِطْرِ فِي كُلِّ شَارِعٍ",
+      "ajuz": "وَيَبْقَى صَدَاهَا فِي الفُؤَادِ يُتَمْتَمُ"
+    }
+  ],
+  "analysis": {
+    "meter": "taweel",
+    "requested_rawi": "م",
+    "meter_name": "بحر الطويل",
+    "average_score": 0.997,
+    "verses": [
+      {
+        "verse_index": 0,
+        "sadr_text": "أَحَنُّ إِلَى دَارٍ تَرَكْتُ بِأَرْضِهَا",
+        "ajuz_text": "وَقَلْباً مَضَى فِي لَيْلِهَا يَتَرَنَّمُ",
+        "meter_key": "taweel",
+        "meter_name_ar": "بحر الطويل",
+        "meter_name_en": "Al-Taweel",
+        "bahr_type": "tam",
+        "standard_pattern": "1101 1101010 1101 110110 11010 1101010 1101 110110",
+        "score": 0.996,
+        "is_valid": true,
+        "errors": [],
+        "sadr": {
+          "text": "أَحَنُّ إِلَى دَارٍ تَرَكْتُ بِأَرْضِهَا",
+          "arudi_text": "أحنن إلى دارن تركت بأرضهاا",
+          "pattern": "110111010101101110110",
+          "score": 1,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1101",
+              "actual_segment": "1101",
+              "base_tafeela": "فعولن",
+              "actual_tafeela": "فعولن",
+              "zihaf_name_ar": "مقبوضة (القبض)",
+              "zihaf_name_en": "Qabadh",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1101010",
+              "actual_segment": "1101010",
+              "base_tafeela": "مفاعيلن",
+              "actual_tafeela": "مفاعيلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1101",
+              "actual_segment": "1101",
+              "base_tafeela": "فعولن",
+              "actual_tafeela": "فعولن",
+              "zihaf_name_ar": "مقبوضة (القبض)",
+              "zihaf_name_en": "Qabadh",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "110110",
+              "actual_segment": "110110",
+              "base_tafeela": "مفاعيلن",
+              "actual_tafeela": "مفاعيلن",
+              "zihaf_name_ar": "مقبوضة (القبض)",
+              "zihaf_name_en": "Qabadh",
+              "score": 1,
+              "status": "ok"
+            }
+          ]
+        },
+        "ajuz": {
+          "text": "وَقَلْباً مَضَى فِي لَيْلِهَا يَتَرَنَّمُ",
+          "arudi_text": "وقلبنمضى في ليلها يترننمو",
+          "pattern": "1101011010101101110110",
+          "score": 1,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "11010",
+              "actual_segment": "11010",
+              "base_tafeela": "فعولن",
+              "actual_tafeela": "فعولن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1101010",
+              "actual_segment": "1101010",
+              "base_tafeela": "مفاعيلن",
+              "actual_tafeela": "مفاعيلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1101",
+              "actual_segment": "1101",
+              "base_tafeela": "فعولن",
+              "actual_tafeela": "فعولن",
+              "zihaf_name_ar": "مقبوضة (القبض)",
+              "zihaf_name_en": "Qabadh",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "110110",
+              "actual_segment": "110110",
+              "base_tafeela": "مفاعيلن",
+              "actual_tafeela": "مفاعيلن",
+              "zihaf_name_ar": "مقبوضة (القبض)",
+              "zihaf_name_en": "Qabadh",
+              "score": 1,
+              "status": "ok"
+            }
+          ]
+        },
+        "qafiyah": {
+          "rawi": "م",
+          "rawi_haraka": "damma",
+          "wasl": null,
+          "khuruj": null,
+          "ridf": null,
+          "tasees": null,
+          "dakhil": null,
+          "qafiyah_text": "يَتَرَنَّمُ",
+          "qafiyah_pattern": "10110",
+          "qafiyah_type_ar": "المتدارك",
+          "qafiyah_type_en": "Al-Mutadarak",
+          "rhyme_classification": "muqayyadah"
+        },
+        "rawi_matches": true
+      },
+      {
+        "verse_index": 1,
+        "sadr_text": "تَضُوعُ بَقَايَا العِطْرِ فِي كُلِّ شَارِعٍ",
+        "ajuz_text": "وَيَبْقَى صَدَاهَا فِي الفُؤَادِ يُتَمْتَمُ",
+        "meter_key": "taweel",
+        "meter_name_ar": "بحر الطويل",
+        "meter_name_en": "Al-Taweel",
+        "bahr_type": "tam",
+        "standard_pattern": "1101 1101010 11010 110110 11010 1101010 1101 110110",
+        "score": 0.998,
+        "is_valid": true,
+        "errors": [],
+        "sadr": {
+          "text": "تَضُوعُ بَقَايَا العِطْرِ فِي كُلِّ شَارِعٍ",
+          "arudi_text": "تضوع بقايلعطر في كلل شارعي",
+          "pattern": "1101110101011010110110",
+          "score": 1,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "1101",
+              "actual_segment": "1101",
+              "base_tafeela": "فعولن",
+              "actual_tafeela": "فعولن",
+              "zihaf_name_ar": "مقبوضة (القبض)",
+              "zihaf_name_en": "Qabadh",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1101010",
+              "actual_segment": "1101010",
+              "base_tafeela": "مفاعيلن",
+              "actual_tafeela": "مفاعيلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "11010",
+              "actual_segment": "11010",
+              "base_tafeela": "فعولن",
+              "actual_tafeela": "فعولن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "110110",
+              "actual_segment": "110110",
+              "base_tafeela": "مفاعيلن",
+              "actual_tafeela": "مفاعيلن",
+              "zihaf_name_ar": "مقبوضة (القبض)",
+              "zihaf_name_en": "Qabadh",
+              "score": 1,
+              "status": "ok"
+            }
+          ]
+        },
+        "ajuz": {
+          "text": "وَيَبْقَى صَدَاهَا فِي الفُؤَادِ يُتَمْتَمُ",
+          "arudi_text": "ويبقى صداها فلفؤاد يتمتمو",
+          "pattern": "1101011010101101110110",
+          "score": 1,
+          "is_valid": true,
+          "feet": [
+            {
+              "foot_index": 0,
+              "expected_pattern": "11010",
+              "actual_segment": "11010",
+              "base_tafeela": "فعولن",
+              "actual_tafeela": "فعولن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 1,
+              "expected_pattern": "1101010",
+              "actual_segment": "1101010",
+              "base_tafeela": "مفاعيلن",
+              "actual_tafeela": "مفاعيلن",
+              "zihaf_name_ar": "سالمة (صحيحة)",
+              "zihaf_name_en": "Salim / Sahih",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 2,
+              "expected_pattern": "1101",
+              "actual_segment": "1101",
+              "base_tafeela": "فعولن",
+              "actual_tafeela": "فعولن",
+              "zihaf_name_ar": "مقبوضة (القبض)",
+              "zihaf_name_en": "Qabadh",
+              "score": 1,
+              "status": "ok"
+            },
+            {
+              "foot_index": 3,
+              "expected_pattern": "110110",
+              "actual_segment": "110110",
+              "base_tafeela": "مفاعيلن",
+              "actual_tafeela": "مفاعيلن",
+              "zihaf_name_ar": "مقبوضة (القبض)",
+              "zihaf_name_en": "Qabadh",
+              "score": 1,
+              "status": "ok"
+            }
+          ]
+        },
+        "qafiyah": {
+          "rawi": "م",
+          "rawi_haraka": "damma",
+          "wasl": null,
+          "khuruj": null,
+          "ridf": null,
+          "tasees": null,
+          "dakhil": null,
+          "qafiyah_text": "يُتَمْتَمُ",
+          "qafiyah_pattern": "10110",
+          "qafiyah_type_ar": "المتدارك",
+          "qafiyah_type_en": "Al-Mutadarak",
+          "rhyme_classification": "muqayyadah"
+        },
+        "rawi_matches": true
+      }
+    ],
+    "accepted": true,
+    "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية."
+  },
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "attempts": 1
+}

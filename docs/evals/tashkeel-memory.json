@@ -1,0 +1,57 @@
+{
+  "results": [
+    {
+      "id": "imru-alqais",
+      "valid": 2,
+      "total": 2
+    },
+    {
+      "id": "mutanabbi-azm",
+      "valid": 2,
+      "total": 2
+    },
+    {
+      "id": "shabbi",
+      "valid": 2,
+      "total": 2
+    },
+    {
+      "id": "mutanabbi-sharaf",
+      "valid": 0,
+      "total": 2
+    },
+    {
+      "id": "abu-tammam",
+      "valid": 2,
+      "total": 2
+    },
+    {
+      "id": "antara",
+      "valid": 2,
+      "total": 2
+    }
+  ],
+  "seconds": 13.601,
+  "process_peak_mib": 144.89,
+  "cgroup": {
+    "memory.max": 536870912,
+    "memory.peak": 109469696,
+    "memory.current": 108830720
+  },
+  "docker_state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-24T12:43:25.225547275Z",
+    "FinishedAt": "2026-10-24T12:44:01.856618552Z"
+  },
+  "cpu_limit": 0.1,
+  "memory_limit_bytes": 536870912,
+  "method": "Docker Python 3.12 with same project/native site-packages mounted read-only; full ASGI TestClient workload including Uvicorn imports, 6 poem cases and 4 concurrent eight-verse max-length stress requests. Network disabled. Not a deployment."
+}

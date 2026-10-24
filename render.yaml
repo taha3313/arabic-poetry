@@ -1,0 +1,24 @@
+# Preparation only. Applying this Blueprint creates a public service.
+services:
+  - type: web
+    name: bayt-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    autoDeployTrigger: 'off'
+    envVars:
+      - key: PROVIDER
+        value: gemini
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash
+      - key: GEMINI_THINKING_LEVEL
+        value: medium
+      # Keep disabled until public request controls have been reviewed.
+      - key: GENERATION_ENABLED
+        value: 'false'
+      - key: CORS_ORIGINS
+        sync: false
+# Add GEMINI_API_KEY privately in Render only when generation is approved.
+# Groq is optional; never add provider credentials to frontend variables.

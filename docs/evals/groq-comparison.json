@@ -1,0 +1,2332 @@
+{
+  "note": "Small live sample; not a general quality benchmark. Same production prompts and bounded repair for each model.",
+  "results": [
+    {
+      "model": "openai/gpt-oss-120b",
+      "request": {
+        "topic": "حب مكتوم لامرأة من حلب",
+        "meter": "baseet",
+        "rawi": "م",
+        "verse_count": 2,
+        "max_revisions": 1
+      },
+      "result": {
+        "title": "حبٌّ مكتومٌ من حلب",
+        "verses": [
+          {
+            "sadr": "قَدْ سَرَتْ نَفْسِي فِي سُكُونِ حَلْبٍ",
+            "ajuz": "وَأَخْفَى حُبًّا فِي صَمْتِ القَلْبِ"
+          },
+          {
+            "sadr": "أَنَا أَتَذَكَّرُ وَجْهَكِ فِي لَيْلٍ",
+            "ajuz": "فَتَغْرُقُ الأَحْلَامُ فِي بَحْرِ الشَّوْقِ"
+          }
+        ],
+        "analysis": {
+          "meter": "baseet",
+          "requested_rawi": "م",
+          "meter_name": "بحر البسيط",
+          "average_score": 0.505236102241586,
+          "verses": [
+            {
+              "verse_index": 0,
+              "sadr_text": "قَدْ سَرَتْ نَفْسِي فِي سُكُونِ حَلْبٍ",
+              "ajuz_text": "وَأَخْفَى حُبًّا فِي صَمْتِ القَلْبِ",
+              "meter_key": "baseet",
+              "meter_name_ar": "بحر البسيط",
+              "meter_name_en": "Al-Baseet",
+              "bahr_type": "tam",
+              "standard_pattern": "1101101011011010 11110101101101101110",
+              "score": 0.44462755445858515,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.44",
+                "Sadr Foot 1 is broken: expected 110110, got 101101",
+                "Sadr Foot 2 is broken: expected 10110, got 01010",
+                "Sadr Foot 3 is broken: expected 11010, got 11011",
+                "Sadr Foot 4 is extra_bits: expected , got 010",
+                "Ajuz Foot 1 is broken: expected 11110, got 11010",
+                "Ajuz Foot 2 is broken: expected 10110, got 10101",
+                "Ajuz Foot 3 is broken: expected 110110, got 010101",
+                "Ajuz Foot 4 is broken: expected 1110, got 010"
+              ],
+              "sadr": {
+                "text": "قَدْ سَرَتْ نَفْسِي فِي سُكُونِ حَلْبٍ",
+                "arudi_text": "قد سرت نفسي في سكون حلبي",
+                "pattern": "1011010101011011010",
+                "score": 0.5841059145084105,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "110110",
+                    "actual_segment": "101101",
+                    "base_tafeela": "مفاعيلن",
+                    "actual_tafeela": "مفاعلن",
+                    "zihaf_name_ar": "مقبوضة (القبض)",
+                    "zihaf_name_en": "Qabadh",
+                    "score": 0.3348979766803842,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "01010",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.2621440000000001,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "11010",
+                    "actual_segment": "11011",
+                    "base_tafeela": "فعولن",
+                    "actual_tafeela": "فعولن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.2621440000000001,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "010",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "وَأَخْفَى حُبًّا فِي صَمْتِ القَلْبِ",
+                "arudi_text": "وأخفى حببنفي صمتلقلبي",
+                "pattern": "1101010101010101010",
+                "score": 0.3051491944087598,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "11110",
+                    "actual_segment": "11010",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "سالمة",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.04665599999999999,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "10101",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.2621440000000001,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "110110",
+                    "actual_segment": "010101",
+                    "base_tafeela": "مفاعيلن",
+                    "actual_tafeela": "مفاعلن",
+                    "zihaf_name_ar": "مقبوضة (القبض)",
+                    "zihaf_name_en": "Qabadh",
+                    "score": 0.08779149519890257,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "1110",
+                    "actual_segment": "010",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.034815425545478486,
+                    "status": "broken"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "ب",
+                "rawi_haraka": "kasra",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": null,
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "القَلْبِ",
+                "qafiyah_pattern": "1010",
+                "qafiyah_type_ar": "المتواتر",
+                "qafiyah_type_en": "Al-Mutawatir",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": false
+            },
+            {
+              "verse_index": 1,
+              "sadr_text": "أَنَا أَتَذَكَّرُ وَجْهَكِ فِي لَيْلٍ",
+              "ajuz_text": "فَتَغْرُقُ الأَحْلَامُ فِي بَحْرِ الشَّوْقِ",
+              "meter_key": "baseet",
+              "meter_name_ar": "بحر البسيط",
+              "meter_name_en": "Al-Baseet",
+              "bahr_type": "tam",
+              "standard_pattern": "1011101110111101110 110110101101010110",
+              "score": 0.5658446500245868,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.57",
+                "Sadr Foot 1 is broken: expected 101110, got 110111",
+                "Sadr Foot 2 is broken: expected 1110, got 0111",
+                "Sadr Foot 3 is broken: expected 11110, got 01110",
+                "Sadr Foot 4 is broken: expected 1110, got 1010",
+                "Ajuz Foot 2 is broken: expected 10110, got 10101",
+                "Ajuz Foot 3 is broken: expected 1010110, got 1010101",
+                "Ajuz Foot 4 is extra_bits: expected , got 010"
+              ],
+              "sadr": {
+                "text": "أَنَا أَتَذَكَّرُ وَجْهَكِ فِي لَيْلٍ",
+                "arudi_text": "أنا أتذككر وجهك في ليلي",
+                "pattern": "1101110111011101010",
+                "score": 0.513064448724002,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "101110",
+                    "actual_segment": "110111",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مفتعلن",
+                    "zihaf_name_ar": "مطوية (الطي)",
+                    "zihaf_name_en": "Tay",
+                    "score": 0.3348979766803842,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110",
+                    "actual_segment": "0111",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.177978515625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "11110",
+                    "actual_segment": "01110",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "سالمة",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.2621440000000001,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "1110",
+                    "actual_segment": "1010",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.015625,
+                    "status": "broken"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "فَتَغْرُقُ الأَحْلَامُ فِي بَحْرِ الشَّوْقِ",
+                "arudi_text": "فتغرقلأحلام في بحرششوقي",
+                "pattern": "110110101011010101010",
+                "score": 0.6186248513251718,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "110110",
+                    "actual_segment": "110110",
+                    "base_tafeela": "مفاعيلن",
+                    "actual_tafeela": "مفاعلن",
+                    "zihaf_name_ar": "مقبوضة (القبض)",
+                    "zihaf_name_en": "Qabadh",
+                    "score": 1.0,
+                    "status": "ok"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "10101",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.2621440000000001,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010101",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "010",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "ق",
+                "rawi_haraka": "kasra",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": "و",
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "الشَّوْقِ",
+                "qafiyah_pattern": "1010",
+                "qafiyah_type_ar": "المتواتر",
+                "qafiyah_type_en": "Al-Mutawatir",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": false
+            }
+          ],
+          "accepted": false,
+          "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية."
+        },
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "attempts": 2
+      },
+      "valid_verses": 0,
+      "elapsed_seconds": 2.05
+    },
+    {
+      "model": "qwen/qwen3.8-27b",
+      "request": {
+        "topic": "حب مكتوم لامرأة من حلب",
+        "meter": "baseet",
+        "rawi": "م",
+        "verse_count": 2,
+        "max_revisions": 1
+      },
+      "result": {
+        "title": "أشواق حلبية",
+        "verses": [
+          {
+            "sadr": "أَـلَأَـلْـبَـاءَـيَـا أَشْـوَاقي بِـحَـلْـبَـةِ",
+            "ajuz": "قَـلْـبِـيْ وَفِـيْ صَـدْرِيْ مِـنْـهُـنَّـا عِـلْـمُ"
+          },
+          {
+            "sadr": "سَـرُّـهُـا بِـالْـنَّـفْسِـيْ مَـا يَـحْفَـظُ عَمُّ",
+            "ajuz": "فَـرْغَـيْـنِ مَـا حَـيَّتْـنِيْ بِـالْـخَـيْـرِ رُـمَّ"
+          }
+        ],
+        "analysis": {
+          "meter": "baseet",
+          "requested_rawi": "م",
+          "meter_name": "بحر البسيط",
+          "average_score": 0.5901283843550477,
+          "verses": [
+            {
+              "verse_index": 0,
+              "sadr_text": "أَـلَأَـلْـبَـاءَـيَـا أَشْـوَاقي بِـحَـلْـبَـةِ",
+              "ajuz_text": "قَـلْـبِـيْ وَفِـيْ صَـدْرِيْ مِـنْـهُـنَّـا عِـلْـمُ",
+              "meter_key": "baseet",
+              "meter_name_ar": "بحر البسيط",
+              "meter_name_en": "Al-Baseet",
+              "bahr_type": "tam",
+              "standard_pattern": "111101011010101101110 1010110111010101100",
+              "score": 0.5835808690261373,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.58",
+                "Sadr Foot 1 is broken: expected 11110, got 11101",
+                "Sadr Foot 2 is broken: expected 10110, got 01101",
+                "Sadr Foot 3 is broken: expected 1010110, got 0100111",
+                "Sadr Foot 4 is broken: expected 1110, got 0110",
+                "Ajuz Foot 2 is broken: expected 1110, got 1010",
+                "Ajuz Foot 3 is broken: expected 10101100, got 10101010",
+                "Ajuz Foot 4 is extra_bits: expected , got 0"
+              ],
+              "sadr": {
+                "text": "أَـلَأَـلْـبَـاءَـيَـا أَشْـوَاقي بِـحَـلْـبَـةِ",
+                "arudi_text": "ألألباءيا أشواقي بحلبةي",
+                "pattern": "111010110101001110110",
+                "score": 0.5485368867271029,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "11110",
+                    "actual_segment": "11101",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "سالمة",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.2621440000000001,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "01101",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.2621440000000001,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "0100111",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "1110",
+                    "actual_segment": "0110",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.177978515625,
+                    "status": "broken"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "قَـلْـبِـيْ وَفِـيْ صَـدْرِيْ مِـنْـهُـنَّـا عِـلْـمُ",
+                "arudi_text": "قلبي وفي صدري منهننا علم",
+                "pattern": "10101101010101010100",
+                "score": 0.6186248513251718,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010110",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 1.0,
+                    "status": "ok"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110",
+                    "actual_segment": "1010",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.015625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "10101100",
+                    "actual_segment": "10101010",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "سالمة",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.4487953186035156,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "0",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "م",
+                "rawi_haraka": "damma",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": null,
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "عِـلْـمُ",
+                "qafiyah_pattern": "100",
+                "qafiyah_type_ar": "المترادف",
+                "qafiyah_type_en": "Al-Mutaradif",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": true
+            },
+            {
+              "verse_index": 1,
+              "sadr_text": "سَـرُّـهُـا بِـالْـنَّـفْسِـيْ مَـا يَـحْفَـظُ عَمُّ",
+              "ajuz_text": "فَـرْغَـيْـنِ مَـا حَـيَّتْـنِيْ بِـالْـخَـيْـرِ رُـمَّ",
+              "meter_key": "baseet",
+              "meter_name_ar": "بحر البسيط",
+              "meter_name_en": "Al-Baseet",
+              "bahr_type": "tam",
+              "standard_pattern": "10111011101011101110 1010110111010101100",
+              "score": 0.5966758996839581,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.60",
+                "Sadr Foot 1 is broken: expected 101110, got 101101",
+                "Sadr Foot 2 is broken: expected 1110, got 0101",
+                "Sadr Foot 3 is broken: expected 101110, got 010101",
+                "Sadr Foot 4 is broken: expected 1110, got 1101",
+                "Sadr Foot 5 is extra_bits: expected , got 0",
+                "Ajuz Foot 2 is broken: expected 1110, got 1010",
+                "Ajuz Foot 3 is broken: expected 10101100, got 10101011",
+                "Ajuz Foot 4 is extra_bits: expected , got 00"
+              ],
+              "sadr": {
+                "text": "سَـرُّـهُـا بِـالْـنَّـفْسِـيْ مَـا يَـحْفَـظُ عَمُّ",
+                "arudi_text": "سررها بالننفسي ما يحفظ عممو",
+                "pattern": "101101010101010111010",
+                "score": 0.4582599087429164,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "101110",
+                    "actual_segment": "101101",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مفتعلن",
+                    "zihaf_name_ar": "مطوية (الطي)",
+                    "zihaf_name_en": "Tay",
+                    "score": 0.3348979766803842,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110",
+                    "actual_segment": "0101",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.015625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "101110",
+                    "actual_segment": "010101",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مفتعلن",
+                    "zihaf_name_ar": "مطوية (الطي)",
+                    "zihaf_name_en": "Tay",
+                    "score": 0.08779149519890257,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "1110",
+                    "actual_segment": "1101",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.177978515625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 4,
+                    "expected_pattern": "",
+                    "actual_segment": "0",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "فَـرْغَـيْـنِ مَـا حَـيَّتْـنِيْ بِـالْـخَـيْـرِ رُـمَّ",
+                "arudi_text": "فرغين ما حييتني بالخير رمم",
+                "pattern": "101011010101010101100",
+                "score": 0.7350918906249998,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010110",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 1.0,
+                    "status": "ok"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110",
+                    "actual_segment": "1010",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.015625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "10101100",
+                    "actual_segment": "10101011",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "سالمة",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.177978515625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "00",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "م",
+                "rawi_haraka": "fatha",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": null,
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "رُـمَّ",
+                "qafiyah_pattern": "100",
+                "qafiyah_type_ar": "المترادف",
+                "qafiyah_type_en": "Al-Mutaradif",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": true
+            }
+          ],
+          "accepted": false,
+          "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية."
+        },
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "attempts": 2
+      },
+      "valid_verses": 0,
+      "elapsed_seconds": 1.95
+    },
+    {
+      "model": "allam-2-7b",
+      "request": {
+        "topic": "حب مكتوم لامرأة من حلب",
+        "meter": "baseet",
+        "rawi": "م",
+        "verse_count": 2,
+        "max_revisions": 1
+      },
+      "result": {
+        "title": "حبُّ مكتوم لامرأة من حلب",
+        "verses": [
+          {
+            "sadr": "في قلب المدينة الرحبِ ماضٍ ألَمّ",
+            "ajuz": "يهفو إلى الشِّعَبِ حيثُ السِّتّ الحَلَبِيّّة \nفي ساحة الميدان تسكب الأنغام والنجوى مزهوةً بعدوٍّ مُستعَرّ"
+          },
+          {
+            "sadr": "حبٌّ نما وتسامى مثلَ عُشْبٍ في مَنطِقِيّة",
+            "ajuz": "إنّي لأرعى نجومَ الليل من أجل سِحْرِ عينيكِ كَأني لم أُفارِقْكِ لحظةً، لا بل كأنّي \nفي رحلةٍ أبديّةْ"
+          }
+        ],
+        "analysis": {
+          "meter": "baseet",
+          "requested_rawi": "م",
+          "meter_name": "بحر البسيط",
+          "average_score": 0.019843101733077982,
+          "verses": [
+            {
+              "verse_index": 0,
+              "sadr_text": "في قلب المدينة الرحبِ ماضٍ ألَمّ",
+              "ajuz_text": "يهفو إلى الشِّعَبِ حيثُ السِّتّ الحَلَبِيّّة \nفي ساحة الميدان تسكب الأنغام والنجوى مزهوةً بعدوٍّ مُستعَرّ",
+              "meter_key": "baseet",
+              "meter_name_ar": "بحر البسيط",
+              "meter_name_en": "Al-Baseet",
+              "bahr_type": "tam",
+              "standard_pattern": "1010110101101010110 10101101011010101101110",
+              "score": 0.03330365950014226,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.03",
+                "Sadr Foot 1 is broken: expected 1010110, got 0100000",
+                "Sadr Foot 2 is broken: expected 10110, got 00000",
+                "Sadr Foot 3 is broken: expected 1010110, got 0110100",
+                "Sadr Foot 4 is extra_bits: expected , got 1010",
+                "Ajuz Foot 1 is broken: expected 1010110, got 1001001",
+                "Ajuz Foot 2 is broken: expected 10110, got 11001",
+                "Ajuz Foot 3 is broken: expected 1010110, got 0101011",
+                "Ajuz Foot 4 is broken: expected 1110, got 1010",
+                "Ajuz Foot 5 is extra_bits: expected , got 01100000010100000001010001000001000010100101"
+              ],
+              "sadr": {
+                "text": "في قلب المدينة الرحبِ ماضٍ ألَمّ",
+                "arudi_text": "في قلبلمدينةرحب ماضنألمم",
+                "pattern": "01000000000001101001010",
+                "score": 0.05627873738162883,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "0100000",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.034815425545478486,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "00000",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.0040960000000000015,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "0110100",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "1010",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "يهفو إلى الشِّعَبِ حيثُ السِّتّ الحَلَبِيّّة \nفي ساحة الميدان تسكب الأنغام والنجوى مزهوةً بعدوٍّ مُستعَرّ",
+                "arudi_text": "يهفو إلششعب حيثسستتلحلبييةفي ساحةلميدان تسكبلأنغام ونجوىمزهوتنبعدوون مستعرر",
+                "pattern": "1001001110010101011101001100000010100000001010001000001000010100101",
+                "score": 0.010328581618655694,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1001001",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "11001",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.04665599999999999,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "0101011",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "1110",
+                    "actual_segment": "1010",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.015625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 4,
+                    "expected_pattern": "",
+                    "actual_segment": "01100000010100000001010001000001000010100101",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "ر",
+                "rawi_haraka": "",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": null,
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "مُستعَرّ",
+                "qafiyah_pattern": "1010",
+                "qafiyah_type_ar": "المتواتر",
+                "qafiyah_type_en": "Al-Mutawatir",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": false
+            },
+            {
+              "verse_index": 1,
+              "sadr_text": "حبٌّ نما وتسامى مثلَ عُشْبٍ في مَنطِقِيّة",
+              "ajuz_text": "إنّي لأرعى نجومَ الليل من أجل سِحْرِ عينيكِ كَأني لم أُفارِقْكِ لحظةً، لا بل كأنّي \nفي رحلةٍ أبديّةْ",
+              "meter_key": "baseet",
+              "meter_name_ar": "بحر البسيط",
+              "meter_name_en": "Al-Baseet",
+              "bahr_type": "tam",
+              "standard_pattern": "10101101011010101101110 10101101011010101101110",
+              "score": 0.0063825439660137005,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.01",
+                "Sadr Foot 1 is broken: expected 1010110, got 1010010",
+                "Sadr Foot 2 is broken: expected 10110, got 00101",
+                "Sadr Foot 3 is broken: expected 1010110, got 0001101",
+                "Sadr Foot 4 is broken: expected 1110, got 0011",
+                "Sadr Foot 5 is extra_bits: expected , got 011010",
+                "Ajuz Foot 1 is broken: expected 1010110, got 1010000",
+                "Ajuz Foot 2 is broken: expected 10110, got 10000",
+                "Ajuz Foot 3 is broken: expected 1010110, got 1001010",
+                "Ajuz Foot 4 is broken: expected 1110, got 0110",
+                "Ajuz Foot 5 is extra_bits: expected , got 1000011001011101010001010010010010001000010"
+              ],
+              "sadr": {
+                "text": "حبٌّ نما وتسامى مثلَ عُشْبٍ في مَنطِقِيّة",
+                "arudi_text": "حببننماوتسامىمثل عشبنفي منطقيية",
+                "pattern": "10100100010100011010011011010",
+                "score": 0.001720342699493599,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010010",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "00101",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.04665599999999999,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "0001101",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "1110",
+                    "actual_segment": "0011",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.015625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 4,
+                    "expected_pattern": "",
+                    "actual_segment": "011010",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "إنّي لأرعى نجومَ الليل من أجل سِحْرِ عينيكِ كَأني لم أُفارِقْكِ لحظةً، لا بل كأنّي \nفي رحلةٍ أبديّةْ",
+                "arudi_text": "إننيلأرعىنجومليل من أجل سحر عينيك كأني لم أفارقك لحظتن لابل كأننيفي رحلتنأبديية",
+                "pattern": "101000010000100101001101000011001011101010001010010010010001000010",
+                "score": 0.011044745232533803,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010000",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "10000",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.04665599999999999,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1001010",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.034815425545478486,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "1110",
+                    "actual_segment": "0110",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.177978515625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 4,
+                    "expected_pattern": "",
+                    "actual_segment": "1000011001011101010001010010010010001000010",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "ة",
+                "rawi_haraka": "sukun",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": "ي",
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "أبديّةْ",
+                "qafiyah_pattern": "0010",
+                "qafiyah_type_ar": "المتواتر",
+                "qafiyah_type_en": "Al-Mutawatir",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": false
+            }
+          ],
+          "accepted": false,
+          "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية. تعذّرت متابعة المراجعة؛ نعرض أفضل مسوّدة مكتملة."
+        },
+        "provider": "groq",
+        "model": "allam-2-7b",
+        "revision_warning": "تعذّر الاتصال بمزوّد اللغة أو قراءة استجابته. حاول لاحقًا.",
+        "attempts": 2
+      },
+      "valid_verses": 0,
+      "elapsed_seconds": 2.01
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "request": {
+        "topic": "حب مكتوم لامرأة من حلب",
+        "meter": "baseet",
+        "rawi": "م",
+        "verse_count": 2,
+        "max_revisions": 1
+      },
+      "result": {
+        "title": "حبٌ في حلب",
+        "verses": [
+          {
+            "sadr": "أُحِبُّكِ فِي حَلَبِ فِيْ لِسَانِ الجَمالِ",
+            "ajuz": "أُحِبُّكِ فِي حَلَبِ فِيْ لِسَانِ الجَمالِ"
+          },
+          {
+            "sadr": "رَجْلِي يَسْرَى بَيْنَ أَحْلَامٍ وَأَحْدَادِ الْقَلْبِ",
+            "ajuz": "رَجْلِي يَسْرَى بَيْنَ أَحْلَامٍ وَأَحْدَادِ الْقَلْبِ"
+          }
+        ],
+        "analysis": {
+          "meter": "baseet",
+          "requested_rawi": "م",
+          "meter_name": "بحر البسيط",
+          "average_score": 0.5506120970442935,
+          "verses": [
+            {
+              "verse_index": 0,
+              "sadr_text": "أُحِبُّكِ فِي حَلَبِ فِيْ لِسَانِ الجَمالِ",
+              "ajuz_text": "أُحِبُّكِ فِي حَلَبِ فِيْ لِسَانِ الجَمالِ",
+              "meter_key": "baseet",
+              "meter_name_ar": "بحر البسيط",
+              "meter_name_en": "Al-Baseet",
+              "bahr_type": "tam",
+              "standard_pattern": "10111011101010110 101110111010101100",
+              "score": 0.5658446500245868,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.57",
+                "Sadr Foot 1 is broken: expected 101110, got 110111",
+                "Sadr Foot 2 is broken: expected 1110, got 0111",
+                "Sadr Foot 3 is broken: expected 1010110, got 1011010",
+                "Sadr Foot 4 is extra_bits: expected , got 1101",
+                "Ajuz Foot 1 is broken: expected 101110, got 110111",
+                "Ajuz Foot 2 is broken: expected 1110, got 0111",
+                "Ajuz Foot 3 is broken: expected 10101100, got 10110101",
+                "Ajuz Foot 4 is extra_bits: expected , got 100"
+              ],
+              "sadr": {
+                "text": "أُحِبُّكِ فِي حَلَبِ فِيْ لِسَانِ الجَمالِ",
+                "arudi_text": "أحببك في حلب في لسانلجمال",
+                "pattern": "110111011110110101101",
+                "score": 0.513064448724002,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "101110",
+                    "actual_segment": "110111",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مفتعلن",
+                    "zihaf_name_ar": "مطوية (الطي)",
+                    "zihaf_name_en": "Tay",
+                    "score": 0.3348979766803842,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110",
+                    "actual_segment": "0111",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.177978515625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1011010",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "1101",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "أُحِبُّكِ فِي حَلَبِ فِيْ لِسَانِ الجَمالِ",
+                "arudi_text": "أحببك في حلب في لسانلجمال",
+                "pattern": "110111011110110101100",
+                "score": 0.6186248513251718,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "101110",
+                    "actual_segment": "110111",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مفتعلن",
+                    "zihaf_name_ar": "مطوية (الطي)",
+                    "zihaf_name_en": "Tay",
+                    "score": 0.3348979766803842,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110",
+                    "actual_segment": "0111",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.177978515625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "10101100",
+                    "actual_segment": "10110101",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "سالمة",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.059604644775390625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "100",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "ل",
+                "rawi_haraka": "kasra",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": "ا",
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "الجَمالِ",
+                "qafiyah_pattern": "100",
+                "qafiyah_type_ar": "المترادف",
+                "qafiyah_type_en": "Al-Mutaradif",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": false
+            },
+            {
+              "verse_index": 1,
+              "sadr_text": "رَجْلِي يَسْرَى بَيْنَ أَحْلَامٍ وَأَحْدَادِ الْقَلْبِ",
+              "ajuz_text": "رَجْلِي يَسْرَى بَيْنَ أَحْلَامٍ وَأَحْدَادِ الْقَلْبِ",
+              "meter_key": "baseet",
+              "meter_name_ar": "بحر البسيط",
+              "meter_name_en": "Al-Baseet",
+              "bahr_type": "tam",
+              "standard_pattern": "10101101011010101101110 10101101011010101101010",
+              "score": 0.5353795440640001,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.54",
+                "Sadr Foot 1 is broken: expected 1010110, got 1010101",
+                "Sadr Foot 2 is broken: expected 10110, got 01011",
+                "Sadr Foot 3 is broken: expected 1010110, got 0101011",
+                "Sadr Foot 4 is broken: expected 1110, got 0101",
+                "Sadr Foot 5 is extra_bits: expected , got 0101",
+                "Ajuz Foot 1 is broken: expected 1010110, got 1010101",
+                "Ajuz Foot 2 is broken: expected 10110, got 01011",
+                "Ajuz Foot 3 is broken: expected 1010110, got 0101011",
+                "Ajuz Foot 4 is broken: expected 1010, got 0101",
+                "Ajuz Foot 5 is extra_bits: expected , got 0100"
+              ],
+              "sadr": {
+                "text": "رَجْلِي يَسْرَى بَيْنَ أَحْلَامٍ وَأَحْدَادِ الْقَلْبِ",
+                "arudi_text": "رجلي يسرى بين أحلامن وأحدادلقلب",
+                "pattern": "101010101011010101101010101",
+                "score": 0.464404086784,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010101",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "01011",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.2621440000000001,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "0101011",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "1110",
+                    "actual_segment": "0101",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.015625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 4,
+                    "expected_pattern": "",
+                    "actual_segment": "0101",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "رَجْلِي يَسْرَى بَيْنَ أَحْلَامٍ وَأَحْدَادِ الْقَلْبِ",
+                "arudi_text": "رجلي يسرى بين أحلامن وأحدادلقلب",
+                "pattern": "101010101011010101101010100",
+                "score": 0.6063550013440001,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010101",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "10110",
+                    "actual_segment": "01011",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.2621440000000001,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "0101011",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "1010",
+                    "actual_segment": "0101",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "سالمة",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.177978515625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 4,
+                    "expected_pattern": "",
+                    "actual_segment": "0100",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "ب",
+                "rawi_haraka": "kasra",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": null,
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "الْقَلْبِ",
+                "qafiyah_pattern": "100",
+                "qafiyah_type_ar": "المترادف",
+                "qafiyah_type_en": "Al-Mutaradif",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": false
+            }
+          ],
+          "accepted": false,
+          "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية."
+        },
+        "provider": "groq",
+        "model": "openai/gpt-oss-20b",
+        "attempts": 2
+      },
+      "valid_verses": 0,
+      "elapsed_seconds": 2.74
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "request": {
+        "topic": "الأمل بعد الشدائد",
+        "meter": "kamel",
+        "rawi": "م",
+        "verse_count": 2,
+        "max_revisions": 1
+      },
+      "result": {
+        "title": "الأمل بعد الشدائد",
+        "verses": [
+          {
+            "sadr": "قَدْ نَجَتْ نُجُومٌ بَعْدَ لَيْلٍ شَدِيدٍ",
+            "ajuz": "وَأَلْقَتْ نُورَ الأَمَلِ فِي قَلْبِ العُقُوب"
+          },
+          {
+            "sadr": "تَسْقِطُ السَّحَابُ وَتَبْقَى أَفْقَارُ الفَرْحِ",
+            "ajuz": "فَيَزْهُو الزَّمَانُ بِلُقْيِ النُّجُومِ"
+          }
+        ],
+        "analysis": {
+          "meter": "kamel",
+          "requested_rawi": "م",
+          "meter_name": "بحر الكامل",
+          "average_score": 0.6190381200278658,
+          "verses": [
+            {
+              "verse_index": 0,
+              "sadr_text": "قَدْ نَجَتْ نُجُومٌ بَعْدَ لَيْلٍ شَدِيدٍ",
+              "ajuz_text": "وَأَلْقَتْ نُورَ الأَمَلِ فِي قَلْبِ العُقُوب",
+              "meter_key": "kamel",
+              "meter_name_ar": "بحر الكامل",
+              "meter_name_en": "Al-Kamel",
+              "bahr_type": "tam",
+              "standard_pattern": "111011010101101110110 10101101011101010110",
+              "score": 0.5982492025961635,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.60",
+                "Sadr Foot 1 is broken: expected 1110110, got 1011011",
+                "Sadr Foot 2 is broken: expected 1010110, got 0101011",
+                "Sadr Foot 3 is broken: expected 1110110, got 0101101",
+                "Sadr Foot 4 is extra_bits: expected , got 0",
+                "Ajuz Foot 1 is broken: expected 1010110, got 1101010",
+                "Ajuz Foot 2 is broken: expected 101110, got 101111",
+                "Ajuz Foot 3 is broken: expected 1010110, got 0101011",
+                "Ajuz Foot 4 is extra_bits: expected , got 01"
+              ],
+              "sadr": {
+                "text": "قَدْ نَجَتْ نُجُومٌ بَعْدَ لَيْلٍ شَدِيدٍ",
+                "arudi_text": "قد نجت نجومن بعد ليلن شديدي",
+                "pattern": "1011011010101101011010",
+                "score": 0.6479615184652242,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1011011",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "0101011",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "0101101",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "0",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "وَأَلْقَتْ نُورَ الأَمَلِ فِي قَلْبِ العُقُوب",
+                "arudi_text": "وألقت نورلأمل في قلبلعقوب",
+                "pattern": "1101010101111010101101",
+                "score": 0.5485368867271029,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1101010",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "101110",
+                    "actual_segment": "101111",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مفتعلن",
+                    "zihaf_name_ar": "مطوية (الطي)",
+                    "zihaf_name_en": "Tay",
+                    "score": 0.3348979766803842,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "0101011",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "01",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "ب",
+                "rawi_haraka": "",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": "و",
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "العُقُوب",
+                "qafiyah_pattern": "1010",
+                "qafiyah_type_ar": "المتواتر",
+                "qafiyah_type_en": "Al-Mutawatir",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": false
+            },
+            {
+              "verse_index": 1,
+              "sadr_text": "تَسْقِطُ السَّحَابُ وَتَبْقَى أَفْقَارُ الفَرْحِ",
+              "ajuz_text": "فَيَزْهُو الزَّمَانُ بِلُقْيِ النُّجُومِ",
+              "meter_key": "kamel",
+              "meter_name_ar": "بحر الكامل",
+              "meter_name_en": "Al-Kamel",
+              "bahr_type": "tam",
+              "standard_pattern": "111011011101101010110 10101101110110111010",
+              "score": 0.639827037459568,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.64",
+                "Sadr Foot 1 is broken: expected 1110110, got 1011011",
+                "Sadr Foot 2 is broken: expected 1110110, got 0111010",
+                "Sadr Foot 3 is broken: expected 1010110, got 1010101",
+                "Sadr Foot 4 is extra_bits: expected , got 010",
+                "Ajuz Foot 1 is broken: expected 1010110, got 1101011",
+                "Ajuz Foot 2 is broken: expected 1110110, got 0111010",
+                "Ajuz Foot 3 is broken: expected 111010, got 11010"
+              ],
+              "sadr": {
+                "text": "تَسْقِطُ السَّحَابُ وَتَبْقَى أَفْقَارُ الفَرْحِ",
+                "arudi_text": "تسقطسسحاب وتبقى أفقارلفرحي",
+                "pattern": "101101101110101010101010",
+                "score": 0.6610292235939644,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1011011",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "0111010",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010101",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "010",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "فَيَزْهُو الزَّمَانُ بِلُقْيِ النُّجُومِ",
+                "arudi_text": "فيزهززمان بلقيننجومي",
+                "pattern": "1101011011101011010",
+                "score": 0.6186248513251718,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1101011",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "0111010",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "111010",
+                    "actual_segment": "11010",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلْ",
+                    "zihaf_name_ar": "مقطوعة (القطع)",
+                    "zihaf_name_en": "Qataa",
+                    "score": 0.5644739300537773,
+                    "status": "broken"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "م",
+                "rawi_haraka": "kasra",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": "و",
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "النُّجُومِ",
+                "qafiyah_pattern": "1010",
+                "qafiyah_type_ar": "المتواتر",
+                "qafiyah_type_en": "Al-Mutawatir",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": true
+            }
+          ],
+          "accepted": false,
+          "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية."
+        },
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "attempts": 2
+      },
+      "valid_verses": 0,
+      "elapsed_seconds": 4.5
+    },
+    {
+      "model": "qwen/qwen3.8-27b",
+      "request": {
+        "topic": "الأمل بعد الشدائد",
+        "meter": "kamel",
+        "rawi": "م",
+        "verse_count": 2,
+        "max_revisions": 1
+      },
+      "result": {
+        "title": "الأمل بعد الشدائد",
+        "verses": [
+          {
+            "sadr": "وَلَمَّا ضَاقَتِ الدُّنْيَا بِصَاحِبِهَا",
+            "ajuz": "بَدَا فَيَاضُ النُّورِ مِنْ بَعْدِ الضَّيْمِ"
+          },
+          {
+            "sadr": "فَاسْتَمْسِكْ بِالرَّجَاءِ كَالشَّامِخِ",
+            "ajuz": "فَسَيَظْهَرُ الْغَدُ بِجَمَالِ اللَّيْمِ"
+          }
+        ],
+        "analysis": {
+          "meter": "kamel",
+          "requested_rawi": "م",
+          "meter_name": "بحر الكامل",
+          "average_score": 0.7388079013085871,
+          "verses": [
+            {
+              "verse_index": 0,
+              "sadr_text": "وَلَمَّا ضَاقَتِ الدُّنْيَا بِصَاحِبِهَا",
+              "ajuz_text": "بَدَا فَيَاضُ النُّورِ مِنْ بَعْدِ الضَّيْمِ",
+              "meter_key": "kamel",
+              "meter_name_ar": "بحر الكامل",
+              "meter_name_en": "Al-Kamel",
+              "bahr_type": "tam",
+              "standard_pattern": "111011010101101110 11011010101101010110",
+              "score": 0.740460858642838,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.74",
+                "Sadr Foot 1 is broken: expected 1110110, got 1101010",
+                "Sadr Foot 2 is broken: expected 1010110, got 1101010",
+                "Sadr Foot 3 is broken: expected 1110, got 1101",
+                "Sadr Foot 4 is extra_bits: expected , got 110",
+                "Ajuz Foot 3 is broken: expected 1010110, got 1010101",
+                "Ajuz Foot 4 is extra_bits: expected , got 0"
+              ],
+              "sadr": {
+                "text": "وَلَمَّا ضَاقَتِ الدُّنْيَا بِصَاحِبِهَا",
+                "arudi_text": "ولمما ضاقتددنيا بصاحبهاا",
+                "pattern": "110101011010101101110",
+                "score": 0.6186248513251718,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1101010",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1101010",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1110",
+                    "actual_segment": "1101",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.177978515625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "110",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "بَدَا فَيَاضُ النُّورِ مِنْ بَعْدِ الضَّيْمِ",
+                "arudi_text": "بدا فياضننور من بعدضضيمي",
+                "pattern": "110110101011010101010",
+                "score": 0.8622968659605041,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "110110",
+                    "actual_segment": "110110",
+                    "base_tafeela": "مفاعيلن",
+                    "actual_tafeela": "مفاعلن",
+                    "zihaf_name_ar": "مقبوضة (القبض)",
+                    "zihaf_name_en": "Qabadh",
+                    "score": 1.0,
+                    "status": "ok"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010110",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 1.0,
+                    "status": "ok"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1010101",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "0",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "م",
+                "rawi_haraka": "kasra",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": "ي",
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "الضَّيْمِ",
+                "qafiyah_pattern": "1010",
+                "qafiyah_type_ar": "المتواتر",
+                "qafiyah_type_en": "Al-Mutawatir",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": true
+            },
+            {
+              "verse_index": 1,
+              "sadr_text": "فَاسْتَمْسِكْ بِالرَّجَاءِ كَالشَّامِخِ",
+              "ajuz_text": "فَسَيَظْهَرُ الْغَدُ بِجَمَالِ اللَّيْمِ",
+              "meter_key": "kamel",
+              "meter_name_ar": "بحر الكامل",
+              "meter_name_en": "Al-Kamel",
+              "bahr_type": "tam",
+              "standard_pattern": "11011010101101110110 11101101110110101010",
+              "score": 0.7371549439743362,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.74",
+                "Sadr Foot 1 is broken: expected 110110, got 101010",
+                "Sadr Foot 2 is broken: expected 1010110, got 1011011",
+                "Sadr Foot 3 is broken: expected 1110110, got 010110",
+                "Ajuz Foot 2 is broken: expected 1110110, got 1111101",
+                "Ajuz Foot 3 is broken: expected 101010, got 01010"
+              ],
+              "sadr": {
+                "text": "فَاسْتَمْسِكْ بِالرَّجَاءِ كَالشَّامِخِ",
+                "arudi_text": "فاستمسك بررجاء كششامخي",
+                "pattern": "1010101011011010110",
+                "score": 0.6186248513251718,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "110110",
+                    "actual_segment": "101010",
+                    "base_tafeela": "مفاعيلن",
+                    "actual_tafeela": "مفاعلن",
+                    "zihaf_name_ar": "مقبوضة (القبض)",
+                    "zihaf_name_en": "Qabadh",
+                    "score": 0.3348979766803842,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1011011",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "010110",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.20717621103300346,
+                    "status": "broken"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "فَسَيَظْهَرُ الْغَدُ بِجَمَالِ اللَّيْمِ",
+                "arudi_text": "فسيظهرلغد بجماللليمي",
+                "pattern": "1110110111110101010",
+                "score": 0.8556850366235007,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1110110",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 1.0,
+                    "status": "ok"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1111101",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "101010",
+                    "actual_segment": "01010",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مفعولن",
+                    "zihaf_name_ar": "مقطوعة (القطع)",
+                    "zihaf_name_en": "Qataa",
+                    "score": 0.5644739300537773,
+                    "status": "broken"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "م",
+                "rawi_haraka": "kasra",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": "ي",
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "اللَّيْمِ",
+                "qafiyah_pattern": "1010",
+                "qafiyah_type_ar": "المتواتر",
+                "qafiyah_type_en": "Al-Mutawatir",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": true
+            }
+          ],
+          "accepted": false,
+          "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية."
+        },
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "attempts": 2
+      },
+      "valid_verses": 0,
+      "elapsed_seconds": 2.02
+    },
+    {
+      "model": "allam-2-7b",
+      "request": {
+        "topic": "الأمل بعد الشدائد",
+        "meter": "kamel",
+        "rawi": "م",
+        "verse_count": 2,
+        "max_revisions": 1
+      },
+      "error": "لم يُرجع المزوّد قصيدة بالصيغة المطلوبة. حاول مجددًا.",
+      "status": 502,
+      "elapsed_seconds": 1.16
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "request": {
+        "topic": "الأمل بعد الشدائد",
+        "meter": "kamel",
+        "rawi": "م",
+        "verse_count": 2,
+        "max_revisions": 1
+      },
+      "result": {
+        "title": "أملٌ بعد الشدائد",
+        "verses": [
+          {
+            "sadr": "في ظلماتِ الليلِ أضاءَ النجمُ فَسُرَ",
+            "ajuz": "في ظلماتِ الليلِ أضاءَ النجمُ فَسُرَ"
+          },
+          {
+            "sadr": "وَجَدَ القَلْبُ طَرِيقَهُ مِنَ البُرْقَانِ",
+            "ajuz": "وَجَدَ القَلْبُ طَرِيقَهُ مِنَ البُرْقَانِ"
+          }
+        ],
+        "analysis": {
+          "meter": "kamel",
+          "requested_rawi": "م",
+          "meter_name": "بحر الكامل",
+          "average_score": 0.45554261699751764,
+          "verses": [
+            {
+              "verse_index": 0,
+              "sadr_text": "في ظلماتِ الليلِ أضاءَ النجمُ فَسُرَ",
+              "ajuz_text": "في ظلماتِ الليلِ أضاءَ النجمُ فَسُرَ",
+              "meter_key": "kamel",
+              "meter_name_ar": "بحر الكامل",
+              "meter_name_en": "Al-Kamel",
+              "bahr_type": "tam",
+              "standard_pattern": "11011010101101110 11011010101101110",
+              "score": 0.2631237155298111,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.26",
+                "Sadr Foot 1 is broken: expected 110110, got 010010",
+                "Sadr Foot 2 is broken: expected 1010110, got 1001010",
+                "Sadr Foot 3 is broken: expected 1110, got 1001",
+                "Sadr Foot 4 is extra_bits: expected , got 1110",
+                "Ajuz Foot 1 is broken: expected 110110, got 010010",
+                "Ajuz Foot 2 is broken: expected 1010110, got 1001010",
+                "Ajuz Foot 3 is broken: expected 1110, got 1001",
+                "Ajuz Foot 4 is extra_bits: expected , got 110"
+              ],
+              "sadr": {
+                "text": "في ظلماتِ الليلِ أضاءَ النجمُ فَسُرَ",
+                "arudi_text": "في ظلماتليل أضاءنجم فسرا",
+                "pattern": "010010100101010011110",
+                "score": 0.24211737048775855,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "110110",
+                    "actual_segment": "010010",
+                    "base_tafeela": "مفاعيلن",
+                    "actual_tafeela": "مفاعلن",
+                    "zihaf_name_ar": "مقبوضة (القبض)",
+                    "zihaf_name_en": "Qabadh",
+                    "score": 0.08779149519890257,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1001010",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.034815425545478486,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1110",
+                    "actual_segment": "1001",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.015625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "1110",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "في ظلماتِ الليلِ أضاءَ النجمُ فَسُرَ",
+                "arudi_text": "في ظلماتليل أضاءنجم فسر",
+                "pattern": "01001010010101001110",
+                "score": 0.2841300605718637,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "110110",
+                    "actual_segment": "010010",
+                    "base_tafeela": "مفاعيلن",
+                    "actual_tafeela": "مفاعلن",
+                    "zihaf_name_ar": "مقبوضة (القبض)",
+                    "zihaf_name_en": "Qabadh",
+                    "score": 0.08779149519890257,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1010110",
+                    "actual_segment": "1001010",
+                    "base_tafeela": "مستفعلن",
+                    "actual_tafeela": "مستفعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.034815425545478486,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1110",
+                    "actual_segment": "1001",
+                    "base_tafeela": "فاعلن",
+                    "actual_tafeela": "فعلن",
+                    "zihaf_name_ar": "مخبونة (الخبن)",
+                    "zihaf_name_en": "Khaban",
+                    "score": 0.015625,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "110",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "ر",
+                "rawi_haraka": "fatha",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": null,
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "النجمُ فَسُرَ",
+                "qafiyah_pattern": "001110",
+                "qafiyah_type_ar": "المتراكب",
+                "qafiyah_type_en": "Al-Mutarakib",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": false
+            },
+            {
+              "verse_index": 1,
+              "sadr_text": "وَجَدَ القَلْبُ طَرِيقَهُ مِنَ البُرْقَانِ",
+              "ajuz_text": "وَجَدَ القَلْبُ طَرِيقَهُ مِنَ البُرْقَانِ",
+              "meter_key": "kamel",
+              "meter_name_ar": "بحر الكامل",
+              "meter_name_en": "Al-Kamel",
+              "bahr_type": "tam",
+              "standard_pattern": "111011011101101110110 111011011101101110110",
+              "score": 0.6479615184652242,
+              "is_valid": false,
+              "errors": [
+                "Low metric similarity score: 0.65",
+                "Sadr Foot 1 is broken: expected 1110110, got 1110101",
+                "Sadr Foot 2 is broken: expected 1110110, got 1101101",
+                "Sadr Foot 3 is broken: expected 1110110, got 1010101",
+                "Sadr Foot 4 is extra_bits: expected , got 0",
+                "Ajuz Foot 1 is broken: expected 1110110, got 1110101",
+                "Ajuz Foot 2 is broken: expected 1110110, got 1101101",
+                "Ajuz Foot 3 is broken: expected 1110110, got 1010101",
+                "Ajuz Foot 4 is extra_bits: expected , got 0"
+              ],
+              "sadr": {
+                "text": "وَجَدَ القَلْبُ طَرِيقَهُ مِنَ البُرْقَانِ",
+                "arudi_text": "وجدلقلب طريقهو منلبرقاني",
+                "pattern": "1110101110110110101010",
+                "score": 0.6479615184652242,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1110101",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1101101",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1010101",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "0",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "ajuz": {
+                "text": "وَجَدَ القَلْبُ طَرِيقَهُ مِنَ البُرْقَانِ",
+                "arudi_text": "وجدلقلب طريقهو منلبرقاني",
+                "pattern": "1110101110110110101010",
+                "score": 0.6479615184652242,
+                "is_valid": false,
+                "feet": [
+                  {
+                    "foot_index": 0,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1110101",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 1,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1101101",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.3965694566039659,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 2,
+                    "expected_pattern": "1110110",
+                    "actual_segment": "1010101",
+                    "base_tafeela": "متفاعلن",
+                    "actual_tafeela": "متفاعلن",
+                    "zihaf_name_ar": "سالمة (صحيحة)",
+                    "zihaf_name_en": "Salim",
+                    "score": 0.13281030862990761,
+                    "status": "broken"
+                  },
+                  {
+                    "foot_index": 3,
+                    "expected_pattern": "",
+                    "actual_segment": "0",
+                    "base_tafeela": "",
+                    "actual_tafeela": "",
+                    "zihaf_name_ar": "زيادة غير مطابقة",
+                    "zihaf_name_en": "Extra Bits",
+                    "score": 0.0,
+                    "status": "extra_bits"
+                  }
+                ]
+              },
+              "qafiyah": {
+                "rawi": "ن",
+                "rawi_haraka": "kasra",
+                "wasl": null,
+                "khuruj": null,
+                "ridf": "ا",
+                "tasees": null,
+                "dakhil": null,
+                "qafiyah_text": "البُرْقَانِ",
+                "qafiyah_pattern": "1010",
+                "qafiyah_type_ar": "المتواتر",
+                "qafiyah_type_en": "Al-Mutawatir",
+                "rhyme_classification": "muqayyadah"
+              },
+              "rawi_matches": false
+            }
+          ],
+          "accepted": false,
+          "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية. تعذّرت متابعة المراجعة؛ نعرض أفضل مسوّدة مكتملة."
+        },
+        "provider": "groq",
+        "model": "openai/gpt-oss-20b",
+        "revision_warning": "بلغ المزوّد حد الطلبات المجانية. حاول لاحقًا.",
+        "attempts": 2
+      },
+      "valid_verses": 0,
+      "elapsed_seconds": 0.93
+    }
+  ]
+}
