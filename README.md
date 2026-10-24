@@ -1,152 +1,245 @@
 # قافية · Qafiya
 
-Arabic Poetry Workshop · [qafiya.tahachelly.com](https://qafiya.tahachelly.com)
+**An Arabic poetry workshop for exploring classical meter, rhyme, and the rhythm of a verse.**
 
-An Arabic poetry workshop: describe a theme, select a classical meter and rawi,
-then generate an عمودي draft with two hemistichs per verse. PyArud scans the
-result and feeds meter/rhyme problems back to the model for bounded revision.
-Unresolved drafts stay visibly marked as needing review. Repairs target failing
-hemistichs; the backend preserves sound text. See [prompt design and regression
-evidence](docs/PROMPTS.md).
+[Try Qafiya](https://qafiya.tahachelly.com) · [How it works](#how-it-works) · [Run locally](#run-locally) · [Technical reports](#technical-reports)
 
-## Structure
+[![CI](https://github.com/taha3313/arabic-poetry/actions/workflows/ci.yml/badge.svg)](https://github.com/taha3313/arabic-poetry/actions/workflows/ci.yml)
 
-Mirrors Quranic Shazam's split application layout:
+Qafiya brings an Arabic-first, right-to-left writing desk together with classical
+prosody analysis. Paste a poem, choose its **بحر** (meter) and **روي** (rhyme
+letter), and inspect the scansion of each **صدر** and **عجز**. Optional local
+vocalization fills missing diacritics before analysis.
 
-- `backend/app`: FastAPI, settings, request schemas and service layer.
-- `frontend/src`: React 19 + TypeScript + Vite, Arabic RTL interface.
-- `backend/tests`: actual PyArud checks and mocked provider workflow tests.
-- Docker Compose, Makefile, dependency locks and GitHub Actions CI.
+**The public demo currently offers analysis. AI generation is disabled on the
+hosted instance.** The repository also includes an experimental drafting and
+targeted-repair workflow that can be enabled locally with your own provider key.
 
-Python **3.12+** is required by PyArud 1.0.0 package metadata (its README says
-3.10+, but that is not the installed package constraint). Node 22.12+ or 24
-and `uv` are recommended.
+## Screenshots
+
+### The writing desk
+
+![Qafiya desktop writing desk with Arabic RTL typography and poetry controls](docs/qafiya-desktop.png)
+
+### Verse analysis and scansion
+
+The sample from Imru’ al-Qais shows detected meter, rawi, binary scansion,
+metrical feet, and the status of each hemistich.
+
+![Qafiya analyzing a verse from Imru’ al-Qais with expanded metrical feet](docs/qafiya-live.png)
+
+<details>
+<summary>Mobile view · 390px</summary>
+<br />
+<img src="docs/qafiya-mobile.png" width="390" alt="Qafiya mobile layout showing the sample poem analysis" />
+</details>
+
+Screenshots show the deployed Qafiya interface. The sample poem is labelled as
+an existing classical work, not AI-generated output.
+
+## Features
+
+- **Classical Arabic prosody:** choose among 16 meters and compare the detected
+  rawi with the requested letter using [PyArud](https://github.com/cnemri/pyarud).
+- **Readable scansion:** expand a verse to inspect its binary rhythm, feet,
+  accepted variations, and separate meter/rhyme results.
+- **Optional automatic tashkeel:** a bundled approximately 4.8 MB libtashkeel
+  ONNX model fills missing marks locally on the backend. Existing supplied
+  vowels are preserved, and changes are disclosed. Analysis makes no LLM call.
+- **Experimental AI drafting:** select a theme, meter, rhyme letter, and 1–8
+  verses. Gemini is the default adapter; Groq and OpenRouter are optional.
+- **Targeted revisions:** failed verses receive specific feedback; the backend
+  preserves accepted verses and sound hemistichs rather than relying on the
+  provider to keep them unchanged. Interrupted revisions retain the best draft.
+- **Arabic-first interface:** responsive RTL layout, keyboard focus states,
+  reduced-motion support, sample exploration, copy, and plain-text download.
+
+## How it works
+
+### Analyze your verses
+
+1. Open **فحص أبياتي** and enter one verse per line, separating صدر and عجز
+   with `*`, or choose the labelled classical example.
+2. Select a meter and requested rawi. Leave automatic tashkeel enabled to fill
+   missing marks, or disable it to scan the original input.
+3. Inspect the result and expand each verse’s scansion. The manuscript displays
+   the actual analyzed text; the original input remains available.
+
+### Draft and revise locally
+
+The generation adapter requests structured verse pairs, then PyArud checks each
+verse against the selected meter and rawi. Failed constraints feed a bounded
+revision loop: two revisions by default, at most three through the API. Repairs
+start from the strongest completed draft and preserve sound text.
+
+**Machine acceptance is not literary or expert prosodic certification.** Results
+depend on vocalization and pronunciation. Rawi equality is not full classical
+qafiyah validation; meaning, grammar, originality, and poetic quality still need
+human review. Bare-text vocalization remains limited: on the documented 12-verse
+sample, completion improved partial-source meter matches from 2/12 to 10/12,
+while fully unvocalized input reached only 2/12. See the
+[tashkeel report](docs/TASHKEEL.md) for methodology and limitations.
+
+## Stack and architecture
+
+| Layer | Implementation |
+| --- | --- |
+| Frontend | React 19, TypeScript, Vite, Arabic fonts, Lucide icons |
+| API | FastAPI, Pydantic, Python 3.12, uv |
+| Prosody | PyArud 1.0.0 |
+| Vocalization | libtashkeel model, CPU ONNX Runtime, NumPy |
+| Generation | Native Gemini adapter; optional Groq/OpenRouter |
+| Hosting | Cloudflare Pages frontend, Render free-plan Docker API in Frankfurt |
+| CI | Backend tests/Ruff, frontend build, constrained production-container checks |
+
+The vocalization runtime uses **no PyTorch, Transformers, TensorFlow, GPU, or
+external model server**. The model and its upstream MIT license/provenance are
+bundled in the repository; runtime does not download weights. One Uvicorn worker
+shares the bounded, serialized ONNX session.
+
+The actual production Docker image passed a whole-ASGI workload under **512 MiB
+RAM / 0.1 CPU**, peaking at **142.55 MiB process RSS**, with no OOM. This is a
+measured local workload, not a guarantee under arbitrary public traffic.
+[Raw memory evidence](docs/evals/deployment-container-memory.json).
+
+```text
+frontend/                 React application and browser smoke scripts
+backend/app/              API, provider adapters, prosody, bundled ONNX assets
+backend/tests/            Regression tests and poetry fixtures
+scripts/check-container.sh Production-image memory and runtime checks
+docs/                     Design notes, evaluations, screenshots, deployment guide
+render.yaml               Reference Render configuration
+.github/workflows/ci.yml  GitHub Actions checks
+```
 
 ## Run locally
 
+Requires **Python 3.12**, **uv**, and **Node.js 24** (the hosted/CI version).
+Analysis works without a provider key.
+
 ```bash
+git clone https://github.com/taha3313/arabic-poetry.git
+cd arabic-poetry
 make setup
-cp backend/.env.example backend/.env
-# Terminal 1
+# First setup only; preserve an existing private .env.
+cp -n backend/.env.example backend/.env
+```
+
+Start the servers in separate terminals:
+
+```bash
 make backend
-# Terminal 2
+```
+
+```bash
 make frontend
 ```
 
-Open http://localhost:5173. With no API key, try the labelled Imru' al-Qais
-example or paste verses in “فحص أبياتي”. Its default automatic tashkeel fills
-missing marks locally with a bundled 4.8 MB ONNX model. Supplied vowels remain
-authoritative; uncheck “إكمال التشكيل تلقائيًا” to scan the original text.
-Analysis makes no LLM call. The 512 MiB constrained memory test peaked near
-145 MiB process RSS; see [tashkeel evidence](docs/TASHKEEL.md).
+Open [localhost:5173](http://localhost:5173). Vite proxies local API requests to
+FastAPI on port 8000. Try **استكشف مثالًا** to inspect a classical verse.
 
-To generate, edit `backend/.env`. Key/model changes are reloaded on the next
-request; no backend restart is needed. Changes to startup settings such as CORS
-still require a restart:
+### Optional generation
+
+Set these values in the ignored `backend/.env` file:
 
 ```dotenv
+GENERATION_ENABLED=true
 PROVIDER=gemini
 GEMINI_API_KEY=your-key
 GEMINI_MODEL=gemini-3.5-flash
 GEMINI_THINKING_LEVEL=medium
 ```
 
-The local live checks selected Gemini 3.5 Flash: two poems across الكامل and
-الطويل passed the automatic checks. Newer 3.6/3.8 Flash endpoints were overloaded
-or timed out during this session. See [live evidence](docs/GEMINI.md).
+Keep keys on the backend. Model/key changes in the local dotenv file apply on
+the next request; startup settings such as CORS require a restart. Provider
+quota, availability, and billing remain account-specific. There is no automatic
+provider fallback or key rotation. Provider prompts and draft poetry leave the
+backend only when generation is requested.
 
-Gemini uses the native `generateContent` API with JSON Schema output. Gemini 3
-models receive the configured reasoning level (`low`, `medium`, `high`). The
-key is sent in the `x-goog-api-key` header. Blank environment values use defaults.
-
-Google's free tier is **quota-limited**, not unlimited. Exact RPM, TPM and daily
-allowances are project/model-specific; the model list does not establish free
-quota or endpoint availability. Check [AI Studio](https://aistudio.google.com/usage?timeRange=last-28-days&tab=rate-limit),
-[rate-limit documentation](https://ai.google.dev/gemini-api/docs/rate-limits) and
-[pricing](https://ai.google.dev/gemini-api/docs/pricing). Free-tier prompts may be
-used to improve Google's products. A billable project may charge for the same
-model; this application does not change your billing plan or enable billing.
-No automatic switch to a different model or provider is performed.
-
-Alternatively choose `PROVIDER=openrouter`, set `OPENROUTER_API_KEY`, and use
-`OPENROUTER_MODEL=openrouter/free` or a named `:free` model.
-Choose `PROVIDER=groq`, set `GROQ_API_KEY`, and optionally override
-`GROQ_MODEL` (default `openai/gpt-oss-120b`). Credentials are never sent to the
-frontend. OpenRouter accepts only `openrouter/free` or a `:free` model here,
-preventing accidental selection of its paid routes. Groq account quotas and
-billing configuration remain provider-controlled. No silent provider fallback.
-Free quotas, availability and supported models change; verify your dashboard.
-
-Provider choices come from the requested
-[awesome-free-llm-apis](https://github.com/mnfst/awesome-free-llm-apis) list.
-Official API references: [Gemini](https://ai.google.dev/gemini-api/docs), [Groq](https://console.groq.com/docs/overview),
-[OpenRouter](https://openrouter.ai/developers).
-Prompts and draft poetry are sent to the configured provider during generation.
-
-## How validation works
-
-1. Require JSON with title and the exact requested number of صدر/عجز pairs.
-2. Scan each verse against the selected full meter using
-   [PyArud](https://github.com/cnemri/pyarud) `analyze_poem`.
-3. Compare every detected rawi to the requested letter.
-4. Feed the report back for at most two revisions by default (API maximum 3).
-5. Keep the draft with the most verses matching both constraints, then rhyme
-   matches, then meter similarity. Stop early if all verses pass.
-
-The UI displays actual feet, binary scansion and verse-level flags. The engine's
-similarity score is not a probability of poetic correctness. Vocalization and
-pronunciation matter; PyArud acceptance does not certify grammatical quality,
-meaning, originality or all classical rhyme rules. Rawi matching alone is not
-full qafiyah validation. Expert Arabic prosody review and a larger benchmark are
-needed before claiming reliable موزون generation.
+For Groq, set `PROVIDER=groq`, `GROQ_API_KEY`, and optionally `GROQ_MODEL`
+(default `openai/gpt-oss-120b`). For OpenRouter, use `PROVIDER=openrouter`,
+`OPENROUTER_API_KEY`, and `OPENROUTER_MODEL=openrouter/free` or a named `:free`
+model. Adapter support does not imply equal poetic quality; read the
+[Gemini](docs/GEMINI.md) and [Groq](docs/GROQ.md) evaluation notes.
 
 ## API
 
-- `GET /health`: process health.
-- `GET /api/config`: meters, provider/model names and whether a key is configured.
-- `POST /api/analyze`: `{verses:[{sadr,ajuz}],meter:"taweel",rawi:"ل",auto_tashkeel:true}`.
-- `POST /api/generate`: `{topic,meter,rawi,verse_count,max_revisions}`.
-- Interactive schema: http://localhost:8000/docs.
+| Method | Route | Purpose |
+| --- | --- | --- |
+| `GET` | `/health` | Process health |
+| `GET` | `/api/config` | Meters, provider/model names, generation availability |
+| `POST` | `/api/analyze` | Analyze supplied verses; optional local tashkeel |
+| `POST` | `/api/generate` | Generate and revise a draft when enabled |
 
-Inputs are bounded to 8 verses, 240 characters per hemistich, 500 per topic.
-Generation uses 75-second provider timeouts per attempt; 429 errors are surfaced
-without automatic quota retries. Gemini retries temporary 503/504 overload once
-with a short delay. If a revision fails after a completed draft, the draft is
-returned with a warning rather than lost. A configured key is not proof that the provider is live.
+Interactive local API documentation: [localhost:8000/docs](http://localhost:8000/docs).
 
-## Checks and containers
+```json
+{
+  "verses": [
+    {
+      "sadr": "قِفَا نَبْكِ مِنْ ذِكْرَى حَبِيبٍ وَمَنْزِلِ",
+      "ajuz": "بِسِقْطِ اللِّوَى بَيْنَ الدَّخُولِ فَحَوْمَلِ"
+    }
+  ],
+  "meter": "taweel",
+  "rawi": "ل",
+  "auto_tashkeel": true
+}
+```
+
+Inputs are bounded to eight verses, 240 serialized characters per hemistich,
+and 500 characters per generation topic. Provider attempts have 75-second
+timeouts. Quota errors are surfaced without automatic quota retries; Gemini
+503/504 overload receives one short-delay retry.
+
+## Development and verification
 
 ```bash
 make test
 make build
-cd backend && uv run ruff check .
-# From repository root, after creating backend/.env:
-docker compose up --build
+cd backend
+uv run ruff check .
+uv run ruff format --check .
+cd ..
+docker build -t qafiya-api:local backend
+bash scripts/check-container.sh qafiya-api:local
 ```
 
-Compose serves the frontend on port 5173 and proxies `/api` to the backend.
-For separate hosting, set `VITE_API_BASE_URL` at frontend build time and
-`CORS_ORIGINS` as a JSON list on the backend. This is a local MVP; public hosting
-still needs request quotas and abuse controls before exposing your shared key.
-No deployment has been performed.
+The deployment baseline has **73 passing backend tests**. GitHub CI runs the
+backend checks, a frontend production build, and the production Docker image
+under a 512 MiB cap without provider credentials or network access during the
+runtime workload. See [verification notes](docs/VERIFICATION.md) for browser
+checks, evidence, and remaining limits.
 
-The frontend follows the requested
-[UX/UI Agent Skills](https://github.com/plugin87/ux-ui-agent-skills) editorial,
-RTL and accessibility guidance. See `docs/DESIGN.md` for design decisions and
-`docs/VERIFICATION.md` for measured results and remaining checks.
+Docker Compose is also included. It serves the frontend on port 5173 and proxies
+`/api` to the backend. Use a Compose-compatible private dotenv file via
+`BAYT_ENV_FILE` if needed; the [deployment guide](docs/DEPLOYMENT.md) explains the
+existing local env-file parser limitation.
 
-### Al-Diwan input evaluation
+## Deployment
 
-The original [Al-Diwan QA](docs/ALDIWAN-QA.md) found 2/12 meter matches on
-partially vocalized pasted text. Local automatic completion now improves that
-to 10/12 on the same sample; fully bare input still only reaches 2/12. See
-[the tashkeel report](docs/TASHKEEL.md) before treating a failed check as a broken
-verse. Fixtures and browser replay scripts are included for regression work.
+The public site runs at **[qafiya.tahachelly.com](https://qafiya.tahachelly.com)**.
+Its analysis flow, CPU vocalization, cross-origin requests, and HTTPS were checked
+after deployment. Generation stays disabled until public request controls are
+implemented and reviewed. CORS alone does not protect a shared provider key.
 
-## Hosting preparation
+For separate hosting, set `VITE_API_BASE_URL` to the HTTPS backend origin at
+frontend build time, and configure the backend’s `CORS_ORIGINS` as an exact-origin
+JSON list. Never put secrets in `VITE_*` variables. Render auto-deploys are
+disabled; the checked-in Blueprint is reference configuration for the existing
+service. See the [deployment guide](docs/DEPLOYMENT.md) for actual resource IDs,
+build settings, release steps, and the default TCP health-check limitation.
 
-See [deployment configuration and approval boundaries](docs/DEPLOYMENT.md) for
-GitHub CI, Cloudflare Pages build settings, and the free-plan Render Blueprint.
-The hosted configuration starts with generation disabled; local defaults remain
-enabled when a provider key is configured. No remote publication or deployment
-has been performed.
+## Technical reports
+
+- [Generation prompts and sound-hemistich preservation](docs/PROMPTS.md)
+- [CPU tashkeel, quality limits, model provenance, and memory measurements](docs/TASHKEEL.md)
+- [Classical poem input evaluation](docs/ALDIWAN-QA.md)
+- [Gemini integration and live sample evidence](docs/GEMINI.md)
+- [Groq comparison and unresolved generation quality](docs/GROQ.md)
+- [UI design decisions](docs/DESIGN.md)
+- [Verification record](docs/VERIFICATION.md)
+- [Deployment operations](docs/DEPLOYMENT.md)
+
+The bundled libtashkeel assets include their upstream MIT license. A
+repository-wide application license has not been selected.
