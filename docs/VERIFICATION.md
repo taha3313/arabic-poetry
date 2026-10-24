@@ -122,3 +122,16 @@ disabled generation, non-root execution, absence of `.env`, and absence of
 heavyweight/GPU ML packages. Evidence: `evals/deployment-container-memory.json`.
 This supersedes the earlier production-image verification gap, but does not
 establish live Render behavior or safety under arbitrary public traffic.
+
+## Qafiya public deployment · 2026-10-24
+
+User-authorized deployment is live at https://qafiya.tahachelly.com, renamed
+**قافية · Qafiya**. Cloudflare domain and TLS validation are active. Render's
+free Frankfurt Docker service is live. All three GitHub CI jobs passed on both
+application commits. Browser checks passed sample analysis, displayed meter and
+rawi results, expandable scansion, and a real cross-origin CPU ONNX analysis
+request with HTTP 200. The browser viewport/content widths were both 780px in
+this check. No provider generation request was made; generation stays disabled.
+
+See `DEPLOYMENT.md` for resource/deploy IDs, default TCP health-check limitation,
+and operational settings. Live screenshot: `qafiya-live.png`.

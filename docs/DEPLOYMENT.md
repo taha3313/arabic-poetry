@@ -1,8 +1,10 @@
-# Deployment preparation
+# Qafiya deployment guide
 
-Prepared for GitHub, Cloudflare Pages (static frontend), and Render (Docker API).
-Nothing has been published or deployed. The local repository has no commits or
-remote yet. Names below are proposed; URLs containing `example.com` are placeholders.
+Live site: **https://qafiya.tahachelly.com**. Source:
+https://github.com/taha3313/arabic-poetry. Frontend runs on Cloudflare Pages;
+API runs on Render free compute in Frankfurt. The initial preparation notes below
+are retained for reproducibility; the authorized publication record at the end
+describes actual resource names and settings. Example URLs are placeholders.
 
 ## GitHub
 
@@ -164,3 +166,18 @@ The chosen custom domain is **https://qafiya.tahachelly.com**.
 - Initial GitHub CI passed all three jobs: backend, frontend, production container.
 
 The earlier preparation-only notes are historical. No paid plan was selected.
+
+### Live verification
+
+Both platforms successfully deployed commit `785483d`. Cloudflare reports the
+custom domain's verification, validation and certificate as active. Live browser
+checks on `https://qafiya.tahachelly.com` passed sample poem analysis, meter/rawi
+results, expanded scansion, cross-origin API config and CPU ONNX vocalization
+(HTTP 200 with `engine=libtashkeel-onnx-cpu`). Generation reports unavailable as
+intended. The previous `arabicpoetry` domain binding and DNS record were removed.
+Both application commits passed all three GitHub CI jobs.
+
+Frontend deployment: `cc4b032b-802a-4101-94bc-3ccc67222079`. Backend deployment:
+`dep-dbedvjoa6lpc73e6fer0` (live). Screenshot: `qafiya-live.png`. Pages Git
+build settings are configured, but the initial releases were explicitly
+triggered through the API; automatic webhook delivery has not been proven.
