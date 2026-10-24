@@ -226,7 +226,7 @@ function App() {
     );
     const a = document.createElement("a");
     a.href = url;
-    a.download = "bayt-poem.txt";
+    a.download = "qafiya-poem.txt";
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -237,8 +237,8 @@ function App() {
       </a>
       <div className="page">
         <header>
-          <a className="brand" href="/" aria-label="بيت، الصفحة الرئيسية">
-            بَيْت<span>ورشة الشعر العربي</span>
+          <a className="brand" href="/" aria-label="قافية، الصفحة الرئيسية">
+            قَافِيَة<span>ورشة الشعر العربي</span>
           </a>
           <span className="header-note">للِكلمة وزنٌ، وللخيال متّسع.</span>
           <span className="edition">
@@ -444,7 +444,7 @@ function App() {
             <div id="poem-result" className="manuscript" aria-busy={busy}>
               <div className="paper-top">
                 <span>دفتر القصائد</span>
-                <span dir="ltr">بَيْت / {result ? "01" : "—"}</span>
+                <span dir="ltr">قَافِيَة / {result ? "01" : "—"}</span>
               </div>
               {result ? (
                 <>
@@ -602,7 +602,7 @@ function App() {
           </section>
         </main>
         <footer>
-          <span className="footer-brand">بَيْت</span>
+          <span className="footer-brand">قَافِيَة</span>
           <p>الشعر تجربة إنسانية. هذه أداة للمحاولة والتعلّم.</p>
           <span dir="ltr">POWERED BY PYARUD</span>
         </footer>

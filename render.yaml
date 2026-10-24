@@ -1,9 +1,11 @@
-# Preparation only. Applying this Blueprint creates a public service.
+# Reference configuration for the service created through Render MCP.
+# Do not apply a second Blueprint to manage the existing service.
 services:
   - type: web
-    name: bayt-api
+    name: arabic-poetry-api
     runtime: docker
     plan: free
+    region: frankfurt
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     healthCheckPath: /health

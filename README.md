@@ -1,4 +1,6 @@
-# بَيْت · Bayt
+# قافية · Qafiya
+
+Arabic Poetry Workshop · [qafiya.tahachelly.com](https://qafiya.tahachelly.com)
 
 An Arabic poetry workshop: describe a theme, select a classical meter and rawi,
 then generate an عمودي draft with two hemistichs per verse. PyArud scans the

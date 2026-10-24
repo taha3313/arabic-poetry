@@ -139,3 +139,28 @@ Production-image validation completed successfully: 142.55 MiB peak process RSS
 under 512 MiB / 0.1 CPU, no OOM, plus the real-server checks above. Raw evidence:
 `evals/deployment-container-memory.json`. Local secret audits, 73 backend tests,
 Ruff, frontend production build and public Blueprint schema validation pass.
+
+## Authorized publication · 2026-10-24
+
+The user approved public publication/deployment and selected Render's
+`My Workspace`. The app is now named **قافية · Qafiya — Arabic Poetry Workshop**.
+The chosen custom domain is **https://qafiya.tahachelly.com**.
+
+- Public source: https://github.com/taha3313/arabic-poetry (`main`).
+- Cloudflare Pages project: `arabic-poetry`, Git-connected, production branch
+  `main`, preview deployments disabled. Actual build settings match the table
+  above; API origin is `https://arabic-poetry-api.onrender.com`.
+- Render service: `arabic-poetry-api`, ID `srv-dbedube7bikc7384ptf0`, free plan,
+  Frankfurt, Docker context `backend`, Dockerfile `backend/Dockerfile`.
+  Automatic deploys are disabled; trigger a deploy after updating the backend.
+- Render's creation connector does not expose the HTTP health-check setting,
+  and the dashboard requires login in the available browser. The created service
+  therefore uses Render's default TCP health check. `/health` exists and is
+  verified externally; set its HTTP health path to `/health` in Render Settings
+  when dashboard access is available. `render.yaml` records the desired path,
+  but is a reference rather than an applied Blueprint for this MCP-created service.
+- Generation remains disabled and no provider key was copied to either platform.
+- CORS permits the exact custom-domain and production Pages origins only.
+- Initial GitHub CI passed all three jobs: backend, frontend, production container.
+
+The earlier preparation-only notes are historical. No paid plan was selected.

@@ -7,7 +7,7 @@ from app.services.generator import GenerationError, generate
 from app.services.prosody import METER_KEYS, METERS, analyze_with_tashkeel
 from app.services.tashkeel import TashkeelUnavailable
 
-app = FastAPI(title="Bayt | بَيْت", version="0.1.0")
+app = FastAPI(title="Qafiya | قافية", version="0.1.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=get_settings().cors_origins,
