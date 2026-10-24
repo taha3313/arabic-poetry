@@ -2,7 +2,9 @@
 
 **An Arabic poetry workshop for exploring classical meter, rhyme, and the rhythm of a verse.**
 
-[Try Qafiya](https://qafiya.tahachelly.com) · [How it works](#how-it-works) · [Run locally](#run-locally) · [Technical reports](#technical-reports)
+Created by **Taha Chelly** · [Live demo](https://qafiya.tahachelly.com/)
+
+[How it works](#how-it-works) · [Run locally](#run-locally) · [Technical reports](#technical-reports)
 
 [![CI](https://github.com/taha3313/arabic-poetry/actions/workflows/ci.yml/badge.svg)](https://github.com/taha3313/arabic-poetry/actions/workflows/ci.yml)
 
