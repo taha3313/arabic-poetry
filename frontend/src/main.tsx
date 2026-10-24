@@ -604,6 +604,11 @@ function App() {
         <footer>
           <span className="footer-brand">قَافِيَة</span>
           <p>الشعر تجربة إنسانية. هذه أداة للمحاولة والتعلّم.</p>
+          <span className="footer-credit" dir="ltr">
+            Created by <a href="https://tahachelly.com/" target="_blank" rel="noreferrer">Taha Chelly</a>
+            <span aria-hidden="true"> · </span>
+            <a href="https://qafiya.tahachelly.com/">qafiya.tahachelly.com</a>
+          </span>
           <span dir="ltr">POWERED BY PYARUD</span>
         </footer>
       </div>
