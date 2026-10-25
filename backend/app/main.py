@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -6,6 +8,8 @@ from app.schemas import AnalyzeRequest, GenerateRequest
 from app.services.generator import GenerationError, generate
 from app.services.prosody import METER_KEYS, METERS, analyze_with_tashkeel
 from app.services.tashkeel import TashkeelUnavailable
+
+_generation_lock = asyncio.Lock()
 
 app = FastAPI(title="Qafiya | قافية", version="0.1.0")
 app.add_middleware(
@@ -54,7 +58,16 @@ async def generate_poem(request: GenerateRequest):
     settings = get_settings()
     if not settings.generation_enabled:
         raise HTTPException(503, "Generation is disabled on this deployment.")
+    if _generation_lock.locked():
+        raise HTTPException(
+            429, "التوليد مشغول الآن. حاول بعد قليل.", headers={"Retry-After": "15"}
+        )
     try:
-        return await generate(request, settings)
+        async with _generation_lock:
+            return await generate(request, settings)
     except GenerationError as exc:
-        raise HTTPException(exc.status, str(exc)) from exc
+        raise HTTPException(
+            exc.status,
+            str(exc),
+            headers={"Retry-After": str(exc.retry_after)} if exc.retry_after else None,
+        ) from exc

@@ -12,6 +12,10 @@ class Settings(BaseSettings):
     provider: Literal["gemini", "groq", "openrouter"] = "gemini"
     generation_enabled: bool = True
     gemini_api_key: str = ""
+    gemini_api_key_2: str = ""
+    gemini_api_key_3: str = ""
+    # Optional project IDs let shared-project keys share quota cooldowns.
+    gemini_key_projects: dict[str, str] = {}
     gemini_model: str = "gemini-3.5-flash"
     gemini_thinking_level: Literal["low", "medium", "high"] = "medium"
     groq_api_key: str = ""
@@ -21,9 +25,27 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
 
     @property
+    def gemini_api_keys(self) -> tuple[str, ...]:
+        return tuple(
+            dict.fromkeys(
+                k.strip()
+                for k in (self.gemini_api_key, self.gemini_api_key_2, self.gemini_api_key_3)
+                if k.strip()
+            )
+        )
+
+    def gemini_project(self, key: str) -> str | None:
+        for slot, candidate in enumerate(
+            (self.gemini_api_key, self.gemini_api_key_2, self.gemini_api_key_3), 1
+        ):
+            if candidate.strip() == key:
+                return self.gemini_key_projects.get(str(slot))
+        return None
+
+    @property
     def api_key(self) -> str:
         if self.provider == "gemini":
-            return self.gemini_api_key
+            return next(iter(self.gemini_api_keys), "")
         return self.groq_api_key if self.provider == "groq" else self.openrouter_api_key
 
     @property

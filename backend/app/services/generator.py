@@ -1,6 +1,10 @@
 import asyncio
+import hashlib
 import math
 import re
+import time
+from datetime import UTC, datetime
+from email.utils import parsedate_to_datetime
 
 import httpx
 from pydantic import ValidationError
@@ -12,9 +16,10 @@ from app.services.prosody import analyze
 
 
 class GenerationError(Exception):
-    def __init__(self, message: str, status: int = 502):
+    def __init__(self, message: str, status: int = 502, retry_after: int | None = None):
         super().__init__(message)
         self.status = status
+        self.retry_after = retry_after
 
 
 async def complete(messages: list[dict], settings: Settings) -> str:
@@ -104,7 +109,31 @@ def gemini_quota_error(response: httpx.Response) -> GenerationError:
         )
     else:
         message = "رفض Gemini الطلب بسبب حد الاستخدام. لم يحدد نوع الحد؛ قد يكون مؤقتًا أو يوميًا. راجع الحصة في AI Studio."
-    return GenerationError(message, 429)
+    # Prefer the longest server hint; never retry this key before it expires.
+    header = response.headers.get("Retry-After", "")
+    try:
+        header_delay = float(header)
+    except ValueError:
+        try:
+            header_delay = (parsedate_to_datetime(header) - datetime.now(UTC)).total_seconds()
+        except (ValueError, TypeError, OverflowError):
+            header_delay = 0
+    daily = zero_quota or any("perday" in item or "per_day" in item for item in identifiers)
+    delay = max(86400 if daily else 60, retry_seconds or 0, header_delay)
+    error = GenerationError(message, 429, math.ceil(delay))
+    error.project_scoped = any(
+        "perproject" in item or "per_project" in item for item in identifiers
+    )
+    return error
+
+
+# Process-local circuit state; store fingerprints rather than secret key values.
+_key_cooldowns: dict[tuple[str, str], float] = {}
+_preferred_keys: dict[str, str] = {}
+
+
+def key_identity(key: str) -> str:
+    return hashlib.sha256(key.encode()).hexdigest()
 
 
 async def complete_gemini(messages: list[dict], settings: Settings) -> str:
@@ -125,21 +154,59 @@ async def complete_gemini(messages: list[dict], settings: Settings) -> str:
     ]
     try:
         async with httpx.AsyncClient(timeout=75) as client:
-            for retry in range(2):
-                response = await client.post(
-                    f"https://generativelanguage.googleapis.com/v1beta/models/{settings.model}:generateContent",
-                    headers={"x-goog-api-key": settings.api_key},
-                    json={
-                        "systemInstruction": {"parts": [{"text": system}]},
-                        "contents": contents,
-                        "generationConfig": config,
-                    },
-                )
-                if response.status_code not in (503, 504) or retry == 1:
-                    break
-                await asyncio.sleep(1)
-        if response.status_code == 429:
-            raise gemini_quota_error(response)
+            keys = list(settings.gemini_api_keys)
+            preferred = _preferred_keys.get(settings.model)
+            keys.sort(key=lambda key: key_identity(key) != preferred)
+            last_quota = None
+            response = None
+            for key in keys:
+                identity = (settings.model, key_identity(key))
+                remaining = _key_cooldowns.get(identity, 0) - time.monotonic()
+                if remaining > 0:
+                    if last_quota is None:
+                        last_quota = GenerationError(
+                            "وصل Gemini إلى حد مؤقت للطلبات أو الرموز. حاول لاحقًا.",
+                            429,
+                            math.ceil(remaining),
+                        )
+                    continue
+                for retry in range(2):
+                    response = await client.post(
+                        f"https://generativelanguage.googleapis.com/v1beta/models/{settings.model}:generateContent",
+                        headers={"x-goog-api-key": key},
+                        json={
+                            "systemInstruction": {"parts": [{"text": system}]},
+                            "contents": contents,
+                            "generationConfig": config,
+                        },
+                    )
+                    # Quota failover is separate from the one bounded overload retry.
+                    # Never sleep through a provider Retry-After inside a public request.
+                    if response.status_code not in (503, 504) or retry == 1:
+                        break
+                    if response.headers.get("Retry-After"):
+                        break
+                    await asyncio.sleep(1)
+                if response.status_code in (503, 504) and response.headers.get("Retry-After"):
+                    delay = gemini_quota_error(response).retry_after
+                    _key_cooldowns[identity] = time.monotonic() + delay
+                    raise GenerationError("تعذّر الاتصال بـ Gemini. حاول لاحقًا.", 503, delay)
+                if response.status_code == 429:
+                    last_quota = gemini_quota_error(response)
+                    deadline = time.monotonic() + last_quota.retry_after
+                    _key_cooldowns[identity] = deadline
+                    # Project quota is shared, even when credentials are different.
+                    project = settings.gemini_project(key)
+                    if last_quota.project_scoped and project:
+                        for sibling in settings.gemini_api_keys:
+                            if settings.gemini_project(sibling) == project:
+                                _key_cooldowns[(settings.model, key_identity(sibling))] = deadline
+                    continue
+                if response.is_success:
+                    _preferred_keys[settings.model] = identity[1]
+                break
+            else:
+                raise last_quota or GenerationError("تعذّر استخدام Gemini. حاول لاحقًا.", 503)
         if response.status_code in (401, 403):
             raise GenerationError("تعذّر استخدام مفتاح Gemini. راجع صلاحيته وأذونات المشروع.", 503)
         response.raise_for_status()

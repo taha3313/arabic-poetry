@@ -152,6 +152,8 @@ Set these values in the ignored `backend/.env` file:
 GENERATION_ENABLED=true
 PROVIDER=gemini
 GEMINI_API_KEY=your-key
+GEMINI_API_KEY_2=second-key
+GEMINI_API_KEY_3=third-key
 GEMINI_MODEL=gemini-3.5-flash
 GEMINI_THINKING_LEVEL=medium
 ```
@@ -159,7 +161,13 @@ GEMINI_THINKING_LEVEL=medium
 Keep keys on the backend. Model/key changes in the local dotenv file apply on
 the next request; startup settings such as CORS require a restart. Provider
 quota, availability, and billing remain account-specific. There is no automatic
-provider fallback or key rotation. Provider prompts and draft poetry leave the
+provider fallback. Gemini rotates through at most three distinct configured keys
+on quota rejection, remembers a working key, and cools exhausted keys until at
+least the provider retry hint (60 seconds by default; 24 hours for daily/zero quota).
+Keys in one project share quota; rotation does not multiply project limits.
+Optionally set `GEMINI_KEY_PROJECTS={"1":"project-a","2":"project-a","3":"project-b"}`
+to apply structured project quota cooldowns to sibling keys without probing them.
+Unknown project relationships receive only one bounded attempt per key. Provider prompts and draft poetry leave the
 backend only when generation is requested.
 
 For Groq, set `PROVIDER=groq`, `GROQ_API_KEY`, and optionally `GROQ_MODEL`
@@ -195,8 +203,12 @@ Interactive local API documentation: [localhost:8000/docs](http://localhost:8000
 
 Inputs are bounded to eight verses, 240 serialized characters per hemistich,
 and 500 characters per generation topic. Provider attempts have 75-second
-timeouts. Quota errors are surfaced without automatic quota retries; Gemini
-503/504 overload receives one short-delay retry.
+timeouts. Each key gets at most one quota attempt per completion; exhausted keys are skipped
+on subsequent requests during cooldown. Gemini 503/504 overload receives one
+short-delay retry unless Retry-After is present. Public generation permits one
+active request per process; the existing deployment uses one process. Cooldowns
+are process-local and reset on restart. Errors contain safe messages and quota
+responses include Retry-After.
 
 ## Development and verification
 

@@ -181,3 +181,20 @@ Frontend deployment: `cc4b032b-802a-4101-94bc-3ccc67222079`. Backend deployment:
 `dep-dbedvjoa6lpc73e6fer0` (live). Screenshot: `qafiya-live.png`. Pages Git
 build settings are configured, but the initial releases were explicitly
 triggered through the API; automatic webhook delivery has not been proven.
+
+## Authorized generation activation (2026-10-25)
+
+The user authorized public generation on the existing free Render service. Set
+`GENERATION_ENABLED=true`, `PROVIDER=gemini`, and privately configure
+`GEMINI_API_KEY`, `GEMINI_API_KEY_2`, `GEMINI_API_KEY_3` on that service. Never
+copy the entire local dotenv file. Optional `GEMINI_KEY_PROJECTS` maps slot numbers
+to project IDs, e.g. `{"1":"a","2":"a","3":"b"}`. Shared project IDs allow
+project quota failures to cool sibling keys without additional provider calls.
+Three keys do not imply three quotas. Each distinct available key is attempted
+once on quota rejection; Retry-After/retryDelay and daily cooldowns are honored.
+All exhausted keys produce a safe 429 and further requests skip provider calls
+until cooldown expiry. Successful keys are preferred for bounded revisions.
+Only one generation request runs at once on the single-process free instance.
+These controls bound concurrent provider work; they do not authenticate users or
+provide durable per-user quotas. Cooldowns reset when the process restarts.
+The CPU ONNX model, supplied vowel marks, validation and revision bounds remain.

@@ -1,5 +1,6 @@
 import asyncio
 import json
+from datetime import UTC
 
 import httpx
 import pytest
@@ -216,3 +217,127 @@ def test_groq_json_and_reasoning_budget(monkeypatch, model):
         assert captured["json"]["reasoning_effort"] == "low"
     else:
         assert "reasoning_effort" not in captured["json"]
+
+
+@pytest.fixture(autouse=True)
+def reset_key_circuits():
+    from app.services.generator import _key_cooldowns, _preferred_keys
+
+    _key_cooldowns.clear()
+    _preferred_keys.clear()
+
+
+def sequence_client(monkeypatch, responses, calls):
+    class Client:
+        def __init__(self, **kwargs):
+            pass
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *args):
+            pass
+
+        async def post(self, url, **kwargs):
+            calls.append(kwargs["headers"]["x-goog-api-key"])
+            return responses.pop(0)
+
+    monkeypatch.setattr("app.services.generator.httpx.AsyncClient", Client)
+
+
+def successful_response():
+    return httpx.Response(
+        200,
+        request=httpx.Request("POST", "https://example.test"),
+        json={"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": "{}"}]}}]},
+    )
+
+
+def test_rotation_retains_working_key_and_skips_exhausted_keys(monkeypatch):
+    calls = []
+    sequence_client(
+        monkeypatch, [httpx.Response(429), successful_response(), successful_response()], calls
+    )
+    settings = Settings(
+        _env_file=None, gemini_api_key="first", gemini_api_key_2="second", gemini_api_key_3="third"
+    )
+    assert asyncio.run(complete([], settings)) == "{}"
+    assert asyncio.run(complete([], settings)) == "{}"
+    assert calls == ["first", "second", "second"]
+
+
+def test_all_keys_exhausted_opens_circuit_and_recovers(monkeypatch):
+    calls = []
+    clock = [1000.0]
+    monkeypatch.setattr("app.services.generator.time.monotonic", lambda: clock[0])
+    sequence_client(
+        monkeypatch,
+        [httpx.Response(429, headers={"Retry-After": "120"}) for _ in range(3)]
+        + [successful_response()],
+        calls,
+    )
+    settings = Settings(
+        _env_file=None, gemini_api_key="first", gemini_api_key_2="second", gemini_api_key_3="third"
+    )
+    for _ in range(2):
+        with pytest.raises(GenerationError) as error:
+            asyncio.run(complete([], settings))
+        assert error.value.status == 429
+        assert error.value.retry_after == 120
+        assert all(key not in str(error.value) for key in settings.gemini_api_keys)
+    assert calls == ["first", "second", "third"]
+    clock[0] += 121
+    assert asyncio.run(complete([], settings)) == "{}"
+
+
+def test_duplicate_keys_do_not_multiply_requests(monkeypatch):
+    calls = []
+    sequence_client(monkeypatch, [httpx.Response(429)], calls)
+    settings = Settings(_env_file=None, gemini_api_key="same", gemini_api_key_2="same")
+    with pytest.raises(GenerationError):
+        asyncio.run(complete([], settings))
+    assert calls == ["same"]
+
+
+def test_retry_after_date_and_daily_quota_are_respected():
+    from datetime import datetime, timedelta
+    from email.utils import format_datetime
+
+    from app.services.generator import gemini_quota_error
+
+    response = httpx.Response(
+        429,
+        headers={"Retry-After": format_datetime(datetime.now(UTC) + timedelta(seconds=300))},
+    )
+    assert 299 <= gemini_quota_error(response).retry_after <= 301
+    response = httpx.Response(
+        429, json={"error": {"details": [{"violations": [{"quotaId": "PerDayPerProject"}]}]}}
+    )
+    assert gemini_quota_error(response).retry_after == 86400
+
+
+def test_known_shared_project_quota_skips_sibling_key(monkeypatch):
+    calls = []
+    quota = httpx.Response(
+        429, json={"error": {"details": [{"violations": [{"quotaId": "PerDayPerProject"}]}]}}
+    )
+    sequence_client(monkeypatch, [quota, successful_response()], calls)
+    settings = Settings(
+        _env_file=None,
+        gemini_api_key="first",
+        gemini_api_key_2="sibling",
+        gemini_api_key_3="other",
+        gemini_key_projects={"1": "project-a", "2": "project-a", "3": "project-b"},
+    )
+    assert asyncio.run(complete([], settings)) == "{}"
+    assert calls == ["first", "other"]
+
+
+def test_overload_retry_after_prevents_immediate_retry(monkeypatch):
+    calls = []
+    sequence_client(monkeypatch, [httpx.Response(503, headers={"Retry-After": "120"})], calls)
+    with pytest.raises(GenerationError) as error:
+        asyncio.run(complete([], Settings(_env_file=None, gemini_api_key="first")))
+    assert error.value.status == 503
+    assert error.value.retry_after == 120
+    assert calls == ["first"]

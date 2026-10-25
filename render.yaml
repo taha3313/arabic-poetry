@@ -17,10 +17,11 @@ services:
         value: gemini-3.5-flash
       - key: GEMINI_THINKING_LEVEL
         value: medium
-      # Keep disabled until public request controls have been reviewed.
+      # Public generation authorized; app serializes generation and cools exhausted keys.
       - key: GENERATION_ENABLED
-        value: 'false'
+        value: 'true'
       - key: CORS_ORIGINS
         sync: false
-# Add GEMINI_API_KEY privately in Render only when generation is approved.
+# Set GEMINI_API_KEY, GEMINI_API_KEY_2 and GEMINI_API_KEY_3 privately in Render.
+# Optional GEMINI_KEY_PROJECTS maps slot numbers to shared project IDs.
 # Groq is optional; never add provider credentials to frontend variables.
