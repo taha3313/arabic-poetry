@@ -107,8 +107,7 @@ type Locale = "ar" | "en";
 function initialLocale(): Locale {
   const query = new URLSearchParams(window.location.search).get("lang");
   if (query === "en" || query === "ar") return query;
-  try { return localStorage.getItem("qafiya-language") === "en" ? "en" : "ar"; }
-  catch { return "ar"; }
+  return "ar";
 }
 function App() {
   const [locale, setLocale] = useState<Locale>(initialLocale);
@@ -117,7 +116,6 @@ function App() {
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === "en" ? "ltr" : "rtl";
     document.title = locale === "en" ? "Qafiya | Arabic poetry workshop" : "قافية | ورشة الشعر العربي";
-    try { localStorage.setItem("qafiya-language", locale); } catch { /* Storage may be blocked. */ }
     const url = new URL(window.location.href);
     url.searchParams.set("lang", locale);
     window.history.replaceState(null, "", url);
@@ -126,7 +124,7 @@ function App() {
   const [connectionError, setConnectionError] = useState(false);
   const [mode, setMode] = useState<"generate" | "analyze">("generate");
   const [topic, setTopic] = useState(
-    locale === "en" ? "Longing for a city where we left a part of ourselves" : "الحنين إلى مدينةٍ تركنا فيها شيئًا من أرواحنا",
+    "الحنين إلى مدينةٍ تركنا فيها شيئًا من أرواحنا",
   );
   const [meter, setMeter] = useState("taweel");
   const [rawi, setRawi] = useState("م");
@@ -329,13 +327,13 @@ function App() {
                 {mode === "generate" ? (
                   <textarea
                     id="topic"
-                    dir="auto"
+                    lang="ar" dir="rtl"
                     value={topic}
                     maxLength={500}
                     minLength={3}
                     required
                     onChange={(e) => setTopic(e.target.value)}
-                    placeholder={t("حنين، لقاء، أو مدينة لا تغيب…", "A longing, a reunion, a city you cannot forget…")}
+                    placeholder="حنين، لقاء، أو مدينة لا تغيب…"
                   />
                 ) : (
                   <>
@@ -346,7 +344,7 @@ function App() {
                       maxLength={4000}
                       required
                       onChange={(e) => setText(e.target.value)}
-                      placeholder={t("صدر البيت * عجز البيت", "First half-line * second half-line")}
+                      placeholder="صدر البيت * عجز البيت"
                     />
                     <p className="field-help">
                       {t("كل بيت في سطر. افصل الشطرين بعلامة *. يمكنك ترك التشكيل الناقص للنموذج المحلي.", "Use one line per verse, with * between its two halves. The local model can fill in missing vowel marks.")}
