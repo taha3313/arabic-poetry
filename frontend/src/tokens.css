@@ -36,6 +36,7 @@
   --space-3xl: 96px; --space-4xl: 144px;
   --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem;
   --text-lg: 1.2rem; --text-xl: 1.44rem; --text-2xl: 1.728rem;
+  --intro-heading-size: 3.25rem; --intro-heading-mobile: 2.25rem;
   --text-display: 2.074rem; --text-section: 1.44rem; --text-title: 1.2rem;
   --text-lead: 1rem; --display-weight: 500; --tracking-display: 0;
   --container: 1440px; --gutter: 40px; --gap-columns: 40px;
