@@ -15,12 +15,17 @@ import "@fontsource/amiri/arabic-700.css";
 import "@fontsource/ibm-plex-sans-arabic/arabic-400.css";
 import "@fontsource/ibm-plex-sans-arabic/arabic-500.css";
 import "./style.css";
+import poetryExamples from "./data/poetry-examples.json";
+import defaultAnalysis from "./data/default-analysis.json";
 import { footVariant, meterNames, translateMessage } from "./translations";
+const defaultExample = poetryExamples[0];
 type Verse = {
   sadr: string;
   ajuz: string;
 };
 type Foot = {
+  letters?: { letter: string; symbol: string; position: number }[];
+  pronounced_segment?: string | null;
   actual_tafeela: string;
   base_tafeela: string;
   status: string;
@@ -29,6 +34,7 @@ type Foot = {
   zihaf_name_ar: string;
 };
 type Scan = {
+  letter_alignment?: { available: boolean; basis: string; reason: string | null };
   arudi_text: string;
   pattern: string;
   feet: Foot[];
@@ -36,7 +42,7 @@ type Scan = {
 type Row = {
   is_valid: boolean;
   rawi_matches: boolean;
-  qafiyah: { rawi: string; qafiyah_text: string; rawi_haraka: string; wasl?: string; ridf?: string; tasees?: string; khuruj?: string; dakhil?: string } | null;
+  qafiyah: { rawi: string; qafiyah_text: string; rawi_haraka: string; wasl?: string | null; ridf?: string | null; tasees?: string | null; khuruj?: string | null; dakhil?: string | null } | null;
   sadr: Scan | null;
   ajuz: Scan | null;
 };
@@ -54,6 +60,9 @@ type Analysis = {
   tashkeel?: { enabled: boolean; changed: boolean; original_verses: Verse[] };
 };
 type Result = {
+  isDefault?: boolean;
+  intentionalMismatch?: boolean;
+  example?: (typeof poetryExamples)[number];
   title: string;
   verses: Verse[];
   analysis: Analysis;
@@ -69,12 +78,6 @@ type Config = {
   generation_available: boolean;
   provider: string;
 };
-const sample: Verse[] = [
-  {
-    sadr: "قِفَا نَبْكِ مِنْ ذِكْرَى حَبِيبٍ وَمَنْزِلِ",
-    ajuz: "بِسِقْطِ اللِّوَى بَيْنَ الدَّخُولِ فَحَوْمَلِ",
-  },
-];
 const initialMeters = [
   { key: "taweel", name: "الطويل" },
   { key: "kamel", name: "الكامل" },
@@ -143,11 +146,19 @@ function App() {
   const [rawi, setRawi] = useState("م");
   const [count, setCount] = useState(3);
   const [text, setText] = useState("");
+  const [exampleId, setExampleId] = useState(poetryExamples[0].id);
+  const selectedExample = poetryExamples.find((example) => example.id === exampleId) ?? poetryExamples[0];
   const [autoTashkeel, setAutoTashkeel] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
-  const [result, setResult] = useState<Result | null>(null);
+  const [result, setResult] = useState<Result | null>(() => ({
+    title: defaultExample.title_ar,
+    example: defaultExample,
+    verses: defaultExample.verses,
+    analysis: defaultAnalysis,
+    isDefault: true,
+  }));
   useEffect(() => {
     api<Config>("config")
       .then(setConfig)
@@ -156,7 +167,7 @@ function App() {
   useEffect(() => {
     if (!result) return;
     setNotice("اكتمل الفحص. يمكنك الآن عرض تقطيع كل بيت.");
-    if (window.matchMedia("(max-width: 759px)").matches) {
+    if (!result.isDefault && window.matchMedia("(max-width: 759px)").matches) {
       document.getElementById("poem-result")?.scrollIntoView({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
           ? "auto"
@@ -227,19 +238,24 @@ function App() {
   async function loadSample(mismatch = false) {
     const sampleMode = mode === "detect" ? "detect" : "analyze";
     setMode(sampleMode);
-    setMeter("taweel");
-    setRawi(mismatch ? "م" : "ل");
-    setText(sample.map((v) => `${v.sadr} * ${v.ajuz}`).join("\n"));
+    const example = selectedExample;
+    const targetRawi = mismatch ? (example.rawi === "م" ? "ل" : "م") : example.rawi;
+    setMeter(example.meter);
+    setRawi(targetRawi);
+    setText(example.verses.map((v) => `${v.sadr} * ${v.ajuz}`).join("\n"));
     setBusy(true);
     setError("");
     setNotice("");
     try {
       setResult({
-        title: "من معلّقة امرئ القيس",
-        verses: sample,
+        title: example.title_ar,
+        example,
+        intentionalMismatch: mismatch,
+        verses: example.verses,
         analysis: await api<Analysis>(sampleMode, {
-          verses: sample,
-          ...(sampleMode === "analyze" ? { meter: "taweel", rawi: mismatch ? "م" : "ل" } : {}),
+          verses: example.verses,
+          auto_tashkeel: false,
+          ...(sampleMode === "analyze" ? { meter: example.meter, rawi: targetRawi } : {}),
         }),
       });
     } catch (e) {
@@ -250,7 +266,7 @@ function App() {
   }
   function download() {
     const url = URL.createObjectURL(
-      new Blob([`${translateMessage(result?.title ?? "", locale)}\n\n${poemText}`], {
+      new Blob([`${result?.example ? t(result.example.title_ar, result.example.title_en) : translateMessage(result?.title ?? "", locale)}\n\n${poemText}`], {
         type: "text/plain;charset=utf-8",
       }),
     );
@@ -331,7 +347,7 @@ function App() {
               {mode !== "generate" && <details className="learning-guide editor-guide">
                 <summary><BookOpen size={17} aria-hidden="true" />{t("ابدأ بمثال، ثم جرّب أبياتك", "Start with an example, then try your own")}</summary>
                 <p>{t("البيت شطران: صدر وعجز. البحر هو الإيقاع المتكرر، والتفعيلة وحدة من هذا الإيقاع. الروي هو الحرف الذي تُبنى عليه القافية، وليس دائمًا آخر حرف مكتوب.", "A verse has two halves: sadr and ajuz. A meter is a repeating rhythm; a tafʿīla is one unit of that rhythm. The rawi anchors the rhyme and is not always the last written letter.")}</p>
-                <p>{t("في مثال «قفا نبك» ندرس بحر الطويل وروي اللام. اختر المثال أدناه، وافتح التقطيع لتقارن كل تفعيلة بما نُطق فعليًا.", "The “Qifā nabki” example explores al-Ṭawīl and the rhyme consonant ل. Load the example below, then compare each foot with the analyzed rhythm.")}</p>
+                <p>{t("اختر شاهدًا من أمثلة الشعر أدناه، ثم افتح التقطيع لتقارن التفعيلات. في وضع التحقق نختار بحر الشاهد ورويّه، وفي وضع الاكتشاف نترك تحديدهما للفحص.", "Choose a poetry excerpt below, then expand its feet. Checking uses the excerpt’s meter and rawi; detection infers them from the verse.")}</p>
               </details>}
               <form onSubmit={submit}>
                 <label htmlFor="topic">
@@ -467,22 +483,35 @@ function App() {
                   </p>
                 )}
               </form>
+              <section className="example-picker" aria-label={t("أمثلة للتجربة", "Poetry examples")}>
+                <label htmlFor="muallaqa-example">{t("أمثلة للتجربة", "Poetry examples")}</label>
+                <select id="muallaqa-example" disabled={busy} value={exampleId} onChange={(event) => setExampleId(event.target.value)}>
+                  {(["classical", "muallaqat"] as const).map((collection) => <optgroup key={collection} label={collection === "muallaqat" ? t("المعلّقات", "Muʿallaqāt") : t("المتنبي", "Al-Mutanabbī")}>
+                    {poetryExamples.filter((example) => example.collection === collection).map((example) => <option key={example.id} value={example.id}>{t(example.poet_ar, example.poet_en)}: {t(example.title_ar, example.title_en)}</option>)}
+                  </optgroup>)}
+                </select>
+                <blockquote className="example-preview" lang="ar" dir="rtl"><span>{selectedExample.verses[0].sadr}</span><span>{selectedExample.verses[0].ajuz}</span></blockquote>
+                <p className="field-help">{mode === "detect" ? t("اكتشف بحر هذا الشاهد ورويّه.", "Discover this excerpt’s meter and rhyme.") : <>{t("البحر:", "Meter:")} {t(selectedExample.meter_name_ar, meterNames[selectedExample.meter])} / {t("الروي:", "Rawi:")} {selectedExample.rawi}</>}</p>
+                {selectedExample.note_ar && <p className="field-help">{t(selectedExample.note_ar, selectedExample.note_en)}</p>}
+                <a className="example-source" href={selectedExample.source_url} target="_blank" rel="noreferrer">{t("اقرأ القصيدة في الديوان", "Read the poem on Al Diwan")}</a>
+                <p className="field-help">{t("شواهد من الديوان، مع إكمال التشكيل للتقطيع.", "Excerpts from Al Diwan, with vowel marks completed for scansion.")}</p>
               <button
                 type="button"
                 className="sample"
                 disabled={busy}
                 onClick={() => loadSample()}
               >
-                <BookOpen size={17} /> {t("جرّب بيتًا من المعلّقات", "Try a verse from the Muʿallaqāt")}{" "}
+                <BookOpen size={17} /> {t("افحص المثال المختار", "Analyze the selected example")}{" "}
 
               </button>
               {mode === "analyze" && <button type="button" className="sample" disabled={busy} onClick={() => loadSample(true)}>
-                <BookOpen size={17} /> {t("مثال للمقارنة: روي اللام مع طلب الميم", "Compare: a verse rhyming in ل checked against م")}
+                <BookOpen size={17} /> {t(`قارن الروي ${selectedExample.rawi} بالمطلوب ${selectedExample.rawi === "م" ? "ل" : "م"}`, `Compare rawi ${selectedExample.rawi} against ${selectedExample.rawi === "م" ? "ل" : "م"}`)}
               </button>}
+              </section>
             </div>
             <div id="poem-result" className={`manuscript${busy ? " is-loading" : ""}`} aria-busy={busy}>
               <div className="paper-top">
-                <span>{t("دفتر القصائد", "Poetry notebook")}</span>
+                <span>{result?.isDefault ? t("مثال محلّل: المتنبي", "Analyzed example: Al-Mutanabbī") : t("دفتر القصائد", "Poetry notebook")}</span>
                 <span dir="auto">{t("قَافِيَة", "Qafiya")} / {result ? "01" : "—"}</span>
               </div>
               {busy && <div className="result-loading" role="status"><LoaderCircle className="spin" size={24} aria-hidden="true" /><p>{t("جارٍ العمل على الأبيات…", "Working on your verses…")}</p><div className="loading-lines" aria-hidden="true"><span /><span /><span /></div></div>}
@@ -499,7 +528,8 @@ function App() {
                         <span>{t("المطلوب:", "Target:")} {result.analysis.requested_rawi}</span>
                       )}
                     </div>
-                    <h2 dir="auto">{translateMessage(result.title, locale)}</h2>
+                    <h2 dir="auto">{result.example ? t(result.example.title_ar, result.example.title_en) : translateMessage(result.title, locale)}</h2>
+                    {result.example && <p className="field-help">{t(result.example.poet_ar, result.example.poet_en)} / <a href={result.example.source_url} target="_blank" rel="noreferrer">{t("المصدر: الديوان", "Source: Al Diwan")}</a></p>}
                     <p
                       className={
                         result.analysis.accepted ? "status good" : "status"
@@ -514,6 +544,8 @@ function App() {
                         : t("مسوّدة تحتاج مراجعة عروضية", "Draft needs a prosody review")}
                     </p>
                   </div>
+                  {result.example?.note_ar && <p className="warning">{t(result.example.note_ar, result.example.note_en)}</p>}
+                  {result.example && !result.intentionalMismatch && !result.example.note_ar && !result.analysis.detection && !result.analysis.accepted && <p className="warning">{t("هذا شاهد شعري معروف؛ قد يخطئ الفحص الآلي في بعض صيغ الوزن أو استخراج الروي. قارن النتيجة بالشاهد ومصدره قبل الحكم على البيت.", "This is an established verse. Automated analysis can misread metrical variations or the rawi. Compare the result with the excerpt and its source before judging the verse.")}</p>}
                   {result.analysis.detection && <p className="analysis-note">{result.analysis.rhyme_consistent
                     ? t("روي موحّد في الأبيات المدخلة", "Consistent rhyme consonant across the supplied verses")
                     : t("الروي مختلف أو غير محدد في بعض الأبيات", "Rhyme consonants vary or could not be identified in some verses")}</p>}
@@ -568,15 +600,28 @@ function App() {
                                   <p>{t("إيقاع الشطر كاملًا", "Rhythm of the complete half-line")}</p>
                                   <code dir="ltr">{scan.pattern || "—"}</code>
                                   <p className="rhythm-key">{t("1 = متحرك، 0 = ساكن. افتح أي تفعيلة للمقارنة.", "1 = vowel-bearing, 0 = quiescent. Expand a foot to compare patterns.")}</p>
+                                  {scan.letter_alignment && !scan.letter_alignment.available && <p className="alignment-note">{t("تعذّرت محاذاة الحروف مع الإيقاع في هذا الشطر. نعرض النمط والتفعيلات دون تقسيم حرفي قد يكون مضلّلًا.", "Letters could not be aligned reliably with the rhythm in this half-line. Its pattern and feet remain available without a potentially misleading letter division.")}</p>}
                                   <ol className="foot-breakdown">
                                     {scan.feet.map((f, j) => <li key={j} className={f.status === "ok" ? "foot-detail" : "foot-detail broken"}>
-                                      <details className="foot-explanation">
+                                      <details className="foot-explanation" open={j === 0}>
                                       <summary>
                                         <span className="foot-index">{t("التفعيلة", "Foot")} {j + 1}</span>
                                         <bdi lang="ar" className="foot-name">{f.actual_tafeela || f.base_tafeela || t("زيادة", "Extra sounds")}</bdi>
                                         <code dir="ltr">{f.status === "missing" ? "—" : f.actual_segment}</code>
                                         <span className="foot-state">{f.status === "ok" ? t("مطابقة", "Matches") : t("تحتاج مراجعة", "Review")}</span>
                                       </summary>
+                                      {Boolean(f.letters?.length) && <section className="letter-scansion" aria-label={t("التقطيع حرفًا حرفًا", "Letter-by-letter scansion")}>
+                                        <h4>{t("الحروف المنطوقة في هذه التفعيلة", "Pronounced letters in this foot")}</h4>
+                                        <p className="pronounced-segment" lang="ar" dir="rtl">{f.pronounced_segment}</p>
+                                        <ol className="letter-cells" dir="rtl">
+                                          {f.letters?.map((letter) => <li key={letter.position}>
+                                            <span className="scanned-letter" lang="ar">{letter.letter}</span>
+                                            <code dir="ltr">{letter.symbol}</code>
+                                            <span className="letter-state">{letter.symbol === "1" ? t("متحرك", "Vowel-bearing") : t("ساكن", "Quiescent")}</span>
+                                          </li>)}
+                                        </ol>
+                                        <p>{t("نقسّم المنطوق، لا الرسم الإملائي. قد تنقسم الكلمة بين تفعيلتين؛ وتظهر الشدّة حرفين والتنوين نونًا منطوقة. الحركات الدقيقة لا تظهر في هذا التمثيل.", "This divides pronounced sounds, not original spelling. A word may cross feet; shadda expands to two letters and tanween adds a pronounced ن. Exact vowel marks are not represented here.")}</p>
+                                      </section>}
                                       <dl>
                                         <div><dt>{t("التفعيلة الأصلية", "Base foot")}</dt><dd lang="ar" dir="rtl">{f.base_tafeela || "—"}</dd></div>
                                         <div><dt>{t("النمط المتوقع في هذا الموضع", "Expected pattern at this position")}</dt><dd><code dir="ltr">{f.expected_pattern || "—"}</code></dd></div>
@@ -639,7 +684,7 @@ function App() {
                 </>
               ) : (
                 <div className="empty">
-                  <blockquote className="empty-verse" lang="ar" dir="rtl"><span>{sample[0].sadr}</span><span>{sample[0].ajuz}</span></blockquote>
+                  <blockquote className="empty-verse" lang="ar" dir="rtl"><span>{selectedExample.verses[0].sadr}</span><span>{selectedExample.verses[0].ajuz}</span></blockquote>
                   <h2>{t("لكلّ قصيدة بداية.", "Every poem begins somewhere.")}</h2>
                   <p>
                     {t("اختر المعنى والبحر، وستجد أبياتك هنا.", "Choose a theme and a meter. Your verses will appear here.")}

@@ -1,6 +1,7 @@
 from pyarud import ArudhProcessor
 
 from app.schemas import Verse, VocalizedVerse
+from app.services.letter_scansion import add_letter_scansion
 
 processor = ArudhProcessor()
 # Expose full classical meters only; PyArud also registers shortened variants.
@@ -16,7 +17,7 @@ def analyze(verses: list[Verse], meter: str, rawi: str) -> dict:
     report = processor.analyze_poem([(v.sadr, v.ajuz) for v in verses], meter_name=meter)
     rows = []
     for verse in report.verses:
-        row = verse.to_dict()
+        row = add_letter_scansion(verse.to_dict())
         row["rawi_matches"] = bool(verse.qafiyah and verse.qafiyah.rawi == rawi)
         rows.append(row)
     return {
@@ -75,7 +76,7 @@ def detect(verses: list[Verse], enabled: bool = True) -> dict:
             completed.append(verse)
     changed = completed != verses
     report = processor.analyze_poem([(v.sadr, v.ajuz) for v in completed]) if changed else original
-    rows = [verse.to_dict() for verse in report.verses]
+    rows = [add_letter_scansion(verse.to_dict()) for verse in report.verses]
     rawis = [verse.qafiyah.rawi if verse.qafiyah else None for verse in report.verses]
     return {
         "detection": True,

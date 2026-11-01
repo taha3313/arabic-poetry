@@ -215,3 +215,18 @@ footer a { text-underline-offset: 4px; }
 }
 
 footer a { white-space: nowrap; }
+.example-picker { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--line); min-width: 0; }
+.example-picker select { text-overflow: ellipsis; }
+.example-preview { margin: var(--space-md) 0; font: 22px/2 var(--poetry); }
+.example-preview span { display: block; overflow-wrap: anywhere; }
+.example-source { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent); font-size: var(--text-sm); }
+
+.learning-guide:not([open]) > :not(summary) { display: none; }
+.letter-scansion { padding-block: var(--space-md); }
+.letter-scansion h4 { font-size: var(--text-sm); font-weight: 500; margin: 0; }
+.letter-scansion .pronounced-segment { font: 25px/1.8 var(--poetry); margin-block: var(--space-xs); }
+.letter-cells { display: flex; flex-wrap: wrap; gap: var(--space-xs); list-style: none; padding: 0; margin: var(--space-md) 0; }
+.letter-cells li { flex: 1 0 52px; max-width: 92px; display: flex; flex-direction: column; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-xs); background: var(--wash); border-radius: var(--small-radius); }
+.scanned-letter { font: 28px/1.5 var(--poetry); }
+.letter-state { font-size: var(--text-xs); text-align: center; }
+.letter-scansion > p:not(.pronounced-segment), .alignment-note { color: var(--muted); font-size: var(--text-sm); line-height: 1.8; }

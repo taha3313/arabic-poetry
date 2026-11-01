@@ -1,0 +1,162 @@
+[
+  {
+    "id": "mutanabbi-azm",
+    "collection": "classical",
+    "poet_ar": "المتنبي",
+    "poet_en": "Al-Mutanabbī",
+    "title_ar": "على قدر أهل العزم تأتي العزائم",
+    "title_en": "ʿAlā qadri ahli al-ʿazmi",
+    "meter": "taweel",
+    "meter_name_ar": "الطويل",
+    "rawi": "م",
+    "source_url": "https://www.aldiwan.net/poem10524.html",
+    "verses": [
+      {
+        "sadr": "عَلَى قَدْرِ أَهْلِ الْعَزْمِ تَأْتِي الْعَزَائِمُ",
+        "ajuz": "وَتَأْتِي عَلَى قَدْرِ الْكِرَامِ الْمَكَارِمُ"
+      }
+    ],
+    "note_ar": "",
+    "note_en": ""
+  },
+  {
+    "id": "imru-alqais",
+    "poet_ar": "امرؤ القيس",
+    "poet_en": "Imruʾ al-Qays",
+    "title_ar": "قفا نبك من ذكرى حبيب ومنزل",
+    "title_en": "Qifā nabki",
+    "meter": "taweel",
+    "rawi": "ل",
+    "source_url": "https://www.aldiwan.net/poem50.html",
+    "verses": [
+      {
+        "sadr": "قِفَا نَبْكِ مِنْ ذِكْرَى حَبِيبٍ وَمَنْزِلِ",
+        "ajuz": "بِسِقْطِ اللِّوَى بَيْنَ الدَّخُولِ فَحَوْمَلِ"
+      }
+    ],
+    "meter_name_ar": "الطويل",
+    "note_ar": "",
+    "note_en": "",
+    "collection": "muallaqat"
+  },
+  {
+    "id": "tarafa",
+    "poet_ar": "طرفة بن العبد",
+    "poet_en": "Ṭarafa ibn al-ʿAbd",
+    "title_ar": "لخولة أطلال ببرقة ثهمد",
+    "title_en": "Li-Khawlata aṭlālun",
+    "meter": "taweel",
+    "rawi": "د",
+    "source_url": "https://www.aldiwan.net/poem20973.html",
+    "verses": [
+      {
+        "sadr": "لِخَوْلَةَ أَطْلَالٌ بِبُرْقَةِ ثَهْمَدِ",
+        "ajuz": "تَلُوحُ كَبَاقِي الْوَشْمِ فِي ظَاهِرِ الْيَدِ"
+      }
+    ],
+    "meter_name_ar": "الطويل",
+    "note_ar": "",
+    "note_en": "",
+    "collection": "muallaqat"
+  },
+  {
+    "id": "zuhayr",
+    "poet_ar": "زهير بن أبي سلمى",
+    "poet_en": "Zuhayr ibn Abī Sulmā",
+    "title_ar": "أمن أم أوفى دمنة لم تكلم",
+    "title_en": "Amin Ummi Awfā",
+    "meter": "taweel",
+    "rawi": "م",
+    "source_url": "https://www.aldiwan.net/poem25065.html",
+    "verses": [
+      {
+        "sadr": "أَمِنْ أُمِّ أَوْفَى دِمْنَةٌ لَمْ تَكَلَّمِ",
+        "ajuz": "بِحَوْمَانَةِ الدُّرَّاجِ فَالْمُتَثَلَّمِ"
+      }
+    ],
+    "meter_name_ar": "الطويل",
+    "note_ar": "",
+    "note_en": "",
+    "collection": "muallaqat"
+  },
+  {
+    "id": "antara",
+    "poet_ar": "عنترة بن شداد",
+    "poet_en": "ʿAntara ibn Shaddād",
+    "title_ar": "هل غادر الشعراء من متردم",
+    "title_en": "Hal ghādara al-shuʿarāʾu",
+    "meter": "kamel",
+    "rawi": "م",
+    "source_url": "https://www.aldiwan.net/poem85.html",
+    "verses": [
+      {
+        "sadr": "هَلْ غَادَرَ الشُّعَرَاءُ مِنْ مُتَرَدِّمِ",
+        "ajuz": "أَمْ هَلْ عَرَفْتَ الدَّارَ بَعْدَ تَوَهُّمِ"
+      }
+    ],
+    "meter_name_ar": "الكامل",
+    "note_ar": "",
+    "note_en": "",
+    "collection": "muallaqat"
+  },
+  {
+    "id": "labid",
+    "poet_ar": "لبيد بن ربيعة",
+    "poet_en": "Labīd ibn Rabīʿa",
+    "title_ar": "عفت الديار محلها فمقامها",
+    "title_en": "ʿAfati al-diyāru",
+    "meter": "kamel",
+    "rawi": "م",
+    "source_url": "https://www.aldiwan.net/poem21196.html",
+    "verses": [
+      {
+        "sadr": "عَفَتِ الدِّيَارُ مَحَلُّهَا فَمُقَامُهَا",
+        "ajuz": "بِمِنًى تَأَبَّدَ غَوْلُهَا فَرِجَامُهَا"
+      }
+    ],
+    "meter_name_ar": "الكامل",
+    "note_ar": "روي هذا الشاهد الميم؛ قد يلتقط الفحص الهاء التي تأتي بعدها بدلًا منه.",
+    "note_en": "The rawi is م. The analyzer may mistake the following ه for the rawi.",
+    "collection": "muallaqat"
+  },
+  {
+    "id": "amr",
+    "poet_ar": "عمرو بن كلثوم",
+    "poet_en": "ʿAmr ibn Kulthūm",
+    "title_ar": "ألا هبي بصحنك فاصبحينا",
+    "title_en": "Alā hubbī",
+    "meter": "wafer",
+    "rawi": "ن",
+    "source_url": "https://www.aldiwan.net/poem311.html",
+    "verses": [
+      {
+        "sadr": "أَلَا هُبِّي بِصَحْنِكِ فَاصْبَحِينَا",
+        "ajuz": "وَلَا تُبْقِي خُمُورَ الْأَنْدَرِينَا"
+      }
+    ],
+    "meter_name_ar": "الوافر",
+    "note_ar": "",
+    "note_en": "",
+    "collection": "muallaqat"
+  },
+  {
+    "id": "harith",
+    "poet_ar": "الحارث بن حلزة",
+    "poet_en": "Al-Ḥārith ibn Ḥilliza",
+    "title_ar": "آذنتنا ببينها أسماء",
+    "title_en": "Ādhanatnā",
+    "meter": "khafeef",
+    "rawi": "ء",
+    "source_url": "https://www.aldiwan.net/poem375.html",
+    "verses": [
+      {
+        "sadr": "آذَنَتْنَا بِبَيْنِهَا أَسْمَاءُ",
+        "ajuz": "رُبَّ ثَاوٍ يُمَلُّ مِنْهُ الثَّوَاءُ"
+      }
+    ],
+    "meter_name_ar": "الخفيف",
+    "note_ar": "هذا الشاهد من الخفيف؛ قد يضع الفحص علامة عدم تطابق عند نهاية الصدر.",
+    "note_en": "This excerpt is in al-Khafīf. The analyzer may flag the end of the first half-line as a mismatch.",
+    "collection": "muallaqat"
+  }
+]
