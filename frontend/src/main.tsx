@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  ArrowUpLeft,
   Feather,
   Copy,
   Download,
   LoaderCircle,
   BookOpen,
   ScanLine,
+  Search,
+  CheckCheck,
 } from "lucide-react";
 import "@fontsource/amiri/arabic-400.css";
 import "@fontsource/amiri/arabic-700.css";
@@ -126,7 +127,15 @@ function App() {
   }, [locale]);
   const [config, setConfig] = useState<Config | null>(null);
   const [connectionError, setConnectionError] = useState(false);
-  const [mode, setMode] = useState<"generate" | "analyze" | "detect">("generate");
+  const [mode, setMode] = useState<"generate" | "analyze" | "detect">(() => {
+    const value = new URLSearchParams(window.location.search).get("mode");
+    return value === "analyze" || value === "detect" ? value : "generate";
+  });
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("mode", mode);
+    window.history.replaceState(null, "", url);
+  }, [mode]);
   const [topic, setTopic] = useState(
     "الحنين إلى مدينةٍ تركنا فيها شيئًا من أرواحنا",
   );
@@ -263,27 +272,17 @@ function App() {
             {t("قَافِيَة", "Qafiya")}<span>{t("ورشة الشعر العربي", "An Arabic poetry workshop")}</span>
           </a>
           <span className="header-note">{t("للِكلمة وزنٌ، وللخيال متّسع.", "Words have rhythm. Imagination has room to roam.")}</span>
-          <span className="edition">
-            {t("نسخة تجريبية", "Beta")} <span dir="ltr">01 / PYARUD</span>
-          </span>
+          <span className="edition">{t("نسخة تجريبية", "Beta")}</span>
         </header>
         <main>
           <section className="intro">
             <div>
-              <p className="eyebrow">{t("مِن الفكرة إلى القصيدة", "From an idea to a poem")}</p>
-              <h1>
-                {t("أعطِ خيالكَ", "Give your imagination")}
-                <br />
-                <em>{t("وزنًا وقافية.", "rhythm and rhyme.")}</em>
-              </h1>
+              <h1>{t("ورشة الشعر العربي", "Your Arabic poetry workshop")}</h1>
               <p className="lead">
-                {t("اكتب ما تشعر به. ودع الذكاء الاصطناعي يصوغ المعنى، ثم استكشف إيقاع الأبيات بعلم العَروض.", "Start with a feeling. Let AI shape it into Arabic verse, then explore its rhythm through the rules of Arabic prosody.")}
+                {t("ألّف قصيدة، أو افحص أبياتك، أو اكتشف بحرها وقافيتها.", "Compose Arabic verse, check its rhythm, or discover its meter and rhyme.")}
               </p>
             </div>
             <aside className="hero-verse">
-              <span className="ornament" aria-hidden="true">
-                ب
-              </span>
               <blockquote lang="ar" dir="rtl">
                 وَمَا الشِّعْرُ إِلَّا شُعُورٌ
                 <br />
@@ -293,56 +292,58 @@ function App() {
               <span>{t("هنا تبدأ مسوّدتك القادمة", "Your next draft begins here")}</span>
             </aside>
           </section>
+              <div className="mode-switch" aria-label={t("طريقة العمل", "Workshop mode")}>
+                <button
+                  type="button"
+                  disabled={busy} aria-label={t("تأليف قصيدة", "Compose a poem")} aria-pressed={mode === "generate"}
+                  onClick={() => {
+                    setMode("generate");
+                    setError("");
+                  }}
+                >
+                  <span className="mode-number" aria-hidden="true">01</span><Feather size={20} aria-hidden="true" /><span><strong><span className="mode-full">{t("تأليف قصيدة", "Compose a poem")}</span></strong><small>{t("من فكرة إلى أبيات", "Turn an idea into verse")}</small></span>
+                </button>
+                <button
+                  type="button"
+                  disabled={busy} aria-label={t("التحقق من الوزن والقافية", "Check meter and rhyme")} aria-pressed={mode === "analyze"}
+                  onClick={() => {
+                    setMode("analyze");
+                    setError("");
+                  }}
+                >
+                  <span className="mode-number" aria-hidden="true">02</span><CheckCheck size={20} aria-hidden="true" /><span><strong><span className="mode-full">{t("التحقق من الوزن والقافية", "Check meter and rhyme")}</span></strong><small>{t("قارن ببحر وروي تختارهما", "Compare against your chosen targets")}</small></span>
+                </button>
+                <button type="button" disabled={busy} aria-label={t("اكتشاف البحر والقافية", "Detect meter and rhyme")} aria-pressed={mode === "detect"} onClick={() => { setMode("detect"); setError(""); }}>
+                  <span className="mode-number" aria-hidden="true">03</span><Search size={20} aria-hidden="true" /><span><strong><span className="mode-full">{t("اكتشاف البحر والقافية", "Detect meter and rhyme")}</span></strong><small>{t("تعرّف إلى إيقاع أبياتك", "Identify the rhythm of your verse")}</small></span>
+                </button>
+              </div>
           <section className="workshop" id="workshop" aria-label={t("ورشة الكتابة", "Writing workshop")}>
             <div className="desk">
               <div className="desk-heading">
                 <Feather size={22} />
                 <h2>{t("مساحة الكتابة", "Your writing desk")}</h2>
               </div>
-              <div className="mode-switch" aria-label={t("طريقة العمل", "Workshop mode")}>
-                <button
-                  type="button"
-                  aria-pressed={mode === "generate"}
-                  onClick={() => {
-                    setMode("generate");
-                    setError("");
-                  }}
-                >
-                  {t("تأليف قصيدة", "Compose a poem")}
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={mode === "analyze"}
-                  onClick={() => {
-                    setMode("analyze");
-                    setError("");
-                  }}
-                >
-                  {t("التحقق من الوزن والقافية", "Check meter and rhyme")}
-                </button>
-                <button type="button" aria-pressed={mode === "detect"} onClick={() => { setMode("detect"); setError(""); }}>
-                  {t("اكتشاف البحر والقافية", "Detect meter and rhyme")}
-                </button>
-              </div>
               <p className="field-help">{mode === "detect"
                 ? t("أدخل الأبيات لاكتشاف بحرها ورويّها دون تحديدهما مسبقًا.", "Enter verses to identify their meter and rhyme without choosing targets.")
                 : mode === "analyze"
                   ? t("اختر البحر والروي المطلوبين للتحقق من مطابقة أبياتك لهما.", "Choose a target meter and rhyme consonant to check whether your verses match.")
                   : ""}</p>
-              {mode !== "generate" && <aside className="learning-guide">
-                <h3>{t("ابدأ بمثال، ثم جرّب أبياتك", "Start with an example, then try your own")}</h3>
+              {mode !== "generate" && <details className="learning-guide editor-guide">
+                <summary><BookOpen size={17} aria-hidden="true" />{t("ابدأ بمثال، ثم جرّب أبياتك", "Start with an example, then try your own")}</summary>
                 <p>{t("البيت شطران: صدر وعجز. البحر هو الإيقاع المتكرر، والتفعيلة وحدة من هذا الإيقاع. الروي هو الحرف الذي تُبنى عليه القافية، وليس دائمًا آخر حرف مكتوب.", "A verse has two halves: sadr and ajuz. A meter is a repeating rhythm; a tafʿīla is one unit of that rhythm. The rawi anchors the rhyme and is not always the last written letter.")}</p>
                 <p>{t("في مثال «قفا نبك» ندرس بحر الطويل وروي اللام. اختر المثال أدناه، وافتح التقطيع لتقارن كل تفعيلة بما نُطق فعليًا.", "The “Qifā nabki” example explores al-Ṭawīl and the rhyme consonant ل. Load the example below, then compare each foot with the analyzed rhythm.")}</p>
-              </aside>}
+              </details>}
               <form onSubmit={submit}>
                 <label htmlFor="topic">
                   {mode === "generate"
                     ? t("عن ماذا تودّ أن تكتب؟", "What would you like to write about?")
                     : t("اكتب أبياتك مع التشكيل", "Enter your Arabic verses with vowel marks")}
                 </label>
+                {mode === "generate" && <p id="input-help" className="field-help">{t("اختر معنى والبحر وحرف الروي، ثم ابدأ مسوّدتك.", "Choose a theme, meter, and rhyme consonant for your draft.")}</p>}
                 {mode === "generate" ? (
                   <textarea
                     id="topic"
+                    aria-describedby="input-help"
                     lang="ar" dir="rtl"
                     value={topic}
                     maxLength={500}
@@ -355,6 +356,7 @@ function App() {
                   <>
                     <textarea
                       id="topic"
+                      aria-describedby="input-help"
                       lang="ar" dir="rtl"
                       value={text}
                       maxLength={4000}
@@ -362,7 +364,7 @@ function App() {
                       onChange={(e) => setText(e.target.value)}
                       placeholder="صدر البيت * عجز البيت"
                     />
-                    <p className="field-help">
+                    <p id="input-help" className="field-help">
                       {t("كل بيت في سطر. افصل الشطرين بعلامة *. يمكنك ترك التشكيل الناقص للنموذج المحلي.", "Use one line per verse, with * between its two halves. The local model can fill in missing vowel marks.")}
                     </p>
                     <label className="tashkeel-toggle">
@@ -373,7 +375,7 @@ function App() {
                       />
                       <span>{t("إكمال التشكيل تلقائيًا", "Fill in missing Arabic vowel marks")}</span>
                     </label>
-                    <p className="field-help">
+                    <p className="field-help tashkeel-help">
                       {t("نُبقي الحركات المكتوبة ونُكمل الناقص محليًا. قد تحتاج قراءة الشعر إلى تصحيح يدوي.", "Existing vowel marks are preserved; missing marks are added locally. Poetry may still need manual corrections.")}
                     </p>
                   </>
@@ -394,7 +396,7 @@ function App() {
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="rawi">{t("حرف الروي المطلوب", "Target rhyme consonant (rawi)")}</label>
+                    <label htmlFor="rawi">{t("الروي المطلوب", "Target rawi")}</label>
                     <select
                       id="rawi"
                       value={rawi}
@@ -407,7 +409,7 @@ function App() {
                   </div>
                   {mode === "generate" && (
                     <div>
-                      <label htmlFor="count">{t("عدد الأبيات", "Number of verses")}</label>
+                      <label htmlFor="count">{t("عدد الأبيات", "Verses")}</label>
                       <select
                         id="count"
                         value={count}
@@ -441,7 +443,7 @@ function App() {
                     : mode === "generate"
                       ? t("انظم القصيدة", "Compose the poem")
                       : mode === "detect" ? t("اكتشف البحر والقافية", "Detect meter and rhyme") : t("افحص الوزن والقافية", "Check meter and rhyme")}
-                  {!busy && <ArrowUpLeft size={19} />}
+
                 </button>
                 {busy && (
                   <p className="field-help" role="status">
@@ -472,29 +474,31 @@ function App() {
                 onClick={() => loadSample()}
               >
                 <BookOpen size={17} /> {t("جرّب بيتًا من المعلّقات", "Try a verse from the Muʿallaqāt")}{" "}
-                <ArrowUpLeft size={16} />
+
               </button>
               {mode === "analyze" && <button type="button" className="sample" disabled={busy} onClick={() => loadSample(true)}>
                 <BookOpen size={17} /> {t("مثال للمقارنة: روي اللام مع طلب الميم", "Compare: a verse rhyming in ل checked against م")}
               </button>}
             </div>
-            <div id="poem-result" className="manuscript" aria-busy={busy}>
+            <div id="poem-result" className={`manuscript${busy ? " is-loading" : ""}`} aria-busy={busy}>
               <div className="paper-top">
                 <span>{t("دفتر القصائد", "Poetry notebook")}</span>
                 <span dir="auto">{t("قَافِيَة", "Qafiya")} / {result ? "01" : "—"}</span>
               </div>
-              {result ? (
+              {busy && <div className="result-loading" role="status"><LoaderCircle className="spin" size={24} aria-hidden="true" /><p>{t("جارٍ العمل على الأبيات…", "Working on your verses…")}</p><div className="loading-lines" aria-hidden="true"><span /><span /><span /></div></div>}
+              {!busy && (result ? (
                 <>
                   <div className="result-heading">
-                    <p className="eyebrow">
-                      {t(result.analysis.meter_name, meterNames[result.analysis.meter] ?? result.analysis.meter_name)} · {t("الروي المكتشف:", "Detected rhyme consonant:")}{" "}
+                    <div className="result-meta">
+                      <span>{t(result.analysis.meter_name, meterNames[result.analysis.meter] ?? result.analysis.meter_name)}</span><span>{t("الروي المكتشف:", "Detected rhyme consonant:")}{" "}
                       {detectedRawis.length
                         ? detectedRawis.join("، ")
                         : t("غير محدد", "Not identified")}
+                      </span>
                       {!result.analysis.detection && !result.analysis.verses.every((v) => v.rawi_matches) && (
-                        <> · {t("المطلوب:", "Target:")} {result.analysis.requested_rawi}</>
+                        <span>{t("المطلوب:", "Target:")} {result.analysis.requested_rawi}</span>
                       )}
-                    </p>
+                    </div>
                     <h2 dir="auto">{translateMessage(result.title, locale)}</h2>
                     <p
                       className={
@@ -532,11 +536,11 @@ function App() {
                         </div>
                         <details open={i === 0}>
                           <summary>
-                            {t("عرض التقطيع والتفعيلات · البيت", "Scansion and metrical feet · Verse")} {i + 1} ·{" "}
+                            <span>{t("التقطيع والتفعيلات للبيت", "Scansion and feet for verse")} {i + 1}</span><span>
                             {result.analysis.verses[i].is_valid
                               ? t("وزن مطابق", "Meter matches")
                               : t("راجع الوزن", "Check meter")}{" "}
-                            ·{" "}
+                            </span><span>
                             {result.analysis.detection
                               ? (result.analysis.verses[i].qafiyah?.rawi
                                 ? t(`الروي: ${result.analysis.verses[i].qafiyah?.rawi}`, `Rhyme consonant: ${result.analysis.verses[i].qafiyah?.rawi}`)
@@ -546,24 +550,33 @@ function App() {
                               : result.analysis.verses[i].qafiyah?.rawi
                                 ? t(`الروي ${result.analysis.verses[i].qafiyah?.rawi}، المطلوب ${result.analysis.requested_rawi}`, `Rhyme consonant: ${result.analysis.verses[i].qafiyah?.rawi}; target: ${result.analysis.requested_rawi}`)
                                 : t("تعذّر تحديد الروي", "Rhyme consonant could not be identified")}
+                            </span>
                           </summary>
-                          <div className="learning-guide">
+                          <details className="learning-guide rhythm-guide">
+                            <summary>{t("كيف أقرأ التقطيع؟", "How do I read the rhythm?")}</summary>
                             <p>{t("نقرأ الشعر كما يُنطق. الكتابة العروضية تُظهر الحروف المنطوقة، ثم نحولها إلى إيقاع: 1 = متحرك، 0 = ساكن. حدود التفعيلة قد تقع داخل الكلمة.", "Scan the sounds you pronounce. Prosodic spelling shows those sounds, then encodes them as 1 = a vowel-bearing consonant, 0 = a quiescent consonant. A foot can end inside a word.")}</p>
                             <p>{t("مثال: فَعُولُنْ = 11010. وقد تأتي فَعُولُ = 1101 بالقبض؛ التغيير المسموح ليس كسرًا في الوزن.", "Example: فَعُولُنْ = 11010. Its qabḍ form فَعُولُ = 1101 is a permitted variation, rather than a broken rhythm.")}</p>
-                          </div>
+                          </details>
                           <div className="scansion">
                             {(["sadr", "ajuz"] as const).map((part) => {
                               const scan = result.analysis.verses[i][part];
                               return <section key={part}>
-                                <h3>{part === "sadr" ? t("١ · الصدر", "1 · First half-line (sadr)") : t("٢ · العجز", "2 · Second half-line (ajuz)")}</h3>
+                                <h3>{part === "sadr" ? t("الصدر", "First half-line (sadr)") : t("العجز", "Second half-line (ajuz)")}</h3>
                                 {scan ? <>
                                   <p>{t("كما يُنطق (الكتابة العروضية)", "Pronounced form (prosodic spelling)")}</p>
                                   <p className="arudi-text" lang="ar" dir="rtl">{scan.arudi_text || t("غير متاح", "Unavailable")}</p>
                                   <p>{t("إيقاع الشطر كاملًا", "Rhythm of the complete half-line")}</p>
                                   <code dir="ltr">{scan.pattern || "—"}</code>
+                                  <p className="rhythm-key">{t("1 = متحرك، 0 = ساكن. افتح أي تفعيلة للمقارنة.", "1 = vowel-bearing, 0 = quiescent. Expand a foot to compare patterns.")}</p>
                                   <ol className="foot-breakdown">
                                     {scan.feet.map((f, j) => <li key={j} className={f.status === "ok" ? "foot-detail" : "foot-detail broken"}>
-                                      <h4>{t("التفعيلة", "Foot")} {j + 1}: <bdi lang="ar">{f.actual_tafeela || f.base_tafeela || t("زيادة", "Extra sounds")}</bdi></h4>
+                                      <details className="foot-explanation">
+                                      <summary>
+                                        <span className="foot-index">{t("التفعيلة", "Foot")} {j + 1}</span>
+                                        <bdi lang="ar" className="foot-name">{f.actual_tafeela || f.base_tafeela || t("زيادة", "Extra sounds")}</bdi>
+                                        <code dir="ltr">{f.status === "missing" ? "—" : f.actual_segment}</code>
+                                        <span className="foot-state">{f.status === "ok" ? t("مطابقة", "Matches") : t("تحتاج مراجعة", "Review")}</span>
+                                      </summary>
                                       <dl>
                                         <div><dt>{t("التفعيلة الأصلية", "Base foot")}</dt><dd lang="ar" dir="rtl">{f.base_tafeela || "—"}</dd></div>
                                         <div><dt>{t("النمط المتوقع في هذا الموضع", "Expected pattern at this position")}</dt><dd><code dir="ltr">{f.expected_pattern || "—"}</code></dd></div>
@@ -577,26 +590,27 @@ function App() {
                                           : f.status === "extra_bits"
                                             ? t("أصوات زائدة بعد نهاية الوزن المتوقع. راجع نهاية الشطر.", "Extra sounds remain after the expected rhythm. Review the end of the half-line.")
                                             : t("قارن النمطين، ثم راجع التشكيل والنطق قبل تعديل كلماتك.", "Compare the two patterns, then check vowel marks and pronunciation before changing your words.")}</p>
+                                      </details>
                                     </li>)}
                                   </ol>
                                 </> : <p>{t("تعذّر تقطيع هذا الشطر. راجع النص والتشكيل ثم أعد المحاولة.", "This half-line could not be scanned. Review its text and vowel marks, then retry.")}</p>}
                               </section>;
                             })}
                           </div>
-                          <section className="learning-guide rhyme-breakdown">
-                            <h3>{t("٣ · كيف تنتهي القافية؟", "3 · Understanding the rhyme")}</h3>
+                          <details className="learning-guide rhyme-breakdown">
+                            <summary>{t("كيف تنتهي القافية؟", "Understanding the rhyme")}</summary>
                             <p>{t("الروي هو محور تكرار القافية. نعرض هنا مكونات القافية التي استطاع الفحص استخراجها؛ غياب مكوّن لا يعني وجود خطأ.", "The rawi is the recurring anchor of the rhyme. These are the components the analyzer could extract; an absent component is not itself an error.")}</p>
                             <dl>{([
                               ["qafiyah_text", t("مقطع القافية", "Rhyme passage")],
-                              ["rawi", t("الروي · الحرف المحوري", "Rawi · rhyme consonant")],
+                              ["rawi", t("الروي: الحرف المحوري", "Rawi: rhyme consonant")],
                               ["rawi_haraka", t("حركة الروي", "Rawi vowel mark")],
-                              ["ridf", t("الردف · حرف مد قبل الروي مباشرة", "Ridf · long vowel directly before the rawi")],
-                              ["tasees", t("التأسيس · ألف يفصلها حرف عن الروي", "Taʾsīs · alif separated from the rawi by one letter")],
-                              ["dakhil", t("الدخيل · الحرف بين التأسيس والروي", "Dakhīl · consonant between taʾsīs and rawi")],
-                              ["wasl", t("الوصل · امتداد بعد الروي", "Waṣl · extension after the rawi")],
-                              ["khuruj", t("الخروج · مد بعد هاء الوصل", "Khurūj · long vowel after the waṣl hāʾ")],
+                              ["ridf", t("الردف: حرف مد قبل الروي مباشرة", "Ridf: long vowel directly before the rawi")],
+                              ["tasees", t("التأسيس: ألف يفصلها حرف عن الروي", "Taʾsīs: alif separated from the rawi by one letter")],
+                              ["dakhil", t("الدخيل: الحرف بين التأسيس والروي", "Dakhīl: consonant between taʾsīs and rawi")],
+                              ["wasl", t("الوصل: امتداد بعد الروي", "Waṣl: extension after the rawi")],
+                              ["khuruj", t("الخروج: مد بعد هاء الوصل", "Khurūj: long vowel after the waṣl hāʾ")],
                             ] as const).map(([key, label]) => <div key={key}><dt>{label}</dt><dd lang="ar" dir="rtl">{result.analysis.verses[i].qafiyah?.[key] || "—"}</dd></div>)}</dl>
-                          </section>
+                          </details>
                         </details>
                       </article>
                     ))}
@@ -625,12 +639,7 @@ function App() {
                 </>
               ) : (
                 <div className="empty">
-                  <div className="empty-art" aria-hidden="true">
-                    <Feather size={40} strokeWidth={1} />
-                    <div />
-                    <div />
-                    <div />
-                  </div>
+                  <blockquote className="empty-verse" lang="ar" dir="rtl"><span>{sample[0].sadr}</span><span>{sample[0].ajuz}</span></blockquote>
                   <h2>{t("لكلّ قصيدة بداية.", "Every poem begins somewhere.")}</h2>
                   <p>
                     {t("اختر المعنى والبحر، وستجد أبياتك هنا.", "Choose a theme and a meter. Your verses will appear here.")}
@@ -638,11 +647,11 @@ function App() {
                     {t("أو افتح بيتًا من المعلّقات واكتشف إيقاعه.", "Or explore the rhythm of a verse from the Muʿallaqāt.")}
                   </p>
                   <button type="button" disabled={busy} onClick={() => loadSample()}>
-                    {t("استكشف مثالًا", "Explore an example")} <ArrowUpLeft size={17} />
+                    {t("استكشف مثالًا", "Explore an example")}
                   </button>
                   <span className="paper-mark">{t("حيث يلتقي الخيال بالإيقاع", "Where imagination meets rhythm")}</span>
                 </div>
-              )}
+              ))}
             </div>
           </section>
           <section className="method" aria-label={t("كيف تعمل الورشة", "How the workshop works")}>
@@ -668,14 +677,14 @@ function App() {
           <p>{t("الشعر تجربة إنسانية. هذه أداة للمحاولة والتعلّم.", "Poetry is a human art. This is a space to experiment and learn.")}</p>
           <span className="footer-credit" dir="ltr">
             Created by <a href="https://tahachelly.com/" target="_blank" rel="noreferrer">Taha Chelly</a>
-            <span aria-hidden="true"> · </span>
+            <span aria-hidden="true">: </span>
             <a href="https://qafiya.tahachelly.com/">qafiya.tahachelly.com</a>
           </span>
           <span className="prosody-credit">
             {t("التحليل العروضي باستخدام", "Prosody analysis powered by")}{" "}
             <a href="https://github.com/cnemri/pyarud" target="_blank" rel="noreferrer">PyArud</a>
-            {" · "}<bdi>Chouaieb Nemri</bdi>{" · "}<bdi>Maged Saeed</bdi>
-            {" · "}<a href="/licenses/pyarud.txt" target="_blank" rel="noreferrer">{t("ترخيص MIT", "MIT license")}</a>
+            {": "}<bdi>Chouaieb Nemri</bdi>{": "}<bdi>Maged Saeed</bdi>
+            {": "}<a href="/licenses/pyarud.txt" target="_blank" rel="noreferrer">{t("ترخيص MIT", "MIT license")}</a>
           </span>
         </footer>
       </div>

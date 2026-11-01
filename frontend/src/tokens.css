@@ -1,0 +1,50 @@
+:root {
+  --paper: #f5f1e8;
+  --surface: #fffcf5;
+  --ink: #292f2b;
+  --muted: #62665d;
+  --line: #d8d4c8;
+  --field-edge: #858479;
+  --accent: #8c482b;
+  --accent-hover: #703920;
+  --accent-ink: #fffcf5;
+  --accent-wash: #eee0d3;
+  --wash: #ebe5d8;
+  --danger: #922f30;
+  --good: #315c43;
+  --disabled-bg: #e1ddd2;
+  --disabled-ink: #51554c;
+  --color-paper: var(--paper);
+  --color-paper-2: var(--surface);
+  --color-paper-3: var(--wash);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--muted);
+  --color-muted: var(--muted);
+  --color-rule: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-focus: var(--accent);
+  --color-error: var(--danger);
+  --color-success: var(--good);
+  --font: "IBM Plex Sans Arabic", sans-serif;
+  --poetry: "Amiri", serif;
+  --font-body: var(--font);
+  --font-display: var(--font);
+  --font-code: ui-monospace, monospace;
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px;
+  --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px;
+  --space-3xl: 96px; --space-4xl: 144px;
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem;
+  --text-lg: 1.2rem; --text-xl: 1.44rem; --text-2xl: 1.728rem;
+  --text-display: 2.074rem; --text-section: 1.44rem; --text-title: 1.2rem;
+  --text-lead: 1rem; --display-weight: 500; --tracking-display: 0;
+  --container: 1440px; --gutter: 40px; --gap-columns: 40px;
+  --radius: 8px; --small-radius: 4px;
+  --rule-hair: 1px; --focus: 3px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 120ms; --dur-short: 220ms;
+  --z-base: 1; --z-sticky: 200;
+}
+html[lang="en"] {
+  --font: "IBM Plex Sans Arabic", system-ui, sans-serif;
+}

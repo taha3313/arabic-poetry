@@ -1,0 +1,30 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "app",
+  "shape": "app screen",
+  "theme": "brand",
+  "axes": "light/roman-serif/warm",
+  "hero": "none: app screen",
+  "nav": "compact wordmark bar and numbered mode navigation",
+  "footer": "colophon with original credits",
+  "imagery": "existing Arabic verse",
+  "photos": [],
+  "entry": "frontend/src/main.tsx",
+  "fingerprint": "compact intro/numbered modes/split editor/foot ledger/disclosures",
+  "sections": [
+   "compact intro",
+   "mode navigation",
+   "editor and learner ledger",
+   "method",
+   "credits"
+  ],
+  "signature": "verse-to-foot rhythm ledger",
+  "waived": [
+   "39b"
+  ],
+  "prompt": "Improve Qafiya design and learner UI/UX, retaining all three paths",
+  "date": "2026-11-01"
+ }
+]

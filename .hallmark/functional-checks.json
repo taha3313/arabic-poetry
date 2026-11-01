@@ -1,0 +1,36 @@
+{
+  "findings": [
+    {
+      "locale": "ar",
+      "width": 375,
+      "feet": 8,
+      "overflow": false,
+      "modePreserved": true
+    },
+    {
+      "locale": "ar",
+      "width": 1280,
+      "feet": 8,
+      "overflow": false,
+      "modePreserved": true
+    },
+    {
+      "locale": "en",
+      "width": 375,
+      "feet": 8,
+      "overflow": false,
+      "modePreserved": true
+    },
+    {
+      "locale": "en",
+      "width": 1280,
+      "feet": 8,
+      "overflow": false,
+      "modePreserved": true
+    },
+    {
+      "invalidInput": "اكتب من بيت إلى ثمانية أبيات، وافصل الصدر عن العجز بعلامة * في كل سطر."
+    }
+  ],
+  "errors": []
+}
