@@ -58,3 +58,38 @@ def analyze_with_tashkeel(verses: list[Verse], meter: str, rawi: str, enabled: b
     if changed:
         report["note"] += " أُكمل التشكيل آليًا مع إبقاء حركاتك؛ قد يخطئ النموذج في قراءة الشعر."
     return report
+
+
+def detect(verses: list[Verse], enabled: bool = True) -> dict:
+    """Infer meter and rhyme without a user-supplied target."""
+    original = processor.analyze_poem([(v.sadr, v.ajuz) for v in verses])
+    completed = []
+    for verse, scan in zip(verses, original.verses, strict=True):
+        if enabled and not scan.is_valid:
+            from app.services.tashkeel import complete_text
+
+            completed.append(
+                VocalizedVerse(sadr=complete_text(verse.sadr), ajuz=complete_text(verse.ajuz))
+            )
+        else:
+            completed.append(verse)
+    changed = completed != verses
+    report = processor.analyze_poem([(v.sadr, v.ajuz) for v in completed]) if changed else original
+    rows = [verse.to_dict() for verse in report.verses]
+    rawis = [verse.qafiyah.rawi if verse.qafiyah else None for verse in report.verses]
+    return {
+        "detection": True,
+        "meter": report.meter_key,
+        "meter_name": report.meter_name_ar,
+        "detected_rawi": report.dominant_rawi,
+        "rhyme_consistent": bool(rawis) and all(r and r == rawis[0] for r in rawis),
+        "average_score": report.average_score,
+        "verses": rows,
+        "analyzed_verses": [verse.model_dump() for verse in completed],
+        "tashkeel": {
+            "enabled": enabled,
+            "changed": changed,
+            "original_verses": [verse.model_dump() for verse in verses],
+        },
+        "note": "فحص آلي يعتمد على التشكيل والنطق؛ لا يغني عن مراجعة عَروضية بشرية.",
+    }

@@ -161,6 +161,7 @@ h2 {
   margin: 0;
 }
 .mode-switch {
+  flex-wrap: wrap;
   display: flex;
   background: var(--wash);
   border-radius: var(--small-radius);
@@ -168,6 +169,7 @@ h2 {
   margin: 24px 0;
 }
 .mode-switch button {
+  min-width: 130px;
   flex: 1;
   border: 0;
   background: transparent;
@@ -637,3 +639,25 @@ html[lang="en"] .foot { font-family: "Amiri", serif; }
 
 footer .prosody-credit { flex-basis: 100%; font-size: 12px; letter-spacing: normal; line-height: 1.9; }
 .prosody-credit a { color: var(--accent); text-underline-offset: 3px; }
+
+.learning-guide {
+  margin: 16px 0;
+  padding: 16px;
+  background: var(--wash);
+  border-radius: var(--small-radius);
+  line-height: 1.8;
+}
+.learning-guide h3, .scansion h3 { margin: 0 0 10px; font-size: 16px; }
+.learning-guide p { margin: 8px 0; }
+.arudi-text { font: 23px/1.9 var(--poetry); overflow-wrap: anywhere; }
+.foot-breakdown { display: grid; gap: 12px; padding: 0; list-style: none; }
+.foot-detail { border: 1px solid var(--line); border-inline-start: 3px solid var(--good); padding: 14px; border-radius: var(--small-radius); min-width: 0; }
+.foot-detail.broken { border-inline-start-color: var(--danger); }
+.foot-detail h4 { margin: 0 0 12px; font-weight: 500; }
+.foot-detail h4 bdi { font: 23px var(--poetry); }
+.foot-detail dl, .rhyme-breakdown dl { margin: 0; }
+.foot-detail dl > div, .rhyme-breakdown dl > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.foot-detail dt, .rhyme-breakdown dt { font-size: 13px; }
+.foot-detail dd, .rhyme-breakdown dd { margin: 0; overflow-wrap: anywhere; }
+.foot-detail code { margin: 0; }
+.foot-feedback { font-size: 13px; line-height: 1.8; margin-bottom: 0; }

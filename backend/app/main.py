@@ -4,9 +4,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core import get_settings
-from app.schemas import AnalyzeRequest, GenerateRequest
+from app.schemas import AnalyzeRequest, DetectRequest, GenerateRequest
 from app.services.generator import GenerationError, generate
-from app.services.prosody import METER_KEYS, METERS, analyze_with_tashkeel
+from app.services.prosody import METER_KEYS, METERS, analyze_with_tashkeel, detect
 from app.services.tashkeel import TashkeelUnavailable
 
 _generation_lock = asyncio.Lock()
@@ -48,6 +48,14 @@ def analyze_poem(request: AnalyzeRequest):
         return analyze_with_tashkeel(
             request.verses, request.meter, request.rawi, request.auto_tashkeel
         )
+    except TashkeelUnavailable as exc:
+        raise HTTPException(503, str(exc)) from exc
+
+
+@app.post("/api/detect")
+def detect_poem(request: DetectRequest):
+    try:
+        return detect(request.verses, request.auto_tashkeel)
     except TashkeelUnavailable as exc:
         raise HTTPException(503, str(exc)) from exc
 

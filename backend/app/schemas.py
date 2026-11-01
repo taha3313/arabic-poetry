@@ -48,3 +48,8 @@ class AnalyzeRequest(BaseModel):
     rawi: str = "م"
 
     _rawi_validator = field_validator("rawi")(GenerateRequest.single_rawi.__func__)
+
+
+class DetectRequest(BaseModel):
+    auto_tashkeel: bool = True
+    verses: list[Verse] = Field(min_length=1, max_length=8)
