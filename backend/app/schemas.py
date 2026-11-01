@@ -20,6 +20,13 @@ class VocalizedVerse(Verse):
     sadr: str = Field(min_length=2, max_length=720)
     ajuz: str = Field(min_length=2, max_length=720)
 
+    @field_validator("sadr", "ajuz")
+    @classmethod
+    def bounded_plain_half(cls, value: str) -> str:
+        if len(re.sub(r"[\u064b-\u065f\u0670]", "", value)) > 240:
+            raise ValueError("Each half-line allows at most 240 characters without vowel marks")
+        return value
+
 
 class Draft(BaseModel):
     title: str = Field(min_length=1, max_length=120)
@@ -57,14 +64,3 @@ class DetectRequest(BaseModel):
 
 class TashkeelRequest(BaseModel):
     verses: list[VocalizedVerse] = Field(min_length=1, max_length=8)
-
-    @field_validator("verses")
-    @classmethod
-    def bounded_plain_text(cls, verses: list[VocalizedVerse]) -> list[VocalizedVerse]:
-        for verse in verses:
-            for half in (verse.sadr, verse.ajuz):
-                if len(re.sub(r"[\u064b-\u065f\u0670]", "", half)) > 240:
-                    raise ValueError(
-                        "Each half-line allows at most 240 characters without vowel marks"
-                    )
-        return verses

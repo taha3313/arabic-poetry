@@ -24,4 +24,6 @@ Reviewed 2026-11-01 in the local Qafiya worktree, including the editable preview
 
 After fixes: no horizontal overflow, overlapping controls, clipped controls, or vertically clipped preview fields in the covered layout cases; zero axe violations in the covered scans; all four keyboard flows pass. The existing 64px desktop mode-navigation sizing waiver is unchanged.
 
-Functional checks additionally verify real model suggestions, exact reviewed-text analysis, original restoration, blank-line and delimiter preservation, caret mapping, incomplete verse completion, late-response protection, and manual fallback after suggestion failure. Repository checks: seven frontend tests, 102 backend tests, production frontend build, Ruff and diff checks.
+Functional checks additionally verify real model suggestions, exact reviewed-text analysis, original restoration, blank-line and delimiter preservation, caret mapping, incomplete verse completion, late-response protection, and manual fallback after suggestion failure. Repository checks: seven frontend tests, 103 backend tests, production frontend build, Ruff and diff checks.
+
+The release check also confirms that the same 240-character budget, excluding vowel marks, applies to suggestions, checking and detection; the larger 720-character serialized limit accommodates reviewed vocalization without accepting a longer plain verse.

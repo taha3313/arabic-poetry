@@ -57,3 +57,14 @@ def test_reviewed_long_vocalized_text_is_not_rewritten(monkeypatch):
         )
         assert response.status_code == 200
         assert response.json()["analyzed_verses"] == [verse]
+
+
+def test_plain_text_budget_is_shared_by_review_and_analysis():
+    verse = {"sadr": "ب" * 241, "ajuz": "عجز البيت"}
+    for endpoint, targets in (
+        ("tashkeel", {}),
+        ("analyze", {"meter": "taweel", "rawi": "م"}),
+        ("detect", {}),
+    ):
+        response = client.post(f"/api/{endpoint}", json={"verses": [verse], **targets})
+        assert response.status_code == 422
