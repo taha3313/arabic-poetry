@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   Feather,
@@ -15,6 +15,8 @@ import "@fontsource/amiri/arabic-700.css";
 import "@fontsource/ibm-plex-sans-arabic/arabic-400.css";
 import "@fontsource/ibm-plex-sans-arabic/arabic-500.css";
 import "./style.css";
+import { AutoGrowingTextarea } from "./AutoGrowingTextarea";
+import { parsePoemInput, validInputHalf, editPreviewHalf, applySuggestedTashkeel, mapVocalizedCaret } from "./poemInput";
 import poetryExamples from "./data/poetry-examples.json";
 import defaultAnalysis from "./data/default-analysis.json";
 import { footVariant, meterNames, translateMessage } from "./translations";
@@ -61,6 +63,7 @@ type Analysis = {
 };
 type Result = {
   isDefault?: boolean;
+  inputText?: string;
   intentionalMismatch?: boolean;
   example?: (typeof poetryExamples)[number];
   title: string;
@@ -91,12 +94,13 @@ const apiBase =
       };
     }
   ).env.VITE_API_BASE_URL?.trim().replace(/\/+$/, "") ?? "";
-async function api<T>(path: string, body?: unknown): Promise<T> {
+async function api<T>(path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
   const response = await fetch(
     `${apiBase}/api/${path}`,
     body
       ? {
           method: "POST",
+          signal,
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         }
@@ -149,6 +153,92 @@ function App() {
   const [exampleId, setExampleId] = useState(poetryExamples[0].id);
   const selectedExample = poetryExamples.find((example) => example.id === exampleId) ?? poetryExamples[0];
   const [autoTashkeel, setAutoTashkeel] = useState(true);
+  const [suggestionState, setSuggestionState] = useState<"idle" | "waiting" | "loading" | "suggested" | "edited" | "unchanged" | "error">("idle");
+  const [suggestionError, setSuggestionError] = useState("");
+  const [inputError, setInputError] = useState(false);
+  const [beforeTashkeel, setBeforeTashkeel] = useState<string | null>(null);
+  const [suggestionRequest, setSuggestionRequest] = useState<{ text: string; revision: number } | null>(null);
+  const inputRevision = useRef(0);
+  const parsedInput = parsePoemInput(text);
+  const inputMode = mode !== "generate";
+  const suggesting = inputMode && (suggestionState === "waiting" || suggestionState === "loading");
+
+  function replaceInput(value: string, suggest = true) {
+    inputRevision.current += 1;
+    setText(value);
+    setInputError(false);
+    setError("");
+    setBeforeTashkeel(null);
+    setSuggestionError("");
+    const shouldSuggest = suggest && autoTashkeel && parsePoemInput(value).ready;
+    setSuggestionRequest(shouldSuggest ? { text: value, revision: inputRevision.current } : null);
+    setSuggestionState(shouldSuggest ? "waiting" : "idle");
+  }
+  function editPreview(lineIndex: number, part: "sadr" | "ajuz", value: string) {
+    inputRevision.current += 1;
+    setSuggestionRequest(null);
+    setSuggestionState("edited");
+    setInputError(false);
+    setError("");
+    setSuggestionError("");
+    setText(editPreviewHalf(text, lineIndex, part, value));
+  }
+  function addPreviewVerse() {
+    if (parsedInput.rows.length >= 8) return;
+    inputRevision.current += 1;
+    setSuggestionRequest(null);
+    setSuggestionState("edited");
+    setInputError(false);
+    setError("");
+    setSuggestionError("");
+    const updated = `${text}${text.endsWith("\n") ? "" : "\n"}*`;
+    setText(updated);
+    const lineIndex = updated.split("\n").length - 1;
+    window.requestAnimationFrame(() => document.getElementById(`preview-sadr-${lineIndex}`)?.focus());
+  }
+  function requestSuggestion() {
+    if (suggesting || !parsedInput.ready) return;
+    inputRevision.current += 1;
+    setSuggestionError("");
+    setSuggestionState("waiting");
+    setSuggestionRequest({ text, revision: inputRevision.current });
+  }
+  useEffect(() => {
+    if (!inputMode || !autoTashkeel || !suggestionRequest) return;
+    const controller = new AbortController();
+    const request = suggestionRequest;
+    const timer = window.setTimeout(async () => {
+      if (inputRevision.current !== request.revision) return;
+      setSuggestionState("loading");
+      try {
+        const suggestion = await api<{ verses: Verse[]; changed: boolean }>("tashkeel", {
+          verses: parsePoemInput(request.text).verses,
+        }, controller.signal);
+        if (controller.signal.aborted || inputRevision.current !== request.revision) return;
+        if (suggestion.changed) {
+          const updatedText = applySuggestedTashkeel(request.text, suggestion.verses);
+          const editor = document.getElementById("topic") as HTMLTextAreaElement | null;
+          const selection = editor && document.activeElement === editor
+            ? [mapVocalizedCaret(request.text, updatedText, editor.selectionStart), mapVocalizedCaret(request.text, updatedText, editor.selectionEnd)] : null;
+          setBeforeTashkeel((original) => original ?? request.text);
+          setText(updatedText);
+          if (selection) window.requestAnimationFrame(() => {
+            if (editor && document.activeElement === editor && inputRevision.current === request.revision) {
+              editor.setSelectionRange(selection[0], selection[1]);
+            }
+          });
+        }
+        setSuggestionState(suggestion.changed ? "suggested" : "unchanged");
+        setSuggestionRequest(null);
+      } catch (error) {
+        if (controller.signal.aborted || inputRevision.current !== request.revision) return;
+        setSuggestionError(error instanceof Error ? error.message : "تعذّر إكمال التشكيل المحلي. يمكنك تعطيله وفحص النص الأصلي.");
+        setSuggestionState("error");
+        setSuggestionRequest(null);
+      }
+    }, 900);
+    return () => { window.clearTimeout(timer); controller.abort(); };
+  }, [suggestionRequest, autoTashkeel, inputMode]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -165,8 +255,11 @@ function App() {
       .catch(() => setConnectionError(true));
   }, []);
   useEffect(() => {
-    if (!result) return;
+    if (!result || result.isDefault) return;
     setNotice("اكتمل الفحص. يمكنك الآن عرض تقطيع كل بيت.");
+    if (!result.isDefault) window.requestAnimationFrame(() => {
+      document.getElementById("result-title")?.focus({ preventScroll: window.matchMedia("(max-width: 759px)").matches });
+    });
     if (!result.isDefault && window.matchMedia("(max-width: 759px)").matches) {
       document.getElementById("poem-result")?.scrollIntoView({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -187,6 +280,7 @@ function App() {
     result?.verses.map((v) => `${v.sadr}    ${v.ajuz}`).join("\n") ?? "";
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (suggesting) return;
     setBusy(true);
     setError("");
     setNotice("");
@@ -202,35 +296,33 @@ function App() {
           }),
         );
       else {
-        const lines = text
-          .trim()
-          .split("\n")
-          .filter((line) => line.trim());
-        if (
-          lines.length === 0 ||
-          lines.length > 8 ||
-          lines.some((line) => line.split("*").length !== 2)
-        )
-          throw new Error(
-            t("اكتب من بيت إلى ثمانية أبيات، وافصل الصدر عن العجز بعلامة * في كل سطر.", "Enter 1–8 verses, one per line, with * between the two half-lines."),
-          );
-        const verses = lines.map((line) => {
-          const [sadr, ajuz] = line.split("*");
-          return { sadr: sadr.trim(), ajuz: ajuz.trim() };
-        });
+        if (!parsedInput.ready) {
+          setInputError(true);
+          window.requestAnimationFrame(() => document.getElementById("topic")?.focus());
+          throw new Error(t(
+          "اكتب من بيت إلى ثمانية أبيات، وافصل الشطرين بعلامة * واحدة. أكمل كل شطر بالعربية، حتى 240 حرفًا دون الحركات.",
+          "Enter 1–8 verses with one * per line. Complete both halves in Arabic, up to 240 characters each without vowel marks.",
+        ));
+        }
+        const verses = parsedInput.verses;
         const analysis = await api<Analysis>(mode === "detect" ? "detect" : "analyze", {
           verses,
           ...(mode === "analyze" ? { meter, rawi } : {}),
-          auto_tashkeel: autoTashkeel,
+          // Analyze exactly the editable preview; do not vocalize it again.
+          auto_tashkeel: false,
         });
         setResult({
           title: "قصيدتك تحت المجهر",
+          inputText: text,
           verses: analysis.analyzed_verses ?? verses,
           analysis,
         });
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : t("حدث خطأ غير متوقع.", "An unexpected error occurred."));
+      if (mode === "generate" || parsedInput.ready) {
+        window.requestAnimationFrame(() => document.getElementById("form-error")?.focus());
+      }
     } finally {
       setBusy(false);
     }
@@ -242,7 +334,7 @@ function App() {
     const targetRawi = mismatch ? (example.rawi === "م" ? "ل" : "م") : example.rawi;
     setMeter(example.meter);
     setRawi(targetRawi);
-    setText(example.verses.map((v) => `${v.sadr} * ${v.ajuz}`).join("\n"));
+    replaceInput(example.verses.map((v) => `${v.sadr} * ${v.ajuz}`).join("\n"), false);
     setBusy(true);
     setError("");
     setNotice("");
@@ -251,6 +343,7 @@ function App() {
         title: example.title_ar,
         example,
         intentionalMismatch: mismatch,
+        inputText: example.verses.map((v) => `${v.sadr} * ${v.ajuz}`).join("\n"),
         verses: example.verses,
         analysis: await api<Analysis>(sampleMode, {
           verses: example.verses,
@@ -260,6 +353,7 @@ function App() {
       });
     } catch (e) {
       setError(e instanceof Error ? e.message : t("تعذّر تحميل المثال", "Unable to load the example."));
+      window.requestAnimationFrame(() => document.getElementById("form-error")?.focus());
     } finally {
       setBusy(false);
     }
@@ -308,12 +402,13 @@ function App() {
               <span>{t("هنا تبدأ مسوّدتك القادمة", "Your next draft begins here")}</span>
             </aside>
           </section>
-              <div className="mode-switch" aria-label={t("طريقة العمل", "Workshop mode")}>
+              <div className="mode-switch" role="group" aria-label={t("طريقة العمل", "Workshop mode")}>
                 <button
                   type="button"
                   disabled={busy} aria-label={t("تأليف قصيدة", "Compose a poem")} aria-pressed={mode === "generate"}
                   onClick={() => {
                     setMode("generate");
+                    setInputError(false);
                     setError("");
                   }}
                 >
@@ -324,16 +419,17 @@ function App() {
                   disabled={busy} aria-label={t("التحقق من الوزن والقافية", "Check meter and rhyme")} aria-pressed={mode === "analyze"}
                   onClick={() => {
                     setMode("analyze");
+                    setInputError(false);
                     setError("");
                   }}
                 >
                   <span className="mode-number" aria-hidden="true">02</span><CheckCheck size={20} aria-hidden="true" /><span><strong><span className="mode-full">{t("التحقق من الوزن والقافية", "Check meter and rhyme")}</span></strong><small>{t("قارن ببحر وروي تختارهما", "Compare against your chosen targets")}</small></span>
                 </button>
-                <button type="button" disabled={busy} aria-label={t("اكتشاف البحر والقافية", "Detect meter and rhyme")} aria-pressed={mode === "detect"} onClick={() => { setMode("detect"); setError(""); }}>
+                <button type="button" disabled={busy} aria-label={t("اكتشاف البحر والقافية", "Detect meter and rhyme")} aria-pressed={mode === "detect"} onClick={() => { setMode("detect"); setInputError(false); setError(""); }}>
                   <span className="mode-number" aria-hidden="true">03</span><Search size={20} aria-hidden="true" /><span><strong><span className="mode-full">{t("اكتشاف البحر والقافية", "Detect meter and rhyme")}</span></strong><small>{t("تعرّف إلى إيقاع أبياتك", "Identify the rhythm of your verse")}</small></span>
                 </button>
               </div>
-          <section className="workshop" id="workshop" aria-label={t("ورشة الكتابة", "Writing workshop")}>
+          <section className="workshop" id="workshop" tabIndex={-1} aria-label={t("ورشة الكتابة", "Writing workshop")}>
             <div className="desk">
               <div className="desk-heading">
                 <Feather size={22} />
@@ -372,28 +468,75 @@ function App() {
                   <>
                     <textarea
                       id="topic"
-                      aria-describedby="input-help"
+                      className="poem-source"
+                      aria-invalid={inputError || undefined}
+                      aria-describedby={inputError ? "input-help form-error" : "input-help"}
                       lang="ar" dir="rtl"
                       value={text}
-                      maxLength={4000}
+                      maxLength={12000}
+                      disabled={busy}
                       required
-                      onChange={(e) => setText(e.target.value)}
+                      onChange={(e) => replaceInput(e.target.value)}
                       placeholder="صدر البيت * عجز البيت"
                     />
                     <p id="input-help" className="field-help">
-                      {t("كل بيت في سطر. افصل الشطرين بعلامة *. يمكنك ترك التشكيل الناقص للنموذج المحلي.", "Use one line per verse, with * between its two halves. The local model can fill in missing vowel marks.")}
+                      {t("كل سطر بيت، وبين شطريه *. ستظهر المعاينة فورًا؛ يمكنك الكتابة فيها مباشرة.", "One verse per line, with * between its halves. The live preview below is directly editable.")}
                     </p>
                     <label className="tashkeel-toggle">
                       <input
                         type="checkbox"
                         checked={autoTashkeel}
-                        onChange={(e) => setAutoTashkeel(e.target.checked)}
+                        disabled={busy}
+                        onChange={(e) => {
+                          const enabled = e.target.checked;
+                          setAutoTashkeel(enabled);
+                          inputRevision.current += 1;
+                          setSuggestionError("");
+                          setSuggestionRequest(enabled && parsedInput.ready ? { text, revision: inputRevision.current } : null);
+                          setSuggestionState(enabled && parsedInput.ready ? "waiting" : "idle");
+                        }}
                       />
                       <span>{t("إكمال التشكيل تلقائيًا", "Fill in missing Arabic vowel marks")}</span>
                     </label>
                     <p className="field-help tashkeel-help">
-                      {t("نُبقي الحركات المكتوبة ونُكمل الناقص محليًا. قد تحتاج قراءة الشعر إلى تصحيح يدوي.", "Existing vowel marks are preserved; missing marks are added locally. Poetry may still need manual corrections.")}
+                      {t("عند اكتمال الأبيات نقترح التشكيل في المعاينة. راجعه أو صحّحه قبل الفحص؛ تعديلاتك لن تُستبدل تلقائيًا.", "Once the verses are complete, suggested vowel marks appear in the preview. Review or correct them before analysis; your edits are never replaced automatically.")}
                     </p>
+                    {parsedInput.rows.length > 0 && <section className="input-preview" aria-labelledby="preview-heading">
+                      <h3 id="preview-heading">{t("المعاينة ونسخة التحليل", "Live preview and analysis text")}</h3>
+                      <p id="preview-help" className="field-help">{t("ما تراه هنا هو النص الذي سيُحلَّل. عدّل الصدر أو العجز مباشرة.", "This is the text that will be analyzed. Edit either half-line directly.")}</p>
+                      <p id="preview-status" className="preview-status" role="status" aria-atomic="true">
+                        {suggesting ? t("جارٍ اقتراح التشكيل… يمكنك مواصلة التحرير.", "Preparing suggested vowel marks… You can keep editing.")
+                          : suggestionState === "suggested" ? t("تشكيل مقترح، قابل للتعديل", "Suggested vowel marks, ready to review")
+                          : suggestionState === "edited" ? t("نسختك المعدّلة، جاهزة للمراجعة", "Your edited text, ready to review")
+                          : suggestionState === "unchanged" ? t("لم تُضف حركات جديدة. يمكنك التعديل يدويًا.", "No new vowel marks were added. You can edit manually.") : ""}
+                      </p>
+                      {parsedInput.rows.slice(0, 8).map((row, index) => <fieldset className="preview-verse" key={row.lineIndex}>
+                        <legend>{t("البيت", "Verse")} {index + 1}</legend>
+                        {row.ambiguous ? <p className="field-help">{t("يوجد أكثر من فاصل *. صحّح هذا السطر في مساحة الكتابة.", "This line has more than one *. Correct it in the writing area.")}</p> : <div className="preview-halves">
+                          {(["sadr", "ajuz"] as const).map((part) => <div key={part}>
+                            <label htmlFor={`preview-${part}-${row.lineIndex}`}>{part === "sadr" ? t("الصدر", "First half-line (sadr)") : t("العجز", "Second half-line (ajuz)")}</label>
+                            <AutoGrowingTextarea id={`preview-${part}-${row.lineIndex}`}
+                              aria-label={part === "sadr" ? t(`الصدر للبيت ${index + 1}`, `First half-line (sadr) for verse ${index + 1}`) : t(`العجز للبيت ${index + 1}`, `Second half-line (ajuz) for verse ${index + 1}`)}
+                              aria-invalid={inputError && !validInputHalf(row[part]) || undefined}
+                              aria-describedby={inputError && !validInputHalf(row[part]) ? "preview-help preview-status form-error" : "preview-help preview-status"}
+                              lang="ar" dir="rtl" rows={2} maxLength={720} disabled={busy}
+                              value={row[part]} onChange={(event) => editPreview(row.lineIndex, part, event.target.value)}
+                              placeholder={part === "sadr" ? t("اكتب الصدر", "Enter the first half-line") : t("أكمل العجز هنا", "Complete the second half-line here")} />
+                          </div>)}
+                        </div>}
+                      </fieldset>)}
+                      {!parsedInput.ready && <p className="field-help">{t("أكمل الشطرين لكل بيت، بفاصل واحد *، وبحد أقصى ثمانية أبيات و240 حرفًا لكل شطر دون الحركات.", "Complete both halves with one * per line, up to eight verses and 240 characters per half without vowel marks.")}</p>}
+                      {suggestionError && <p className="error" role="alert">{translateMessage(suggestionError, locale)} {t("يمكنك التعديل يدويًا ثم الفحص.", "You can edit manually and analyze your text.")}</p>}
+                      <div className="preview-actions">
+                        <button type="button" disabled={busy || parsedInput.rows.length >= 8} onClick={addPreviewVerse}>{t("إضافة بيت", "Add verse")}</button>
+                        {autoTashkeel && <button type="button" disabled={busy || !parsedInput.ready} aria-disabled={suggesting || undefined} onClick={requestSuggestion}>{t("اقتراح التشكيل", "Suggest vowel marks")}</button>}
+                        {beforeTashkeel !== null && <button type="button" disabled={busy} onClick={() => {
+                          replaceInput(beforeTashkeel, false);
+                          window.requestAnimationFrame(() => document.getElementById("topic")?.focus());
+                        }}>{t("استعادة النص قبل التشكيل", "Restore text before suggestions")}</button>}
+                      </div>
+                      {beforeTashkeel !== null && <details className="original-text"><summary>{t("النص قبل التشكيل", "Text before suggestions")}</summary><p lang="ar" dir="rtl">{beforeTashkeel}</p></details>}
+                    </section>}
                   </>
                 )}
                 {mode !== "detect" && <div className="controls">
@@ -443,18 +586,18 @@ function App() {
                 <button
                   className="primary"
                   disabled={
-                    busy ||
+                    busy || suggesting ||
                     (mode === "generate" && !config?.generation_available)
                   }
                 >
-                  {busy ? (
+                  {busy || suggesting ? (
                     <LoaderCircle className="spin" size={20} />
                   ) : mode === "generate" ? (
                     <Feather size={20} />
                   ) : (
                     <ScanLine size={20} />
                   )}{" "}
-                  {busy
+                  {suggesting ? t("جارٍ اقتراح التشكيل…", "Preparing vowel marks…") : busy
                     ? t("جارٍ العمل على الأبيات…", "Working on your verses…")
                     : mode === "generate"
                       ? t("انظم القصيدة", "Compose the poem")
@@ -463,7 +606,7 @@ function App() {
                 </button>
                 {busy && (
                   <p className="field-help" role="status">
-                    {t("قد تستغرق الصياغة والمراجعة بضع دقائق.", "Composition and revision may take a few minutes.")}
+                    {mode === "generate" ? t("قد تستغرق الصياغة والمراجعة بضع دقائق.", "Composition and revision may take a few minutes.") : t("جارٍ تحليل النسخة التي راجعتها.", "Analyzing the text you reviewed.")}
                   </p>
                 )}
                 {connectionError ? (
@@ -478,7 +621,7 @@ function App() {
                   </p>
                 ) : null}
                 {error && (
-                  <p className="error" role="alert">
+                  <p id="form-error" tabIndex={-1} className="error" role="alert">
                     {translateMessage(error, locale)}
                   </p>
                 )}
@@ -509,12 +652,12 @@ function App() {
               </button>}
               </section>
             </div>
-            <div id="poem-result" className={`manuscript${busy ? " is-loading" : ""}`} aria-busy={busy}>
+            <div id="poem-result" role="region" aria-labelledby="results-region-label" className={`manuscript${busy ? " is-loading" : ""}`} aria-busy={busy}>
               <div className="paper-top">
-                <span>{result?.isDefault ? t("مثال محلّل: المتنبي", "Analyzed example: Al-Mutanabbī") : t("دفتر القصائد", "Poetry notebook")}</span>
+                <span id="results-region-label">{!busy && result?.isDefault ? t("مثال محلّل: المتنبي", "Analyzed example: Al-Mutanabbī") : t("دفتر القصائد", "Poetry notebook")}</span>
                 <span dir="auto">{t("قَافِيَة", "Qafiya")} / {result ? "01" : "—"}</span>
               </div>
-              {busy && <div className="result-loading" role="status"><LoaderCircle className="spin" size={24} aria-hidden="true" /><p>{t("جارٍ العمل على الأبيات…", "Working on your verses…")}</p><div className="loading-lines" aria-hidden="true"><span /><span /><span /></div></div>}
+              {busy && <div className="result-loading"><LoaderCircle className="spin" size={24} aria-hidden="true" /><p>{t("جارٍ العمل على الأبيات…", "Working on your verses…")}</p><div className="loading-lines" aria-hidden="true"><span /><span /><span /></div></div>}
               {!busy && (result ? (
                 <>
                   <div className="result-heading">
@@ -528,7 +671,7 @@ function App() {
                         <span>{t("المطلوب:", "Target:")} {result.analysis.requested_rawi}</span>
                       )}
                     </div>
-                    <h2 dir="auto">{result.example ? t(result.example.title_ar, result.example.title_en) : translateMessage(result.title, locale)}</h2>
+                    <h2 id="result-title" tabIndex={-1} dir="auto">{result.example ? t(result.example.title_ar, result.example.title_en) : translateMessage(result.title, locale)}</h2>
                     {result.example && <p className="field-help">{t(result.example.poet_ar, result.example.poet_en)} / <a href={result.example.source_url} target="_blank" rel="noreferrer">{t("المصدر: الديوان", "Source: Al Diwan")}</a></p>}
                     <p
                       className={
@@ -549,6 +692,7 @@ function App() {
                   {result.analysis.detection && <p className="analysis-note">{result.analysis.rhyme_consistent
                     ? t("روي موحّد في الأبيات المدخلة", "Consistent rhyme consonant across the supplied verses")
                     : t("الروي مختلف أو غير محدد في بعض الأبيات", "Rhyme consonants vary or could not be identified in some verses")}</p>}
+                  {result.inputText !== undefined && result.inputText !== text && <p className="warning" role="status">{t("تغيّر النص في المعاينة. أعد الفحص لتحديث هذه النتيجة.", "The preview has changed. Analyze again to update this result.")}</p>}
                   {result.revision_warning && (
                     <p className="warning" role="status">
                       {t("توقفت المراجعة:", "Revision stopped:")} {translateMessage(result.revision_warning, locale)}
@@ -610,7 +754,7 @@ function App() {
                                         <code dir="ltr">{f.status === "missing" ? "—" : f.actual_segment}</code>
                                         <span className="foot-state">{f.status === "ok" ? t("مطابقة", "Matches") : t("تحتاج مراجعة", "Review")}</span>
                                       </summary>
-                                      {Boolean(f.letters?.length) && <section className="letter-scansion" aria-label={t("التقطيع حرفًا حرفًا", "Letter-by-letter scansion")}>
+                                      {Boolean(f.letters?.length) && <div className="letter-scansion">
                                         <h4>{t("الحروف المنطوقة في هذه التفعيلة", "Pronounced letters in this foot")}</h4>
                                         <p className="pronounced-segment" lang="ar" dir="rtl">{f.pronounced_segment}</p>
                                         <ol className="letter-cells" dir="rtl">
@@ -621,7 +765,7 @@ function App() {
                                           </li>)}
                                         </ol>
                                         <p>{t("نقسّم المنطوق، لا الرسم الإملائي. قد تنقسم الكلمة بين تفعيلتين؛ وتظهر الشدّة حرفين والتنوين نونًا منطوقة. الحركات الدقيقة لا تظهر في هذا التمثيل.", "This divides pronounced sounds, not original spelling. A word may cross feet; shadda expands to two letters and tanween adds a pronounced ن. Exact vowel marks are not represented here.")}</p>
-                                      </section>}
+                                      </div>}
                                       <dl>
                                         <div><dt>{t("التفعيلة الأصلية", "Base foot")}</dt><dd lang="ar" dir="rtl">{f.base_tafeela || "—"}</dd></div>
                                         <div><dt>{t("النمط المتوقع في هذا الموضع", "Expected pattern at this position")}</dt><dd><code dir="ltr">{f.expected_pattern || "—"}</code></dd></div>

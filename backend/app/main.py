@@ -4,10 +4,16 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core import get_settings
-from app.schemas import AnalyzeRequest, DetectRequest, GenerateRequest
+from app.schemas import (
+    AnalyzeRequest,
+    DetectRequest,
+    GenerateRequest,
+    TashkeelRequest,
+    VocalizedVerse,
+)
 from app.services.generator import GenerationError, generate
 from app.services.prosody import METER_KEYS, METERS, analyze_with_tashkeel, detect
-from app.services.tashkeel import TashkeelUnavailable
+from app.services.tashkeel import TashkeelUnavailable, complete_text
 
 _generation_lock = asyncio.Lock()
 
@@ -39,6 +45,21 @@ def config():
         "model": settings.model,
         "generation_available": settings.generation_enabled and bool(settings.api_key),
     }
+
+
+@app.post("/api/tashkeel")
+def suggest_tashkeel(request: TashkeelRequest):
+    try:
+        verses = [
+            VocalizedVerse(sadr=complete_text(verse.sadr), ajuz=complete_text(verse.ajuz))
+            for verse in request.verses
+        ]
+        return {
+            "verses": [verse.model_dump() for verse in verses],
+            "changed": verses != request.verses,
+        }
+    except TashkeelUnavailable as exc:
+        raise HTTPException(503, str(exc)) from exc
 
 
 @app.post("/api/analyze")

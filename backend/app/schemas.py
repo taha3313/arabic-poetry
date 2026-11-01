@@ -43,7 +43,7 @@ class GenerateRequest(BaseModel):
 
 class AnalyzeRequest(BaseModel):
     auto_tashkeel: bool = True
-    verses: list[Verse] = Field(min_length=1, max_length=8)
+    verses: list[VocalizedVerse] = Field(min_length=1, max_length=8)
     meter: str = "taweel"
     rawi: str = "م"
 
@@ -52,4 +52,19 @@ class AnalyzeRequest(BaseModel):
 
 class DetectRequest(BaseModel):
     auto_tashkeel: bool = True
-    verses: list[Verse] = Field(min_length=1, max_length=8)
+    verses: list[VocalizedVerse] = Field(min_length=1, max_length=8)
+
+
+class TashkeelRequest(BaseModel):
+    verses: list[VocalizedVerse] = Field(min_length=1, max_length=8)
+
+    @field_validator("verses")
+    @classmethod
+    def bounded_plain_text(cls, verses: list[VocalizedVerse]) -> list[VocalizedVerse]:
+        for verse in verses:
+            for half in (verse.sadr, verse.ajuz):
+                if len(re.sub(r"[\u064b-\u065f\u0670]", "", half)) > 240:
+                    raise ValueError(
+                        "Each half-line allows at most 240 characters without vowel marks"
+                    )
+        return verses
