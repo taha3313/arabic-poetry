@@ -9,13 +9,15 @@ Created by **Taha Chelly** · [Live demo](https://qafiya.tahachelly.com/)
 [![CI](https://github.com/taha3313/arabic-poetry/actions/workflows/ci.yml/badge.svg)](https://github.com/taha3313/arabic-poetry/actions/workflows/ci.yml)
 
 Qafiya brings an Arabic-first, right-to-left writing desk together with classical
-prosody analysis. Paste a poem, choose its **بحر** (meter) and **روي** (rhyme
-letter), and inspect the scansion of each **صدر** and **عجز**. Optional local
-vocalization fills missing diacritics before analysis.
+prosody analysis. Compose a draft, check a poem against a chosen **بحر** (meter) and **روي**
+(rhyme letter), or detect its meter and rhyme without choosing a target. Review
+each **صدر** and **عجز** in an editable preview, then inspect its scansion.
+Optional local vocalization suggests missing diacritics before analysis.
 
-**The public demo currently offers analysis. AI generation is disabled on the
-hosted instance.** The repository also includes an experimental drafting and
-targeted-repair workflow that can be enabled locally with your own provider key.
+The public workshop offers **Compose, Check, and Detect** modes. As checked on
+2026-11-02, the live API reports generation enabled with Gemini. Drafting and
+targeted repair remain experimental and subject to provider quota and availability.
+Local development also supports OpenRouter and Groq with your own provider key.
 
 ## Screenshots
 
@@ -25,10 +27,17 @@ targeted-repair workflow that can be enabled locally with your own provider key.
 
 ### Verse analysis and scansion
 
-The sample from Imru’ al-Qais shows detected meter, rawi, binary scansion,
+The default al-Mutanabbī example shows meter, rawi, binary scansion,
 metrical feet, and the status of each hemistich.
 
 ![Qafiya analyzing a verse from Imru’ al-Qais with expanded metrical feet](docs/qafiya-live.png)
+
+### Review before analysis
+
+Edit either half-line and review suggested vowel marks before checking or detecting
+the meter.
+
+![Qafiya editable verse preview with separate sadr and ajuz fields](docs/qafiya-preview.png)
 
 <details>
 <summary>Mobile view · 390px</summary>
@@ -36,7 +45,7 @@ metrical feet, and the status of each hemistich.
 <img src="docs/qafiya-mobile.png" width="390" alt="Qafiya mobile layout showing the sample poem analysis" />
 </details>
 
-Screenshots show the deployed Qafiya interface. The sample poem is labelled as
+Screenshots refreshed on 2026-11-02 show the deployed Qafiya interface. The sample poem is labelled as
 an existing classical work, not AI-generated output.
 
 ## Interface languages
@@ -47,31 +56,44 @@ Use the **English / العربية** button to switch between Arabic and English
 
 - **Classical Arabic prosody:** choose among 16 meters and compare the detected
   rawi with the requested letter using [PyArud](https://github.com/cnemri/pyarud).
+- **Meter detection:** infer the meter and dominant rawi without supplying a
+  target, and inspect whether the verses share a consistent rhyme.
+- **Editable preview:** correct either half-line directly, review suggested
+  vowels, compare or restore the original text, and analyze exactly your reviewed
+  version. Delayed suggestions cannot overwrite newer edits.
 - **Readable scansion:** expand a verse to inspect its binary rhythm, feet,
-  accepted variations, and separate meter/rhyme results.
+  accepted variations, and separate meter/rhyme results. Pronounced letters align
+  with rhythm symbols only when the mapping is exact. PyArud’s prosodic spelling
+  stays verbatim, including shadda expansion and pronounced tanween.
 - **Optional automatic tashkeel:** a bundled approximately 4.8 MB libtashkeel
   ONNX model fills missing marks locally on the backend. Existing supplied
   vowels are preserved, and changes are disclosed. Analysis makes no LLM call.
 - **Experimental AI drafting:** select a theme, meter, rhyme letter, and 1–8
-  verses. Gemini is the default adapter; Groq and OpenRouter are optional.
+  verses. The local example configuration uses OpenRouter with a free Gemma model;
+  Gemini and Groq are also supported.
 - **Targeted revisions:** failed verses receive specific feedback; the backend
   preserves accepted verses and sound hemistichs rather than relying on the
   provider to keep them unchanged. Interrupted revisions retain the best draft.
 - **Arabic-first interface:** responsive RTL layout, keyboard focus states,
-  reduced-motion support, sample exploration, copy, and plain-text download.
+  reduced-motion support, attributed classical examples and Muʿallaqāt, copy,
+  and plain-text download. Arabic and English interface choices persist locally.
 
 ## How it works
 
 ### Analyze your verses
 
-1. Open **فحص أبياتي** and enter one verse per line, separating صدر and عجز
-   with `*`, or choose the labelled classical example.
-2. Select a meter and requested rawi. Leave automatic tashkeel enabled to fill
-   missing marks, or disable it to scan the original input.
-3. Inspect the result and expand each verse’s scansion. The manuscript displays
-   the actual analyzed text; the original input remains available.
+1. Choose **Check** to compare against a meter and rawi, or **Detect** to infer
+   them. Enter one verse per line with `*` between صدر and عجز, or load an
+   attributed classical example. The opening sample is by al-Mutanabbī.
+2. Edit the labeled half-line fields in the live preview. With automatic tashkeel
+   enabled, complete input receives vowel suggestions after 900 ms of idle typing.
+   Review or correct them, request suggestions explicitly, or restore the original.
+3. Run the check or detection. The interface submits the reviewed text with
+   `auto_tashkeel=false`, so analysis does not vocalize it a second time. Expand
+   the result for feet and pronounced-letter scansion. Editing the draft marks
+   the previous result as stale. If suggestions fail, manual analysis remains available.
 
-### Draft and revise locally
+### Draft and revise
 
 The generation adapter requests structured verse pairs, then PyArud checks each
 verse against the selected meter and rawi. Failed constraints feed a bounded
@@ -94,7 +116,7 @@ while fully unvocalized input reached only 2/12. See the
 | API | FastAPI, Pydantic, Python 3.12, uv |
 | Prosody | PyArud 1.0.0 |
 | Vocalization | libtashkeel model, CPU ONNX Runtime, NumPy |
-| Generation | Native Gemini adapter; optional Groq/OpenRouter |
+| Generation | OpenRouter free-model adapter; optional native Gemini/Groq |
 | Hosting | Cloudflare Pages frontend, Render free-plan Docker API in Frankfurt |
 | CI | Backend tests/Ruff, frontend build, constrained production-container checks |
 
@@ -150,31 +172,42 @@ Set these values in the ignored `backend/.env` file:
 
 ```dotenv
 GENERATION_ENABLED=true
-PROVIDER=gemini
-GEMINI_API_KEY=your-key
-GEMINI_API_KEY_2=second-key
-GEMINI_API_KEY_3=third-key
-GEMINI_MODEL=gemini-3.5-flash
-GEMINI_THINKING_LEVEL=medium
+PROVIDER=openrouter
+OPENROUTER_API_KEY=your-key
+OPENROUTER_MODEL=google/gemma-4-31b-it:free
 ```
 
 Keep keys on the backend. Model/key changes in the local dotenv file apply on
-the next request; startup settings such as CORS require a restart. Provider
-quota, availability, and billing remain account-specific. There is no automatic
-provider fallback. Gemini rotates through at most three distinct configured keys
-on quota rejection, remembers a working key, and cools exhausted keys until at
-least the provider retry hint (60 seconds by default; 24 hours for daily/zero quota).
-Keys in one project share quota; rotation does not multiply project limits.
-Optionally set `GEMINI_KEY_PROJECTS={"1":"project-a","2":"project-a","3":"project-b"}`
-to apply structured project quota cooldowns to sibling keys without probing them.
-Unknown project relationships receive only one bounded attempt per key. Provider prompts and draft poetry leave the
-backend only when generation is requested.
+the next request; startup settings such as CORS require a restart. The default
+OpenRouter model is a free Gemma 4 31B model; free-model availability and
+provider rate limits can change. If the selected OpenRouter model is rate-limited
+or returns no draft text, the backend makes one bounded retry through
+`openrouter/free`. Temporary upstream failures and truncated completions also
+use this single fallback. The named model uses reasoning effort `none`; the free
+router uses `low`, since it can select models that require reasoning and reject
+`none`. Both requests retain a 3,000-token total output budget. Low effort does
+not guarantee visible output: a reasoning model can still exhaust that budget.
+Strict JSON schemas close both draft and verse objects. This
+does not bypass account-wide provider limits, and there is no fallback to another
+provider. Provider prompts and draft poetry leave the backend only when generation
+is requested.
+
+Local OpenRouter checks on 2026-10-31 reproduced intermittent HTTP 400 rejections
+with the router's disabled-reasoning setting, alongside repeated 429 responses
+from the configured Gemma model. With low router reasoning effort, a subsequent
+request exhausted the output budget without draft text. Other bounded runs
+completed drafting and revision but failed meter/rhyme validation. Free routing
+therefore remains experimental, with no reliability or poetic-quality guarantee.
+Interrupted revisions keep the best validated draft and include a safe warning;
+provider error bodies and generated text are not logged by the adapter.
 
 For Groq, set `PROVIDER=groq`, `GROQ_API_KEY`, and optionally `GROQ_MODEL`
 (default `openai/gpt-oss-120b`). For OpenRouter, use `PROVIDER=openrouter`,
-`OPENROUTER_API_KEY`, and `OPENROUTER_MODEL=openrouter/free` or a named `:free`
-model. Adapter support does not imply equal poetic quality; read the
-[Gemini](docs/GEMINI.md) and [Groq](docs/GROQ.md) evaluation notes.
+`OPENROUTER_API_KEY`, and a named free model ending in `:free` (the default is
+`google/gemma-4-31b-it:free`). Gemini remains available with its native adapter,
+key rotation, and quota handling. Adapter support does not imply equal poetic
+quality; read the [Gemini](docs/GEMINI.md) and [Groq](docs/GROQ.md) evaluation
+notes.
 
 ## API
 
@@ -182,7 +215,9 @@ model. Adapter support does not imply equal poetic quality; read the
 | --- | --- | --- |
 | `GET` | `/health` | Process health |
 | `GET` | `/api/config` | Meters, provider/model names, generation availability |
-| `POST` | `/api/analyze` | Analyze supplied verses; optional local tashkeel |
+| `POST` | `/api/tashkeel` | Suggest missing vowel marks without meter analysis |
+| `POST` | `/api/analyze` | Check supplied verses against a meter and rawi |
+| `POST` | `/api/detect` | Infer meter, dominant rawi, and rhyme consistency |
 | `POST` | `/api/generate` | Generate and revise a draft when enabled |
 
 Interactive local API documentation: [localhost:8000/docs](http://localhost:8000/docs).
@@ -201,8 +236,10 @@ Interactive local API documentation: [localhost:8000/docs](http://localhost:8000
 }
 ```
 
-Inputs are bounded to eight verses, 240 serialized characters per hemistich,
-and 500 characters per generation topic. Provider attempts have 75-second
+Checking, detection, and vowel suggestions accept up to eight verses and
+240 characters per hemistich excluding vowel marks, with a 720-character
+serialized ceiling for vocalized text. Generated halves are limited to 240
+serialized characters; generation topics to 500 characters. Provider attempts have 75-second
 timeouts. Each key gets at most one quota attempt per completion; exhausted keys are skipped
 on subsequent requests during cooldown. Gemini 503/504 overload receives one
 short-delay retry unless Retry-After is present. Public generation permits one
@@ -215,7 +252,9 @@ responses include Retry-After.
 ```bash
 make test
 make build
-cd backend
+cd frontend
+npm test
+cd ../backend
 uv run ruff check .
 uv run ruff format --check .
 cd ..
@@ -223,8 +262,10 @@ docker build -t qafiya-api:local backend
 bash scripts/check-container.sh qafiya-api:local
 ```
 
-The deployment baseline has **73 passing backend tests**. GitHub CI runs the
-backend checks, a frontend production build, and the production Docker image
+The editable-preview release record reports **103 backend tests and seven
+frontend tests**; see the [responsive and accessibility review](docs/qa/preview-accessibility-responsive.md)
+for its scope and limitations. GitHub CI runs backend tests/Ruff, frontend tests
+and a production build, and the production Docker image
 under a 512 MiB cap without provider credentials or network access during the
 runtime workload. See [verification notes](docs/VERIFICATION.md) for browser
 checks, evidence, and remaining limits.
@@ -237,9 +278,12 @@ existing local env-file parser limitation.
 ## Deployment
 
 The public site runs at **[qafiya.tahachelly.com](https://qafiya.tahachelly.com)**.
-Its analysis flow, CPU vocalization, cross-origin requests, and HTTPS were checked
-after deployment. Generation stays disabled until public request controls are
-implemented and reviewed. CORS alone does not protect a shared provider key.
+Its analysis flow, CPU vocalization, cross-origin requests, and HTTPS have been
+checked after deployment. The live API reported `generation_available=true` on
+2026-11-02 with Gemini; this configuration check does not establish generation
+quality or remaining quota. Generation is serialized per process, with bounded
+revisions and provider cooldowns. These controls do not provide authentication
+or durable per-user quotas; CORS alone does not protect a shared provider key.
 
 For separate hosting, set `VITE_API_BASE_URL` to the HTTPS backend origin at
 frontend build time, and configure the backend’s `CORS_ORIGINS` as an exact-origin
@@ -256,6 +300,9 @@ build settings, release steps, and the default TCP health-check limitation.
 - [Gemini integration and live sample evidence](docs/GEMINI.md)
 - [Groq comparison and unresolved generation quality](docs/GROQ.md)
 - [UI design decisions](docs/DESIGN.md)
+- [Editable preview and suggestion behavior](docs/editable-poetry-preview.md)
+- [Responsive, accessibility, and preview QA](docs/qa/preview-accessibility-responsive.md)
+- [Attributed poetry examples](docs/poetry-examples.md)
 - [Verification record](docs/VERIFICATION.md)
 - [Deployment operations](docs/DEPLOYMENT.md)
 
